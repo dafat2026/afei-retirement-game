@@ -3145,8 +3145,9 @@ html[data-theme="light"] #scoreImagePreview{
 .brand-title-row{display:flex;align-items:center;gap:8px}
 .logo-note{font-size:11px;color:var(--muted);margin-top:2px}
 .share-card{position:relative;overflow:visible!important}
-.share-watermark-logo{position:absolute;right:16px;top:112px;width:88px;height:88px;object-fit:contain;opacity:.10;pointer-events:none;filter:drop-shadow(0 3px 8px rgba(0,0,0,.12));z-index:0}
-.score-header,.score-grade-row,.score-summary-panel,.share-chart-card,.score-return-grid,.score-market-title,.market-compact-lines,.score-footer{position:relative;z-index:1}
+.share-watermark-wrap{display:flex;justify-content:flex-end;align-items:center;margin-top:10px;padding-right:10px;pointer-events:none}
+.share-watermark-logo{position:static;width:88px;height:88px;object-fit:contain;opacity:.10;pointer-events:none;filter:drop-shadow(0 3px 8px rgba(0,0,0,.12));z-index:0}
+.score-header,.score-grade-row,.score-summary-panel,.share-chart-card,.score-return-grid,.score-market-title,.market-compact-lines,.score-footer,.share-watermark-wrap{position:relative;z-index:1}
 .share-title-row{display:flex;align-items:center;gap:10px;min-width:0}
 .share-brand-logo{width:38px;height:38px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.18))}
 .share-title-stack{min-width:0}
@@ -3157,7 +3158,8 @@ html[data-theme="light"] .share-watermark-logo{opacity:.11}
   .brand-line{gap:8px}
   .site-logo{width:40px;height:40px}
   .share-brand-logo{width:34px;height:34px}
-  .share-watermark-logo{width:72px;height:72px;right:10px;top:104px}
+  .share-watermark-wrap{margin-top:8px;padding-right:6px}
+  .share-watermark-logo{width:72px;height:72px}
 }
 
 /* ===== v101 LOGO 版面修正 ===== */
@@ -4926,7 +4928,7 @@ async function downloadShareCard(){
 
     ctx.save();
     ctx.globalAlpha=0.11;
-    ctx.drawImage(logoImg,812,1352,168,168);
+    ctx.drawImage(logoImg,820,1718,126,126);
     ctx.restore();
   }
 
@@ -5023,14 +5025,7 @@ async function downloadShareCard(){
     tx(it[0],x+16,y+25,17,"#9facbe","400");
     tx(it[1],x+16,y+57,27,it[2],"900");
   });
-
-  if(logoImg){
-    ctx.save();
-    ctx.globalAlpha=0.9;
-    ctx.drawImage(logoImg,84,1433,54,54);
-    ctx.restore();
-  }
-  tx("歡迎到《阿肥生活雜記》FB粉專分享你的退休成績單",W/2+20,1468,28,"#d7dfeb","900","center");
+  tx("歡迎到《阿肥生活雜記》FB粉專分享你的退休成績單",W/2,1468,28,"#d7dfeb","900","center");
   tx("https://www.facebook.com/share/1FH2osLrUG/",W/2,1508,22,"#8fb7ff","500","center");
 
   tx("#阿肥退休人生模擬器",W/2,1562,25,"#d7dfeb","900","center");
@@ -5143,7 +5138,6 @@ resetGame();
 <div id="shareModal" class="modal">
   <div class="modal-box share-modal-box">
     <div id="shareCard" class="share-card portrait-scorecard">
-      <img id="shareWatermarkLogo" class="share-watermark-logo" alt="">
       <div class="score-header">
         <div class="share-title-row">
           <img id="shareBrandLogo" class="share-brand-logo" alt="阿肥生活雜記 LOGO">
@@ -5243,6 +5237,9 @@ resetGame();
         <a class="share-link" href="https://www.facebook.com/share/1FH2osLrUG/" target="_blank" rel="noopener">https://www.facebook.com/share/1FH2osLrUG/</a>
         <div class="share-community-title score-hash">#阿肥退休人生模擬器</div>
         <a class="share-link" href="https://dafat2026.github.io/afei-retirement-game/" target="_blank" rel="noopener">https://dafat2026.github.io/afei-retirement-game/</a>
+      </div>
+      <div class="share-watermark-wrap">
+        <img id="shareWatermarkLogo" class="share-watermark-logo" alt="阿肥生活雜記 LOGO">
       </div>
       <span id="shareNominalLabel" style="display:none"></span>
       <span id="shareRealLabel" style="display:none"></span>
