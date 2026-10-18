@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>阿肥勞工退休人生模擬器 v2</title>
+<title>阿肥退休人生模擬器</title>
 <style>
 :root{
   --bg:#10131a; --panel:#171c25; --panel2:#202735; --text:#f5f7fb; --muted:#9ba6b7;
@@ -310,7 +310,7 @@ main .controls button{
   font-size:11px!important;
 }
 
-/* 勞保狀態列縮短 */
+/* 退休給付狀態列縮短 */
 #laborStatus{
   padding:5px 7px!important;
   font-size:10px!important;
@@ -553,18 +553,2521 @@ aside.card select:disabled{
   .fat-warning-badge{font-size:13px!important}
 }
 
+
+
+/* ===== v29 新手玩法彈窗 ===== */
+.help-btn{
+  border:1px solid #46546b;background:#202837;color:#f3f6fb;border-radius:999px;
+  padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer
+}
+.help-btn:hover{background:#293447}
+.modal-backdrop{
+  display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);
+  backdrop-filter:blur(4px);padding:18px;align-items:center;justify-content:center
+}
+.modal-backdrop.show{display:flex}
+.help-modal{
+  width:min(680px,100%);max-height:90vh;overflow:auto;
+  background:linear-gradient(180deg,#1c2431,#111722);border:1px solid #3b485c;
+  border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:14px
+}
+.help-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.help-modal-title{font-size:18px;font-weight:900}
+.help-modal-sub{margin-top:3px;color:#9ba8bb;font-size:11px}
+.help-close{border:0;background:#2a3446;color:#fff;border-radius:9px;min-width:34px;min-height:34px;cursor:pointer}
+.help-steps{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.help-step{display:flex;gap:9px;padding:10px;border-radius:10px;background:#151d29;border:1px solid #2f3a4d}
+.help-num{flex:0 0 30px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#6ea8fe;color:#07111f;font-size:14px;font-weight:900}
+.help-step b{display:block;font-size:13px;margin-bottom:3px}
+.help-step span{display:block;color:#aeb9c9;font-size:11px;line-height:1.4}
+.help-logic{margin-top:9px;padding:10px;border-radius:10px;background:rgba(110,168,254,.08);border:1px solid rgba(110,168,254,.20)}
+.help-logic b{display:block;color:#9bc0ff;font-size:12px;margin-bottom:3px}
+.help-logic span{display:block;font-size:11px;line-height:1.45;color:#cfd8e6}
+.help-logic small{display:block;margin-top:4px;color:#9ba8bb}
+.help-start{width:100%;margin-top:10px;min-height:42px;border:0;border-radius:10px;background:#58d68d;color:#0b1710;font-size:13px;font-weight:900;cursor:pointer}
+@media(max-width:560px){
+  .help-btn{padding:5px 8px;font-size:10px}
+  .help-modal{padding:11px;border-radius:13px}
+  .help-modal-title{font-size:16px}
+  .help-steps{grid-template-columns:1fr}
+  .help-step{padding:9px}
+  .help-step b{font-size:12px}
+  .help-step span{font-size:10.5px}
+}
+
+
+.main-help-btn{
+  width:100%;min-height:40px;border:0;border-radius:10px;background:#6ea8fe;color:#08111f;
+  font-size:13px;font-weight:900;letter-spacing:.2px;cursor:pointer;box-shadow:0 2px 8px rgba(110,168,254,.18);
+}
+.main-help-btn:hover{background:#82b4ff}
+.main-help-btn:active{transform:translateY(1px)}
+@media(max-width:560px){.main-help-btn{min-height:44px;font-size:14px}}
+
+
+.report-btn{
+  background:#d94a4a;
+  color:#fff;
+  border:1px solid #ef6a6a;
+  border-radius:9px;
+  padding:8px 11px;
+  font-weight:900;
+  font-size:12px;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(217,74,74,.18);
+}
+.report-btn:hover{background:#e35a5a}
+.report-btn:active{transform:translateY(1px)}
+@media(max-width:980px){
+  .report-btn{
+    min-height:42px!important;
+    font-size:13px!important;
+  }
+}
+
+
+/* ===== v33 左側設定分類橘底 ===== */
+aside.card:first-child .settings-scroll details > summary{
+  display:block;
+  background:#f59e0b;
+  color:#17120a;
+  border-radius:7px;
+  padding:6px 9px!important;
+  margin:0 0 6px!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  letter-spacing:.2px;
+}
+aside.card:first-child .settings-scroll details[open] > summary{
+  background:#f6aa1c;
+}
+aside.card:first-child .settings-scroll details > summary:hover{
+  background:#ffb52e;
+}
+aside.card:first-child .settings-scroll details > summary::marker{
+  color:#17120a;
+}
+@media(max-width:980px){
+  aside.card:first-child .settings-scroll details > summary{
+    font-size:12px!important;
+    padding:7px 9px!important;
+  }
+}
+
+
+/* ===== v34 單位與流程一致性精修 ===== */
+#totalAssets,#living,#salary{
+  text-align:right;
+  font-weight:700;
+}
+#runToEndBtn{
+  font-weight:800;
+}
+aside.card:first-child .settings-scroll details:nth-of-type(2) .kpi-note{
+  color:#f4c879;
+}
+
+
+/* ===== v35 主要按鈕強化 ===== */
+.setup-btn{
+  background:#f59e0b;
+  color:#17120a;
+  border:1px solid #ffbe4a;
+  border-radius:9px;
+  padding:8px 11px;
+  font-weight:900;
+  font-size:12px;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(245,158,11,.18);
+}
+.setup-btn:hover{background:#ffad1f}
+.setup-btn:active{transform:translateY(1px)}
+
+.run-end-btn{
+  background:#3b82f6;
+  color:#ffffff;
+  border:1px solid #73a4ff;
+  border-radius:9px;
+  padding:8px 11px;
+  font-weight:900;
+  font-size:12px;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(59,130,246,.18);
+}
+.run-end-btn:hover{background:#4a8ef7}
+.run-end-btn:active{transform:translateY(1px)}
+
+.next-year-btn{
+  background:#22c55e;
+  color:#08130b;
+  border:1px solid #73e39c;
+  border-radius:12px;
+  min-height:56px;
+  padding:12px 16px;
+  font-weight:900;
+  font-size:20px;
+  letter-spacing:.4px;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(34,197,94,.24);
+}
+.next-year-btn:hover{background:#33d06c}
+.next-year-btn:active{transform:translateY(1px)}
+
+.main-help-btn{
+  min-height:44px!important;
+  font-size:14px!important;
+}
+
+@media(max-width:980px){
+  .setup-btn,.run-end-btn{
+    min-height:42px!important;
+    font-size:13px!important;
+  }
+  .next-year-btn{
+    min-height:58px!important;
+    font-size:21px!important;
+    width:100%!important;
+  }
+}
+@media(max-width:560px){
+  .next-year-btn{
+    min-height:60px!important;
+    font-size:22px!important;
+    border-radius:14px!important;
+  }
+  .main-help-btn{
+    min-height:48px!important;
+    font-size:15px!important;
+  }
+}
+
+
+/* ===== v36 全站字級放大 ===== */
+body{font-size:15px!important;line-height:1.45!important}
+h1{font-size:26px!important;line-height:1.18!important}
+h2{font-size:15px!important;line-height:1.25!important}
+
+.hero .stat b{font-size:22px!important}
+main .stat b,.stat b{font-size:18px!important}
+input,select{font-size:14px!important;min-height:34px!important}
+label{font-size:11px!important}
+summary{font-size:13px!important}
+.mode-info{font-size:12px!important}
+#successRate{font-size:40px!important}
+.badge{font-size:12px!important}
+.alloc-title-tight b{font-size:13px!important}
+.alloc-label{font-size:12px!important}
+.alloc-inline-value{font-size:20px!important}
+.alloc-cash-value{font-size:18px!important}
+.threshold-inline{font-size:13px!important}
+.next-year-btn{font-size:22px!important;min-height:60px!important}
+.report-btn,.setup-btn,.run-end-btn{font-size:14px!important;min-height:42px!important}
+.main-help-btn{font-size:15px!important;min-height:46px!important}
+
+.kpi-note,.alloc-note,#successExplain,.guide-step span,.help-logic span,.help-logic small,#setupStatus{
+  font-size:11px!important;line-height:1.4!important
+}
+.stat span{font-size:11px!important}
+.hero .stat span{font-size:10.5px!important}
+
+.log-year{font-size:16px!important}
+.log-return{font-size:18px!important}
+.log-label{font-size:11px!important}
+.log-value{font-size:13px!important}
+.log-summary{font-size:15px!important}
+
+aside.card:first-child .settings-scroll details > summary{
+  font-size:13px!important;padding:8px 10px!important
+}
+
+.share-title{font-size:24px!important}
+.share-sub{font-size:13px!important}
+.share-rate{font-size:40px!important}
+.share-item span{font-size:12px!important}
+.share-item b{font-size:20px!important}
+.share-grade{font-size:13px!important}
+
+.hero .stat,main .stat{min-height:54px!important;padding:7px 8px!important}
+.card{line-height:1.35!important}
+
+@media(min-width:1181px){
+  .grid{grid-template-columns:300px minmax(500px,.95fr) minmax(440px,1.05fr)!important}
+}
+
+@media(max-width:980px){
+  body{font-size:16px!important}
+  h1{font-size:23px!important}
+  h2{font-size:16px!important}
+  input,select{font-size:16px!important;min-height:42px!important}
+  label{font-size:12px!important}
+  summary{font-size:14px!important}
+  .hero .stat b{font-size:19px!important}
+  main .stat b{font-size:17px!important}
+  .stat span{font-size:11px!important}
+  .hero .stat span{font-size:10px!important}
+  .mode-info{font-size:12px!important}
+  .kpi-note,.alloc-note,#successExplain,#setupStatus{font-size:11.5px!important}
+  .alloc-label{font-size:13px!important}
+  .alloc-inline-value{font-size:22px!important}
+  .alloc-cash-value{font-size:20px!important}
+  .threshold-inline{font-size:13px!important}
+  .next-year-btn{font-size:24px!important;min-height:64px!important}
+  .report-btn,.setup-btn,.run-end-btn{font-size:15px!important;min-height:46px!important}
+  .main-help-btn{font-size:16px!important;min-height:50px!important}
+  #successRate{font-size:42px!important}
+}
+
+@media(max-width:560px){
+  body{font-size:16px!important}
+  h1{font-size:21px!important}
+  .hero .stat b{font-size:17px!important}
+  main .stat b{font-size:16px!important}
+  .hero .stat span{font-size:9.5px!important}
+  .stat span{font-size:10.5px!important}
+  .next-year-btn{font-size:24px!important}
+  .main-help-btn{font-size:15px!important}
+}
+
+
+/* ===== v37 主流程按鈕與成績單終局提示 ===== */
+.primary-flow-controls{
+  display:grid!important;
+  grid-template-columns:1fr 1fr 1fr!important;
+  gap:7px!important;
+}
+.primary-flow-controls button{
+  width:100%!important;
+  min-height:50px!important;
+  font-size:14px!important;
+  font-weight:900!important;
+}
+.primary-flow-controls .flow-next{
+  min-height:50px!important;
+  font-size:16px!important;
+  border-radius:9px!important;
+  box-shadow:0 2px 8px rgba(34,197,94,.20)!important;
+}
+
+/* 遊戲結束後，成績單變成明顯的最終行動 */
+.report-btn.report-ready{
+  border:3px solid #ffd86b!important;
+  background:#cf3434!important;
+  color:#fff7d6!important;
+  box-shadow:
+    0 0 0 2px rgba(255,216,107,.18),
+    0 0 16px rgba(255,216,107,.70),
+    0 0 30px rgba(255,216,107,.30)!important;
+  animation:reportGlow 1.25s ease-in-out infinite alternate;
+  font-size:14px!important;
+  min-height:46px!important;
+}
+@keyframes reportGlow{
+  from{
+    transform:scale(1);
+    box-shadow:
+      0 0 0 2px rgba(255,216,107,.15),
+      0 0 10px rgba(255,216,107,.45),
+      0 0 18px rgba(255,216,107,.20);
+  }
+  to{
+    transform:scale(1.025);
+    box-shadow:
+      0 0 0 3px rgba(255,216,107,.28),
+      0 0 22px rgba(255,216,107,.90),
+      0 0 40px rgba(255,216,107,.38);
+  }
+}
+
+@media(max-width:980px){
+  .primary-flow-controls{
+    grid-template-columns:1fr 1fr 1fr!important;
+  }
+  .primary-flow-controls button{
+    min-height:52px!important;
+    font-size:13px!important;
+    padding:8px 6px!important;
+  }
+  .primary-flow-controls .flow-next{
+    font-size:16px!important;
+  }
+}
+@media(max-width:560px){
+  .primary-flow-controls{
+    grid-template-columns:1fr!important;
+  }
+  .primary-flow-controls button{
+    min-height:52px!important;
+    font-size:15px!important;
+  }
+  .primary-flow-controls .flow-next{
+    min-height:58px!important;
+    font-size:20px!important;
+  }
+  .report-btn.report-ready{
+    width:100%!important;
+    min-height:52px!important;
+    font-size:14px!important;
+  }
+}
+
+
+/* ===== v38.1 手機直式退休成績單（修正版） ===== */
+.share-modal-box{width:min(430px,96vw)!important;max-height:96vh!important;overflow:auto!important}
+.portrait-scorecard{width:100%!important;padding:16px!important;border-radius:18px!important;background:linear-gradient(180deg,#101722,#151f2d 52%,#0d131d)!important;border:1px solid #344054!important}
+.score-header{display:flex;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid #2f3a4b}
+.score-rate-block{text-align:right}.score-rate-label{font-size:11px;color:#a9b5c5;margin-top:2px}
+.score-grade-row{margin:10px 0 12px}
+.score-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.score-box{background:#151d29;border:1px solid #2f3a4b;border-radius:11px;padding:10px;min-height:78px}
+.score-box span{display:block;font-size:11px;color:#9facbe;margin-bottom:5px}
+.score-box b{display:block;font-size:19px;color:#f5f7fa;line-height:1.15}
+.score-box small{display:block;margin-top:3px;color:#c8d1de;font-size:10px}
+.score-box.gold{border-color:#9a7732;background:linear-gradient(180deg,#241d10,#17140d)}.score-box.gold b{color:#ffd86b}
+.score-return-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.return-card{border-radius:11px;padding:10px;min-height:76px}.return-card span{display:block;font-size:11px;margin-bottom:5px;color:#d4dbe5}.return-card b{display:block;font-size:19px}
+.up-card{background:rgba(220,70,70,.12);border:1px solid rgba(240,90,90,.34)}.up-card b{color:#ff7676}
+.down-card{background:rgba(60,190,110,.10);border:1px solid rgba(80,210,130,.30)}.down-card b{color:#65d98d}
+.score-market-title{margin-top:12px;font-size:12px;font-weight:900;color:#e8edf5}
+.score-market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.market-stat{text-align:center;padding:8px 4px;border-radius:9px;background:#131a25;border:1px solid #2c3647}
+.market-stat span{display:block;font-size:9px;color:#9facbe}.market-stat b{display:block;font-size:18px;margin-top:3px}
+.market-stat.up b{color:#ff7373}.market-stat.down b{color:#64d98c}
+.score-summary-box{margin-top:10px;padding:10px;border-radius:11px;background:rgba(110,168,254,.08);border:1px solid rgba(110,168,254,.22);color:#e4ebf4;font-size:11px;line-height:1.45}
+.score-summary-title{color:#9bc0ff;font-size:12px;font-weight:900;margin-bottom:4px}
+.score-footer{margin-top:12px;padding-top:10px;border-top:1px solid #2d3748;text-align:center;font-size:10px;line-height:1.5;color:#c7d0dd}
+.score-hash{color:#8fa6c5;margin-top:2px}
+.score-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin-top:8px!important}
+.score-actions button{min-height:42px!important}
+@media(max-width:560px){
+  .share-modal-box{width:96vw!important}
+  .portrait-scorecard{padding:13px!important}
+  .share-title{font-size:18px!important}
+  .share-rate{font-size:34px!important}
+  .score-box b,.return-card b{font-size:18px!important}
+}
+
+
+/* ===== v39 門檻卡關引導與下一年單行 ===== */
+.primary-flow-controls .flow-next,
+.next-year-btn{
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  line-height:1!important;
+  padding-left:6px!important;
+  padding-right:6px!important;
+}
+
+/* 門檻不足時，真正該提醒的是資產配置，而不是退休成績單 */
+.alloc-box.allocation-attention{
+  border:3px solid #ffd86b!important;
+  background:
+    linear-gradient(180deg,rgba(255,216,107,.08),rgba(17,23,34,.98))!important;
+  box-shadow:
+    0 0 0 2px rgba(255,216,107,.16),
+    0 0 18px rgba(255,216,107,.72),
+    0 0 34px rgba(255,216,107,.28)!important;
+  animation:allocationGlow 1.05s ease-in-out infinite alternate;
+}
+@keyframes allocationGlow{
+  from{
+    box-shadow:
+      0 0 0 2px rgba(255,216,107,.12),
+      0 0 10px rgba(255,216,107,.42),
+      0 0 18px rgba(255,216,107,.16);
+  }
+  to{
+    box-shadow:
+      0 0 0 3px rgba(255,216,107,.26),
+      0 0 24px rgba(255,216,107,.92),
+      0 0 42px rgba(255,216,107,.34);
+  }
+}
+
+@media(min-width:561px){
+  .primary-flow-controls{
+    grid-template-columns:minmax(0,1fr) minmax(88px,.9fr) minmax(0,1.15fr)!important;
+  }
+  .primary-flow-controls .flow-next{
+    font-size:15px!important;
+  }
+}
+@media(max-width:560px){
+  .primary-flow-controls .flow-next{
+    font-size:20px!important;
+    white-space:nowrap!important;
+  }
+}
+
+
+/* ===== v41 成績單實際結束年齡 ===== */
+.score-box.emphasis{
+  background:linear-gradient(180deg,#172333,#131c28);
+  border-color:#3a4d66;
+}
+#sharePlayedToAge{
+  color:#9bc0ff;
+}
+
+
+/* ===== v42 4%安全資產參考燈號 ===== */
+.fourpct-stat{
+  transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.fourpct-stat.safe-green{
+  border-color:rgba(88,214,141,.55)!important;
+  background:rgba(88,214,141,.07)!important;
+}
+.fourpct-stat.safe-yellow{
+  border-color:rgba(245,196,81,.60)!important;
+  background:rgba(245,196,81,.08)!important;
+}
+.fourpct-stat.safe-red{
+  border-color:rgba(255,112,112,.62)!important;
+  background:rgba(255,112,112,.08)!important;
+}
+.fourpct-stat.safe-green #fourPctTarget{color:#75e3a3!important}
+.fourpct-stat.safe-yellow #fourPctTarget{color:#f7cf68!important}
+.fourpct-stat.safe-red #fourPctTarget{color:#ff8585!important}
+#fourPctTarget{
+  font-size:17px!important;
+}
+#fourPctStatus{
+  line-height:1.3!important;
+}
+@media(max-width:980px){
+  #fourPctTarget{font-size:18px!important}
+}
+
+
+/* ===== v43 4%提領資訊整併 ===== */
+.fourpct-stat{
+  grid-column:span 2;
+}
+#fourPctStatus{
+  margin-top:3px!important;
+}
+@media(max-width:560px){
+  .fourpct-stat{
+    grid-column:1/-1;
+  }
+}
+
+
+/* ===== v44 退休成績單加入趨勢圖 ===== */
+.share-chart-card{
+  margin-top:10px;
+  padding:10px 10px 8px;
+  border-radius:12px;
+  background:rgba(255,255,255,.035);
+  border:1px solid #2f3a4b;
+}
+.share-chart-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+}
+.share-chart-head > span{
+  font-size:12px;
+  font-weight:900;
+  color:#e8edf5;
+}
+.share-chart-legend{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:6px 10px;
+  font-size:10px;
+  color:#b9c4d4;
+}
+.legend-item{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+.legend-line{
+  display:inline-block;
+  width:16px;
+  height:0;
+  border-top:3px solid #fff;
+  border-radius:99px;
+}
+.legend-line.nominal{border-color:#58d68d}
+.legend-line.real{
+  border-color:#6ea8fe;
+  border-top-style:dashed;
+}
+#shareTrendChart{
+  display:block;
+  width:100%;
+  height:170px;
+  border-radius:10px;
+  overflow:hidden;
+}
+@media(max-width:560px){
+  #shareTrendChart{height:165px}
+  .share-chart-head{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .share-chart-legend{
+    justify-content:flex-start;
+  }
+}
+
+
+/* ===== v45 成績單一屏優化 ===== */
+.share-modal-box{width:min(400px,96vw)!important}
+.portrait-scorecard{padding:11px!important}
+.compact-score-grid{grid-template-columns:1fr 1fr!important;gap:6px!important}
+.compact-score-grid .score-box{min-height:58px!important;padding:7px 8px!important}
+.compact-score-grid .score-box span{font-size:9px!important}
+.compact-score-grid .score-box b{font-size:16px!important}
+.compact-score-grid .score-box small{font-size:8.5px!important}
+.compact-score-grid .score-box small i{font-style:normal}
+.compact-chart-card{margin-top:7px!important;padding:7px!important}
+#shareTrendChart{height:135px!important}
+.compact-return-grid{grid-template-columns:1fr 1fr 1fr!important;gap:5px!important;margin-top:6px!important}
+.compact-return-grid .return-card{min-height:50px!important;padding:6px!important}
+.compact-return-grid .return-card span{font-size:8.5px!important}
+.compact-return-grid .return-card b{font-size:12px!important}
+.avg-card{background:rgba(110,168,254,.08)!important;border:1px solid rgba(110,168,254,.25)!important}
+.avg-card b{color:#9bc0ff!important}
+.compact-market-grid{gap:4px!important}
+.compact-market-grid .market-stat{padding:5px 3px!important}
+.compact-market-grid .market-stat span{font-size:8px!important}
+.compact-market-grid .market-stat b{font-size:13px!important}
+.score-summary-box{margin-top:6px!important;padding:7px!important;font-size:9px!important}
+.score-footer{margin-top:6px!important;padding-top:6px!important;font-size:8px!important}
+.score-market-title{margin-top:7px!important;font-size:10px!important}
+
+
+.share-community-title{margin-top:4px;color:#d7dfeb;font-weight:800}
+.share-link{display:block;margin-top:2px;color:#6ea8fe;text-decoration:none;overflow-wrap:anywhere;word-break:break-all;font-size:8px}
+.share-link:hover{text-decoration:underline}
+
+
+/* ===== v49 走勢圖優先＋底部操作區 ===== */
+.bottom-action-card{
+  padding:8px!important;
+  margin-top:0!important;
+  margin-bottom:8px!important;
+}
+.bottom-action-row{
+  display:grid;
+  grid-template-columns:minmax(180px,.9fr) minmax(0,1.4fr);
+  gap:8px;
+  align-items:center;
+}
+.bottom-action-row .report-btn{
+  width:100%;
+  min-height:44px;
+}
+.bottom-action-row .fat-warning-badge{
+  width:100%;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0!important;
+}
+@media(max-width:980px){
+  .bottom-action-row{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== v51 結束狀態底部防爆框 ===== */
+.bottom-action-row{
+  grid-template-columns:minmax(0,1fr) minmax(0,1.35fr)!important;
+  align-items:stretch!important;
+}
+.bottom-action-row .report-btn,
+.bottom-action-row .fat-warning-badge{
+  min-width:0!important;
+  max-width:100%!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  word-break:break-word!important;
+  line-height:1.25!important;
+}
+
+.bottom-action-row .report-btn{
+  padding:9px 10px!important;
+  font-size:13px!important;
+  min-height:48px!important;
+}
+
+.bottom-action-row .fat-warning-badge{
+  padding:8px 10px!important;
+  font-size:13px!important;
+  min-height:48px!important;
+  text-align:center!important;
+}
+
+/* 結束後成績單按鈕文字較長，避免發光放大造成超框 */
+.report-btn.report-ready{
+  transform:none!important;
+  animation:reportGlowSafe 1.2s ease-in-out infinite alternate!important;
+  font-size:13px!important;
+}
+@keyframes reportGlowSafe{
+  from{
+    box-shadow:
+      0 0 0 2px rgba(255,216,107,.14),
+      0 0 10px rgba(255,216,107,.42),
+      0 0 18px rgba(255,216,107,.16);
+  }
+  to{
+    box-shadow:
+      0 0 0 3px rgba(255,216,107,.24),
+      0 0 20px rgba(255,216,107,.82),
+      0 0 34px rgba(255,216,107,.30);
+  }
+}
+
+/* 阿肥表示匾額：長句自適應 */
+.fat-warning-badge{
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  word-break:break-word!important;
+}
+.fat-warning-badge.show,
+.fat-warning-badge.active{
+  white-space:normal!important;
+}
+
+/* 手機固定上下排，避免兩塊互擠 */
+@media(max-width:980px){
+  .bottom-action-row{
+    grid-template-columns:1fr!important;
+  }
+  .bottom-action-row .report-btn,
+  .bottom-action-row .fat-warning-badge{
+    font-size:14px!important;
+    min-height:50px!important;
+  }
+}
+
+@media(max-width:560px){
+  .bottom-action-row .report-btn,
+  .bottom-action-row .fat-warning-badge{
+    font-size:13px!important;
+    padding:9px 8px!important;
+  }
+}
+
+
+/* ===== v52 成就系統 ===== */
+.share-grade{
+  max-width:100%;
+  white-space:normal!important;
+  line-height:1.25!important;
+}
+
+
+/* ===== v53 成就＋阿肥評語整併 ===== */
+.achievement-block{
+  padding:9px 10px;
+  border-radius:11px;
+  background:rgba(245,196,81,.08);
+  border:1px solid rgba(245,196,81,.28);
+}
+.achievement-block .share-grade{
+  display:block;
+  margin:0!important;
+}
+.achievement-summary{
+  margin-top:5px;
+  color:#e8edf5;
+  font-size:11px;
+  line-height:1.4;
+  font-weight:700;
+}
+@media(max-width:560px){
+  .achievement-block{
+    padding:8px 9px;
+  }
+  .achievement-summary{
+    font-size:10px;
+  }
+}
+
+
+/* ===== v56 成績單頭尾字級優化 ===== */
+
+/* 頂部：壓縮高度，標題保持單行 */
+.score-header{
+  gap:6px!important;
+  padding-bottom:8px!important;
+}
+.score-header > div:first-child{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.score-header .share-title{
+  font-size:15px!important;
+  line-height:1.1!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow:visible!important;
+  letter-spacing:-.35px!important;
+}
+.score-header .share-sub{
+  font-size:10px!important;
+  line-height:1.15!important;
+  margin-top:2px!important;
+}
+.score-rate-block{
+  flex:0 0 auto!important;
+  min-width:62px!important;
+}
+.score-header .share-rate{
+  font-size:30px!important;
+  line-height:.95!important;
+}
+.score-rate-label{
+  font-size:9.5px!important;
+  margin-top:2px!important;
+  white-space:nowrap!important;
+}
+
+/* 底部：分享資訊放大，方便手機閱讀 */
+.score-footer{
+  margin-top:9px!important;
+  padding-top:8px!important;
+  font-size:11px!important;
+  line-height:1.5!important;
+}
+#shareYears{
+  font-size:12px!important;
+  font-weight:800!important;
+  color:#e4eaf2!important;
+  margin-bottom:4px!important;
+}
+.share-community-title{
+  font-size:11px!important;
+  line-height:1.45!important;
+  margin-top:3px!important;
+}
+.score-hash{
+  font-size:11px!important;
+  font-weight:800!important;
+  margin-top:5px!important;
+}
+.share-link{
+  font-size:10px!important;
+  line-height:1.35!important;
+  margin-top:2px!important;
+}
+
+@media(max-width:560px){
+  .portrait-scorecard{
+    padding-left:9px!important;
+    padding-right:9px!important;
+  }
+  .score-header .share-title{
+    font-size:14px!important;
+    letter-spacing:-.55px!important;
+  }
+  .score-header .share-rate{
+    font-size:28px!important;
+  }
+  .score-footer{
+    font-size:11px!important;
+  }
+  #shareYears{
+    font-size:12px!important;
+  }
+  .share-community-title,
+  .score-hash{
+    font-size:10.5px!important;
+  }
+  .share-link{
+    font-size:9.5px!important;
+  }
+}
+
+
+/* ===== v57 公開版標題列精簡 ===== */
+.topbar{
+  justify-content:flex-start!important;
+}
+.topbar > div:first-child{
+  width:100%;
+}
+
+
+/* ===== v59 成績單底部文字一致化 ===== */
+.score-footer .score-hash{
+  color:#d7dfeb!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  line-height:1.45!important;
+  margin-top:5px!important;
+}
+@media(max-width:560px){
+  .score-footer .score-hash{
+    font-size:10.5px!important;
+  }
+}
+
+
+/* ===== v60 成績單本局摘要集中 ===== */
+.score-summary-panel{
+  margin-top:8px;
+  padding:9px;
+  border-radius:12px;
+  background:#131b26;
+  border:1px solid #2f3a4b;
+}
+.score-summary-panel-title{
+  font-size:11px;
+  font-weight:900;
+  color:#dfe7f2;
+  margin-bottom:7px;
+}
+.summary-main-row{
+  display:grid;
+  grid-template-columns:1.4fr .6fr;
+  gap:6px;
+}
+.summary-main-item,
+.summary-asset-item,
+.summary-end-row{
+  background:#101720;
+  border:1px solid #283342;
+  border-radius:9px;
+  padding:7px 8px;
+}
+.summary-main-item span,
+.summary-asset-item span,
+.summary-end-row span{
+  display:block;
+  font-size:8.5px;
+  color:#9facbe;
+  margin-bottom:2px;
+}
+.summary-main-item b,
+.summary-asset-item b,
+.summary-end-row b{
+  display:block;
+  font-size:14px;
+  color:#f4f7fb;
+  line-height:1.1;
+}
+.summary-asset-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-top:6px;
+}
+.summary-asset-item.emphasis{
+  background:linear-gradient(180deg,#172333,#131c28);
+  border-color:#3a4d66;
+}
+.summary-asset-item.gold{
+  background:linear-gradient(180deg,#241d10,#17140d);
+  border-color:#9a7732;
+}
+.summary-asset-item.gold b{color:#ffd86b}
+.summary-asset-item small{
+  display:block;
+  font-size:8px;
+  color:#c7d0dd;
+  margin-top:2px;
+}
+.summary-end-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:6px;
+}
+.summary-end-row span{
+  margin:0;
+}
+.summary-end-row b{
+  font-size:13px;
+}
+
+@media(max-width:560px){
+  .score-summary-panel{padding:8px}
+  .summary-main-item b,
+  .summary-asset-item b{font-size:13px}
+}
+
+
+/* ===== v61 成績單市場分布精簡 ===== */
+.market-compact-lines{
+  margin-top:5px;
+  display:grid;
+  gap:4px;
+}
+.market-line{
+  display:grid;
+  grid-template-columns:46px repeat(3,1fr);
+  align-items:center;
+  gap:4px;
+  padding:6px 7px;
+  border-radius:8px;
+  background:#111822;
+  border:1px solid #2b3545;
+  font-size:8.5px;
+}
+.market-line-label{
+  font-weight:900;
+  font-size:9px;
+}
+.market-line span{
+  white-space:nowrap;
+}
+.market-line b{
+  font-size:10px;
+  margin-left:2px;
+}
+.up-line{color:#ff8585}
+.down-line{color:#70dc96}
+
+@media(max-width:560px){
+  .market-line{
+    grid-template-columns:40px repeat(3,1fr);
+    gap:3px;
+    padding:5px 6px;
+    font-size:8px;
+  }
+  .market-line b{
+    font-size:9px;
+  }
+}
+
+
+/* ===== v62 年度報酬率分布文字優化 ===== */
+.market-text-line{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:3px;
+  padding:6px 7px;
+  border-radius:8px;
+  background:#111822;
+  border:1px solid #2b3545;
+  font-size:8.5px;
+  line-height:1.35;
+}
+.market-text-line .market-line-label{
+  font-size:9px;
+  margin-right:3px;
+}
+.market-text-line span{
+  white-space:nowrap;
+}
+.market-text-line i{
+  font-style:normal;
+  opacity:.65;
+}
+.market-text-line b{
+  font-weight:900;
+}
+.up-line{color:#ff8585}
+.down-line{color:#70dc96}
+
+@media(max-width:560px){
+  .market-text-line{
+    font-size:8px;
+    gap:2px;
+    padding:5px 6px;
+  }
+  .market-text-line .market-line-label{
+    font-size:8.5px;
+  }
+}
+
+
+/* ===== v64 通用退休給付說明 ===== */
+.retirement-benefit-note{
+  margin-top:4px!important;
+  color:#aeb9c9!important;
+  line-height:1.35!important;
+}
+
+
+/* ===== v65 退休給付欄位說明優化 ===== */
+.settings-scroll details summary + .compact-grid + .kpi-note{
+  line-height:1.45!important;
+}
+
+
+/* ===== v71 資產配置操作動線強化 ===== */
+.setup-flow-controls{
+  grid-template-columns:1fr 1fr!important;
+}
+
+/* 配置區本身成為主要操作面板 */
+.alloc-box{
+  border:2px solid rgba(110,168,254,.42)!important;
+  background:
+    linear-gradient(180deg,rgba(110,168,254,.055),rgba(17,23,34,.98))!important;
+}
+
+.alloc-title-tight > b{
+  font-size:15px!important;
+  color:#eaf2ff!important;
+}
+
+/* 股票 / 現金控制集中且放大 */
+.alloc-group{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px!important;
+  flex-wrap:nowrap!important;
+}
+
+.alloc-group .alloc-label{
+  font-size:14px!important;
+  font-weight:900!important;
+}
+
+.alloc-group .alloc-btn{
+  width:42px!important;
+  min-width:42px!important;
+  height:42px!important;
+  padding:0!important;
+  border-radius:10px!important;
+  font-size:25px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  background:#253852!important;
+  border:1px solid #6ea8fe!important;
+  color:#fff!important;
+  box-shadow:0 2px 8px rgba(110,168,254,.18)!important;
+}
+
+.alloc-group .alloc-btn:hover{
+  background:#315078!important;
+}
+
+.alloc-inline-value{
+  min-width:58px!important;
+  text-align:center!important;
+  font-size:24px!important;
+  color:#ffd86b!important;
+}
+.alloc-cash-value{
+  min-width:50px!important;
+  font-size:21px!important;
+  color:#6ea8fe!important;
+}
+.alloc-sep{
+  opacity:.45!important;
+}
+
+/* 一調整策略，整個操作區亮起來 */
+.alloc-box.allocation-pending{
+  border-color:#ffd86b!important;
+  box-shadow:
+    0 0 0 2px rgba(255,216,107,.10),
+    0 0 16px rgba(255,216,107,.24)!important;
+}
+.alloc-box.allocation-pending #allocationNote{
+  color:#ffd86b!important;
+  font-weight:800!important;
+}
+
+/* 下一年直接接在配置下方：調完不用移動視線 */
+.allocation-next-btn{
+  width:100%!important;
+  min-height:54px!important;
+  margin-top:9px!important;
+  border:1px solid #73e39c!important;
+  border-radius:11px!important;
+  background:#22c55e!important;
+  color:#08130b!important;
+  font-size:19px!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  letter-spacing:.2px!important;
+  box-shadow:0 5px 14px rgba(34,197,94,.22)!important;
+  white-space:nowrap!important;
+}
+.allocation-next-btn:hover{
+  background:#33d06c!important;
+}
+.allocation-next-btn:active{
+  transform:translateY(1px)!important;
+}
+
+.alloc-box.allocation-pending .allocation-next-btn{
+  background:#f5c451!important;
+  border-color:#ffd86b!important;
+  color:#17120a!important;
+  box-shadow:0 5px 16px rgba(245,196,81,.26)!important;
+}
+
+/* 手機上加大成真正拇指操作區 */
+@media(max-width:560px){
+  .alloc-main-row{
+    display:block!important;
+  }
+  .alloc-group{
+    justify-content:center!important;
+    gap:6px!important;
+  }
+  .alloc-group .alloc-btn{
+    width:46px!important;
+    min-width:46px!important;
+    height:46px!important;
+    font-size:27px!important;
+  }
+  .alloc-inline-value{
+    font-size:25px!important;
+  }
+  .alloc-cash-value{
+    font-size:21px!important;
+  }
+  .threshold-inline{
+    margin-top:7px!important;
+  }
+  .allocation-next-btn{
+    min-height:58px!important;
+    font-size:20px!important;
+  }
+}
+
+
+/* ===== v72 資產配置區緊湊化 ===== */
+.alloc-box{
+  padding:7px 8px!important;
+  margin-top:6px!important;
+}
+.alloc-title{
+  margin-bottom:4px!important;
+}
+.alloc-title-tight{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:6px!important;
+}
+.alloc-title-tight > b{
+  font-size:13px!important;
+}
+#currentAllocation{
+  font-size:9px!important;
+  white-space:nowrap!important;
+}
+
+.alloc-main-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  gap:7px!important;
+  align-items:center!important;
+}
+.alloc-group{
+  gap:5px!important;
+}
+.alloc-group .alloc-label{
+  font-size:12px!important;
+}
+.alloc-group .alloc-btn{
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  font-size:21px!important;
+  border-radius:8px!important;
+}
+.alloc-inline-value{
+  min-width:50px!important;
+  font-size:20px!important;
+}
+.alloc-cash-value{
+  min-width:44px!important;
+  font-size:18px!important;
+}
+.threshold-inline{
+  font-size:9px!important;
+  line-height:1.25!important;
+  max-width:245px!important;
+}
+
+#allocationNote{
+  margin-top:4px!important;
+  font-size:9px!important;
+  line-height:1.25!important;
+}
+
+.allocation-next-btn{
+  min-height:42px!important;
+  margin-top:6px!important;
+  font-size:16px!important;
+  border-radius:9px!important;
+  padding:7px 10px!important;
+}
+
+/* 手機也盡量維持緊湊，不再整塊拉太高 */
+@media(max-width:560px){
+  .alloc-box{
+    padding:6px 7px!important;
+  }
+  .alloc-title-tight{
+    align-items:flex-start!important;
+  }
+  #currentAllocation{
+    font-size:8.5px!important;
+  }
+  .alloc-main-row{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:4px!important;
+  }
+  .alloc-group{
+    justify-content:flex-start!important;
+    gap:5px!important;
+  }
+  .alloc-group .alloc-btn{
+    width:38px!important;
+    min-width:38px!important;
+    height:38px!important;
+    font-size:23px!important;
+  }
+  .alloc-inline-value{
+    font-size:21px!important;
+  }
+  .alloc-cash-value{
+    font-size:18px!important;
+  }
+  .threshold-inline{
+    margin-top:0!important;
+    max-width:none!important;
+    font-size:8.5px!important;
+  }
+  #allocationNote{
+    font-size:8.5px!important;
+    margin-top:3px!important;
+  }
+  .allocation-next-btn{
+    min-height:44px!important;
+    margin-top:5px!important;
+    font-size:17px!important;
+  }
+}
+
+
+/* ===== v73 目前策略退休成功率 ===== */
+.right h2:first-child{
+  line-height:1.2!important;
+}
+#successExplain{
+  line-height:1.4!important;
+}
+
+
+/* ===== v75 效能與版面微調 ===== */
+#successRate{
+  min-height:36px;
+  display:flex;
+  align-items:center;
+}
+
+/* 計算中三字不讓右欄跳版 */
+#successRate{
+  font-variant-numeric:tabular-nums;
+}
+
+/* 年度切換時避免太多陰影動畫造成手機重繪 */
+.alloc-box:not(.allocation-attention):not(.allocation-pending){
+  box-shadow:none!important;
+}
+
+
+/* ===== v77 阿肥表示：未觸發前完全隱藏 ===== */
+.fat-warning-badge{
+  display:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+  padding:0!important;
+  min-height:0!important;
+}
+
+.fat-warning-badge.show,
+.fat-warning-badge.active{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:48px!important;
+  padding:8px 10px!important;
+  border:2px solid #d9ad45!important;
+  border-radius:10px!important;
+  background:#0b0b0b!important;
+  color:#ffd86b!important;
+  box-shadow:
+    0 0 0 2px rgba(255,216,107,.10),
+    0 0 14px rgba(255,216,107,.35),
+    0 0 26px rgba(255,216,107,.18)!important;
+  animation:fatBadgeGlow 1.2s ease-in-out infinite alternate!important;
+}
+
+@keyframes fatBadgeGlow{
+  from{
+    box-shadow:
+      0 0 0 2px rgba(255,216,107,.10),
+      0 0 10px rgba(255,216,107,.30),
+      0 0 18px rgba(255,216,107,.12);
+  }
+  to{
+    box-shadow:
+      0 0 0 3px rgba(255,216,107,.20),
+      0 0 20px rgba(255,216,107,.70),
+      0 0 34px rgba(255,216,107,.28);
+  }
+}
+
+
+/* ===== v78 頂部三格資訊卡壓縮 ===== */
+.hero{
+  gap:6px!important;
+  margin-bottom:6px!important;
+}
+.hero .stat{
+  min-height:58px!important;
+  padding:6px 8px!important;
+  border-radius:9px!important;
+}
+.hero .stat span{
+  font-size:10px!important;
+  line-height:1.1!important;
+  margin-bottom:2px!important;
+}
+.hero .stat b{
+  font-size:19px!important;
+  line-height:1.05!important;
+}
+
+/* 手機也同步稍微壓縮，但維持可讀性 */
+@media(max-width:560px){
+  .hero{
+    gap:5px!important;
+    margin-bottom:5px!important;
+  }
+  .hero .stat{
+    min-height:54px!important;
+    padding:5px 6px!important;
+  }
+  .hero .stat span{
+    font-size:9px!important;
+  }
+  .hero .stat b{
+    font-size:18px!important;
+  }
+}
+
+
+/* ===== v79 中間欄垂直空間再壓縮 ===== */
+
+/* 1. 新手區：保留字級，縮上下空白 */
+main > .card:first-child{
+  padding:5px 7px!important;
+  margin-bottom:5px!important;
+}
+.main-help-btn{
+  min-height:34px!important;
+  padding:5px 8px!important;
+  font-size:13px!important;
+}
+#modeInfo{
+  margin:2px 0 1px!important;
+  font-size:9px!important;
+  line-height:1.15!important;
+}
+
+/* 2. 頂部三格：v78 曾被拉到58px，這次真正壓回去 */
+.hero{
+  gap:5px!important;
+  margin-bottom:5px!important;
+}
+.hero .stat{
+  min-height:42px!important;
+  padding:4px 7px!important;
+  border-radius:8px!important;
+}
+.hero .stat span{
+  font-size:9px!important;
+  line-height:1!important;
+  margin-bottom:1px!important;
+}
+.hero .stat b{
+  font-size:19px!important;
+  line-height:1!important;
+  margin-top:1px!important;
+}
+
+/* 3. 本年度狀態主卡：只砍留白，不砍主要數字 */
+main > .card:nth-of-type(2){
+  padding:5px 7px!important;
+  margin-bottom:5px!important;
+}
+main > .card:nth-of-type(2) h2{
+  margin-bottom:4px!important;
+}
+
+main .stat-grid{
+  gap:4px!important;
+}
+main .stat{
+  min-height:38px!important;
+  padding:4px 6px!important;
+}
+main .stat span{
+  line-height:1!important;
+}
+main .stat b{
+  margin-top:1px!important;
+  line-height:1!important;
+}
+main .stat .kpi-note{
+  line-height:1.08!important;
+  margin-top:1px!important;
+}
+
+/* 第二排資訊保持可讀，但不要被說明文字撐高 */
+.compact-status-grid + .compact-status-grid{
+  margin-top:4px!important;
+}
+.compact-status-grid + .compact-status-grid .stat{
+  padding-top:4px!important;
+  padding-bottom:4px!important;
+}
+
+/* 4. 配置區：金框與醒目數字保留，垂直空白縮掉 */
+.alloc-box{
+  margin-top:4px!important;
+  padding:5px 7px!important;
+}
+.alloc-title,
+.alloc-title-tight{
+  margin-bottom:2px!important;
+}
+.alloc-main-row{
+  gap:5px!important;
+}
+.alloc-group{
+  padding-top:2px!important;
+  padding-bottom:2px!important;
+}
+.alloc-group .alloc-btn{
+  width:32px!important;
+  min-width:32px!important;
+  height:32px!important;
+}
+.threshold-inline{
+  min-height:30px!important;
+  padding:4px 6px!important;
+}
+#allocationNote{
+  margin-top:2px!important;
+  line-height:1.1!important;
+}
+.allocation-next-btn{
+  min-height:38px!important;
+  margin-top:4px!important;
+  padding:5px 9px!important;
+  font-size:16px!important;
+}
+
+/* 5. 退休給付狀態：縮掉重複空白 */
+#laborStatus{
+  margin-top:3px!important;
+  padding:4px 6px!important;
+  line-height:1.1!important;
+}
+.retirement-benefit-note{
+  margin-top:2px!important;
+  line-height:1.15!important;
+  font-size:8.5px!important;
+}
+
+/* 6. 走勢圖仍是主角，但高度稍降，省下約30px */
+main > .card:nth-of-type(3){
+  padding:5px 7px!important;
+  margin-bottom:5px!important;
+}
+main > .card:nth-of-type(3) h2{
+  margin-bottom:3px!important;
+}
+#chart{
+  height:175px!important;
+  margin-top:0!important;
+}
+main > .card:nth-of-type(3) .kpi-note{
+  margin-top:2px!important;
+  line-height:1.1!important;
+}
+
+/* 7. 最底部成績單區往上收 */
+.bottom-action-card{
+  padding:5px!important;
+  margin-top:0!important;
+  margin-bottom:5px!important;
+}
+.bottom-action-row{
+  gap:6px!important;
+}
+.bottom-action-row .report-btn{
+  min-height:42px!important;
+  padding:7px 9px!important;
+}
+
+/* 桌機維持主要文字/數字大小，不因壓縮而變小 */
+@media(min-width:981px){
+  .hero .stat b{font-size:19px!important}
+  .compact-status-grid:first-of-type .stat:nth-child(1) b,
+  .compact-status-grid:first-of-type .stat:nth-child(2) b{font-size:16px!important}
+  .compact-status-grid:first-of-type .stat:nth-child(3) b{font-size:15px!important}
+}
+
+/* 手機只壓留白，保留拇指操作性 */
+@media(max-width:560px){
+  .hero .stat{
+    min-height:44px!important;
+    padding:4px 5px!important;
+  }
+  .hero .stat b{
+    font-size:18px!important;
+  }
+  .allocation-next-btn{
+    min-height:42px!important;
+  }
+  #chart{
+    height:170px!important;
+  }
+}
+
+
+/* ===== v81 右欄固定高度，不再撐動整頁 ===== */
+
+@media(min-width:981px){
+  /* 三欄恢復各自自然高度，不互相拉伸 */
+  .grid{
+    align-items:start!important;
+  }
+
+  .grid > aside.card:first-child,
+  .grid > main,
+  .grid > aside.card.right{
+    align-self:start!important;
+    height:auto!important;
+    min-height:0!important;
+  }
+
+  /* 右欄自己管理高度，不影響左欄與中欄 */
+  .grid > aside.card.right{
+    display:block!important;
+    padding:8px!important;
+  }
+
+  .grid > aside.card.right > div:first-child{
+    padding-bottom:6px!important;
+    margin-bottom:6px!important;
+    border-bottom:1px solid var(--line);
+  }
+
+  .grid > aside.card.right > div:first-child h2{
+    margin-bottom:4px!important;
+  }
+
+  #successRate{
+    min-height:30px!important;
+    font-size:28px!important;
+    line-height:1!important;
+  }
+
+  #successExplain{
+    margin-top:4px!important;
+    margin-bottom:0!important;
+    line-height:1.25!important;
+  }
+
+  /* 人生紀錄視窗固定；年度增加只在此區內捲動 */
+  .grid > aside.card.right > div:last-child h2{
+    margin-bottom:4px!important;
+  }
+
+  .grid > aside.card.right .timeline{
+    height:455px!important;
+    min-height:455px!important;
+    max-height:455px!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:#111722;
+    scrollbar-gutter:stable;
+  }
+
+  .grid > aside.card.right .log{
+    padding:6px 7px!important;
+    font-size:12px!important;
+    line-height:1.32!important;
+  }
+
+  .grid > aside.card.right .log small{
+    font-size:10px!important;
+  }
+}
+
+@media(max-width:980px){
+  .grid > aside.card.right{
+    display:block!important;
+    height:auto!important;
+  }
+
+  .grid > aside.card.right .timeline{
+    height:auto!important;
+    min-height:180px!important;
+    max-height:420px!important;
+    overflow-y:auto!important;
+  }
+}
+
+
+/* ===== v85｜以 v81 為底：右欄固定＋三年可讀版 ===== */
+@media(min-width:981px){
+
+  /* 保留 v81：右欄高度獨立，不參與頁面拉伸 */
+  .grid{
+    align-items:start!important;
+  }
+
+  .grid > aside.card.right{
+    display:block!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+    padding:8px!important;
+  }
+
+  /* 成功率區保持緊湊，替人生紀錄留下空間 */
+  .grid > aside.card.right > div:first-child{
+    padding-bottom:5px!important;
+    margin-bottom:5px!important;
+    border-bottom:1px solid var(--line);
+  }
+
+  .grid > aside.card.right > div:first-child h2{
+    margin-bottom:3px!important;
+  }
+
+  #successRate{
+    min-height:30px!important;
+    font-size:28px!important;
+    line-height:1!important;
+  }
+
+  #successExplain{
+    margin-top:3px!important;
+    margin-bottom:0!important;
+    font-size:9.5px!important;
+    line-height:1.22!important;
+  }
+
+  .grid > aside.card.right > div:last-child h2{
+    margin-bottom:4px!important;
+  }
+
+  /*
+    核心：
+    timeline 固定高度，年度再多也只在這個框內捲動。
+    高度比 v81 的 455px 稍加大到 500px，
+    讓 3 筆年度紀錄可以用較大的字體閱讀。
+  */
+  .grid > aside.card.right .timeline{
+    height:500px!important;
+    min-height:500px!important;
+    max-height:500px!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:#111722;
+    scrollbar-gutter:stable;
+  }
+
+  /*
+    每筆年度紀錄不硬鎖 height，
+    避免文字被裁切；用 min-height 約 1/3 視窗，
+    讓一般年度剛好可看到約 3 筆。
+  */
+  .grid > aside.card.right .log{
+    box-sizing:border-box!important;
+    min-height:164px!important;
+    padding:8px 9px!important;
+    font-size:13px!important;
+    line-height:1.34!important;
+    overflow:visible!important;
+  }
+
+  .grid > aside.card.right .log-head{
+    margin-bottom:5px!important;
+    gap:6px!important;
+  }
+
+  .grid > aside.card.right .log-year,
+  .grid > aside.card.right .log-return{
+    font-size:13px!important;
+    line-height:1.15!important;
+    font-weight:900!important;
+  }
+
+  .grid > aside.card.right .log-row{
+    margin-top:4px!important;
+    gap:6px!important;
+  }
+
+  .grid > aside.card.right .log-label{
+    min-width:54px!important;
+    font-size:10.5px!important;
+    line-height:1.18!important;
+    font-weight:800!important;
+  }
+
+  .grid > aside.card.right .log-value{
+    font-size:11.5px!important;
+    line-height:1.26!important;
+  }
+
+  .grid > aside.card.right .log-summary{
+    margin-top:5px!important;
+    padding-top:4px!important;
+    font-size:11.5px!important;
+    line-height:1.2!important;
+    font-weight:800!important;
+  }
+
+  .grid > aside.card.right .log small{
+    font-size:10px!important;
+    line-height:1.18!important;
+  }
+}
+
+/* 手機完全維持 v81 的自然高度與內部捲動 */
+@media(max-width:980px){
+  .grid > aside.card.right{
+    display:block!important;
+    height:auto!important;
+  }
+
+  .grid > aside.card.right .timeline{
+    height:auto!important;
+    min-height:180px!important;
+    max-height:420px!important;
+    overflow-y:auto!important;
+  }
+
+  .grid > aside.card.right .log{
+    min-height:0!important;
+    font-size:12px!important;
+  }
+}
+
+
+/* ===== v86 人生紀錄年度卡片雙欄版 ===== */
+@media(min-width:981px){
+  .grid > aside.card.right .log{
+    padding:8px 9px!important;
+    min-height:164px!important;
+  }
+
+  .grid > aside.card.right .log-info-grid{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:6px 8px!important;
+    margin-top:5px!important;
+  }
+
+  .grid > aside.card.right .log-info-cell{
+    min-width:0!important;
+    padding:5px 6px!important;
+    border-radius:7px!important;
+    background:rgba(255,255,255,.025)!important;
+    border:1px solid rgba(255,255,255,.055)!important;
+  }
+
+  .grid > aside.card.right .log-label{
+    display:block!important;
+    min-width:0!important;
+    margin-bottom:2px!important;
+    font-size:10px!important;
+    line-height:1.1!important;
+    font-weight:900!important;
+    color:#9facbe!important;
+  }
+
+  .grid > aside.card.right .log-value{
+    display:block!important;
+    font-size:11.5px!important;
+    line-height:1.24!important;
+    overflow-wrap:anywhere!important;
+  }
+
+  .grid > aside.card.right .log-summary{
+    margin-top:7px!important;
+    padding:6px 7px!important;
+    border-radius:7px!important;
+    background:rgba(110,168,254,.07)!important;
+    border:1px solid rgba(110,168,254,.14)!important;
+    font-size:11.5px!important;
+    line-height:1.18!important;
+    font-weight:900!important;
+  }
+}
+
+/* 手機仍採單欄，比較好閱讀 */
+@media(max-width:980px){
+  .log-info-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:5px!important;
+    margin-top:5px!important;
+  }
+
+  .log-info-cell{
+    padding:5px 6px!important;
+    border-radius:7px!important;
+    background:rgba(255,255,255,.025)!important;
+    border:1px solid rgba(255,255,255,.055)!important;
+  }
+}
+
+
+/* ===== v88 一鍵跑到終點防誤按確認 ===== */
+.run-confirm-modal{
+  width:min(92vw,360px);
+  background:#111722;
+  border:1px solid #3a4658;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 18px 45px rgba(0,0,0,.42);
+}
+
+.run-confirm-title{
+  font-size:20px;
+  font-weight:900;
+  text-align:center;
+  color:#f6f8fb;
+  margin-bottom:7px;
+}
+
+.run-confirm-sub{
+  font-size:11px;
+  line-height:1.45;
+  color:#aeb8c8;
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.run-confirm-actions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
+
+.run-confirm-actions button{
+  min-height:46px;
+  font-size:14px;
+  font-weight:900;
+}
+
+.run-confirm-yes{
+  background:#f5c451;
+  color:#17120a;
+  border:1px solid #ffd86b;
+}
+
+.run-confirm-no{
+  background:#263244;
+  color:#eef3fb;
+  border:1px solid #40516b;
+}
+
+
+/* ===== v89 深色 / 淺色 / 自動主題 ===== */
+.theme-switch{
+  display:flex;gap:4px;padding:3px;border:1px solid var(--line);
+  border-radius:10px;background:rgba(23,28,37,.96);flex:0 0 auto
+}
+.theme-switch button{
+  min-height:31px;padding:5px 8px;border-radius:7px;background:transparent;
+  color:var(--muted);border:1px solid transparent;font-size:10px;white-space:nowrap
+}
+.theme-switch button.active{
+  background:var(--blue);color:#fff;border-color:var(--blue);
+  box-shadow:0 2px 8px rgba(0,0,0,.12)
+}
+
+/* Light palette: semantic colors keep their meaning, only contrast changes. */
+html[data-theme="light"]{
+  --bg:#f3f5f8;
+  --panel:#ffffff;
+  --panel2:#f4f7fb;
+  --text:#172033;
+  --muted:#5f6d82;
+  --green:#168447;
+  --yellow:#a96f00;
+  --red:#c83b45;
+  --blue:#245fbe;
+  --line:#ccd5e2;
+  color-scheme:light;
+}
+html[data-theme="dark"]{color-scheme:dark}
+
+html[data-theme="light"] body{
+  background:linear-gradient(180deg,#fbfcfe,#eef2f7 45%,#f3f5f8)!important;
+  color:var(--text)!important
+}
+html[data-theme="light"] .card{
+  background:#fff!important;border-color:var(--line)!important;
+  box-shadow:0 6px 18px rgba(38,52,74,.10)!important
+}
+html[data-theme="light"] .card h2,
+html[data-theme="light"] summary{
+  color:#182235!important
+}
+html[data-theme="light"] .stat,
+html[data-theme="light"] .alloc-side{
+  background:#f4f7fb!important;border-color:var(--line)!important
+}
+html[data-theme="light"] input,
+html[data-theme="light"] select{
+  background:#f7f9fc!important;color:var(--text)!important;border-color:var(--line)!important
+}
+html[data-theme="light"] input:disabled,
+html[data-theme="light"] select:disabled,
+html[data-theme="light"] aside.card input:disabled,
+html[data-theme="light"] aside.card select:disabled{
+  background:#eef2f6!important;color:var(--muted)!important
+}
+html[data-theme="light"] .secondary,
+html[data-theme="light"] .mode-btn{
+  background:#e3e9f2!important;color:#172033!important;border-color:#ccd5e2!important
+}
+html[data-theme="light"] .mode-btn.active{
+  background:#245fbe!important;color:#fff!important;border-color:#245fbe!important
+}
+
+/* Common dark surfaces */
+html[data-theme="light"] .alloc-box,
+html[data-theme="light"] .inline-event,
+html[data-theme="light"] .event,
+html[data-theme="light"] .timeline,
+html[data-theme="light"] .run-confirm-modal,
+html[data-theme="light"] .help-modal,
+html[data-theme="light"] .modal-box{
+  background:#f7f9fc!important;color:var(--text)!important;border-color:var(--line)!important
+}
+html[data-theme="light"] canvas{
+  background:#f7f9fc!important;border-color:var(--line)!important
+}
+
+/* Allocation controls: gold / blue stay meaningful but darken for white background. */
+html[data-theme="light"] .alloc-box{
+  background:linear-gradient(180deg,#f8fbff,#f3f6fb)!important
+}
+html[data-theme="light"] .alloc-inline-value{color:#9a6500!important}
+html[data-theme="light"] .alloc-cash-value{color:#245fbe!important}
+html[data-theme="light"] .alloc-group .alloc-btn{
+  background:#e7eef8!important;color:#18304f!important;border-color:#7da0d0!important
+}
+html[data-theme="light"] .alloc-box.allocation-pending{
+  border-color:#9a6500!important;
+  box-shadow:0 0 0 2px rgba(154,101,0,.08),0 0 14px rgba(154,101,0,.18)!important
+}
+html[data-theme="light"] .alloc-box.allocation-pending #allocationNote{color:#8a5b00!important}
+html[data-theme="light"] .allocation-next-btn{color:#fff!important}
+html[data-theme="light"] .alloc-box.allocation-pending .allocation-next-btn{
+  background:#d99a19!important;color:#211703!important;border-color:#bd8110!important
+}
+
+/* Badges and safety states. */
+html[data-theme="light"] .ok{background:#dff4e8!important;color:#12653a!important}
+html[data-theme="light"] .warn{background:#fff0c9!important;color:#7c5700!important}
+html[data-theme="light"] .risk{background:#fde4e6!important;color:#9f2731!important}
+html[data-theme="light"] .safe-green{background:#ecf8f1!important;border-color:#a9d7bd!important}
+html[data-theme="light"] .safe-yellow{background:#fff8e5!important;border-color:#e4c775!important}
+html[data-theme="light"] .safe-red{background:#fff0f1!important;border-color:#e8aab0!important}
+
+/* Taiwan market convention remains: up red, down green. */
+html[data-theme="light"] .log.good{
+  background:rgba(200,59,69,.07)!important;border-left-color:#c83b45!important
+}
+html[data-theme="light"] .log.bad{
+  background:rgba(22,132,71,.07)!important;border-left-color:#168447!important
+}
+html[data-theme="light"] .log.milestone{
+  background:rgba(169,111,0,.08)!important;border-left-color:#a96f00!important
+}
+html[data-theme="light"] .log.info{border-left-color:#245fbe!important}
+html[data-theme="light"] .up-line{color:#c83b45!important}
+html[data-theme="light"] .down-line{color:#168447!important}
+html[data-theme="light"] .log-info-cell{
+  background:#f7f9fc!important;border-color:#dde4ee!important
+}
+html[data-theme="light"] .log-summary{
+  background:#edf4ff!important;border-color:#c7d8ef!important;color:#172033!important
+}
+
+/* Modal contrast */
+html[data-theme="light"] .modal-backdrop{background:rgba(34,43,59,.40)!important}
+html[data-theme="light"] .run-confirm-sub,
+html[data-theme="light"] .help-modal-sub{color:#5f6d82!important}
+html[data-theme="light"] .run-confirm-no{
+  background:#e7ecf3!important;color:#26344a!important;border-color:#c8d1df!important
+}
+html[data-theme="light"] .run-confirm-yes{
+  background:#d99a19!important;color:#211703!important;border-color:#bd8110!important
+}
+
+/* 阿肥表示 deliberately remains black + gold in both themes. */
+.fat-warning-badge.show,
+.fat-warning-badge.active{
+  background:#0b0b0b!important;color:#ffd86b!important;border-color:#d9ad45!important
+}
+
+/* Scorecard preview follows theme; exported PNG keeps its branded rendering. */
+html[data-theme="light"] .portrait-scorecard,
+html[data-theme="light"] .share-card{
+  background:linear-gradient(180deg,#ffffff,#f1f5fa 45%,#f7f9fc)!important;
+  color:#172033!important;border-color:#ccd5e2!important
+}
+html[data-theme="light"] .score-summary-panel,
+html[data-theme="light"] .summary-main-item,
+html[data-theme="light"] .summary-asset-item,
+html[data-theme="light"] .summary-end-row,
+html[data-theme="light"] .market-text-line{
+  background:#f5f8fc!important;border-color:#d7e0eb!important
+}
+html[data-theme="light"] .achievement-summary,
+html[data-theme="light"] .score-footer,
+html[data-theme="light"] .share-community-title,
+html[data-theme="light"] .score-hash{color:#34435a!important}
+html[data-theme="light"] .share-link{color:#245fbe!important}
+
+html[data-theme="light"] .theme-switch{
+  background:#fff!important;border-color:#ccd5e2!important
+}
+html[data-theme="light"] .theme-switch button{color:#5f6d82!important}
+html[data-theme="light"] .theme-switch button.active{
+  background:#245fbe!important;color:#fff!important;border-color:#245fbe!important
+}
+
+@media(max-width:760px){
+  .topbar{flex-direction:column!important;align-items:stretch!important}
+  .theme-switch{display:grid;grid-template-columns:repeat(3,1fr);width:100%}
+  .theme-switch button{width:100%;font-size:11px}
+}
+
+
+/* ===== v91 淺色模式：下一年度資產配置完整修正 ===== */
+
+/* 整個配置卡改成真正的淺色卡片 */
+html[data-theme="light"] .alloc-box{
+  background:#f7f9fc!important;
+  border:2px solid #9bb5d8!important;
+  color:#172033!important;
+  box-shadow:none!important;
+}
+
+/* 標題與目前實際配置 */
+html[data-theme="light"] .alloc-title-tight > b,
+html[data-theme="light"] .alloc-title > b{
+  color:#172033!important;
+}
+html[data-theme="light"] #currentAllocation{
+  color:#526176!important;
+  opacity:1!important;
+}
+
+/* 股票 / 現金標籤與分隔線 */
+html[data-theme="light"] .alloc-label{
+  color:#3f4d61!important;
+  opacity:1!important;
+}
+html[data-theme="light"] .alloc-sep{
+  color:#8b98aa!important;
+  opacity:1!important;
+}
+
+/* +/- 按鈕 */
+html[data-theme="light"] .alloc-group .alloc-btn{
+  background:#e8eef7!important;
+  color:#17375e!important;
+  border:1px solid #7899c6!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] .alloc-group .alloc-btn:hover{
+  background:#dce7f4!important;
+}
+
+/* 股票與現金百分比：保留金 / 藍語意，但加深 */
+html[data-theme="light"] .alloc-inline-value{
+  color:#8a5a00!important;
+  text-shadow:none!important;
+}
+html[data-theme="light"] .alloc-cash-value{
+  color:#1f5aa8!important;
+  text-shadow:none!important;
+}
+
+/* 原本殘留的第一個深色區域：安全門檻提示 */
+html[data-theme="light"] .threshold-inline{
+  background:#eef4fb!important;
+  border:1px solid #b9c9dc!important;
+  color:#24364f!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] .threshold-inline *{
+  opacity:1!important;
+}
+
+/* 策略文字：不要再用深色版的亮金黃 */
+html[data-theme="light"] #allocationNote{
+  color:#4f5d70!important;
+  opacity:1!important;
+  background:transparent!important;
+}
+html[data-theme="light"] .alloc-box.allocation-pending #allocationNote{
+  color:#795000!important;
+}
+
+/* 有調整策略時的金框：淺色背景下用較深金色 */
+html[data-theme="light"] .alloc-box.allocation-pending{
+  background:#fffaf0!important;
+  border-color:#b47b12!important;
+  box-shadow:0 0 0 2px rgba(180,123,18,.08),0 0 12px rgba(180,123,18,.16)!important;
+}
+
+/* 原本可能形成第二個深色區域的下一年按鈕：
+   綠色保留，但改成較沉穩、白字，和淺色背景有足夠對比。 */
+html[data-theme="light"] .allocation-next-btn{
+  background:#178647!important;
+  border-color:#14763f!important;
+  color:#ffffff!important;
+  box-shadow:0 4px 10px rgba(23,134,71,.16)!important;
+}
+html[data-theme="light"] .allocation-next-btn:hover{
+  background:#13763e!important;
+}
+html[data-theme="light"] .alloc-box.allocation-pending .allocation-next-btn{
+  background:#c78918!important;
+  border-color:#ab7410!important;
+  color:#ffffff!important;
+  box-shadow:0 4px 10px rgba(199,137,24,.18)!important;
+}
+
+/* 保險：配置區內所有一般文字，不得繼承深色版過淡文字 */
+html[data-theme="light"] .alloc-box .kpi-note{
+  color:#526176!important;
+}
+
+
+/* ===== v92 淺色模式完整修正：配置區＋退休成績單 ===== */
+
+/* ---------- 下一年度資產配置 ---------- */
+html[data-theme="light"] .alloc-box,
+html[data-theme="light"] .alloc-box.alloc-compact{
+  background:#f7f9fc!important;
+  border:2px solid #9bb5d8!important;
+  color:#172033!important;
+}
+
+html[data-theme="light"] .alloc-main-row{
+  background:transparent!important;
+}
+
+html[data-theme="light"] .alloc-group{
+  background:#eef3f9!important;
+  border:1px solid #c9d5e4!important;
+  border-radius:9px!important;
+  padding:5px 7px!important;
+  color:#172033!important;
+  box-shadow:none!important;
+}
+
+html[data-theme="light"] .alloc-group *{
+  opacity:1!important;
+}
+
+html[data-theme="light"] .alloc-title-tight > b,
+html[data-theme="light"] .alloc-title > b{
+  color:#172033!important;
+}
+
+html[data-theme="light"] #currentAllocation{
+  color:#526176!important;
+}
+
+html[data-theme="light"] .alloc-label{
+  color:#36455a!important;
+}
+
+html[data-theme="light"] .alloc-sep{
+  color:#8b98aa!important;
+}
+
+html[data-theme="light"] .alloc-group .alloc-btn{
+  background:#dfe8f4!important;
+  color:#17375e!important;
+  border:1px solid #7899c6!important;
+  box-shadow:none!important;
+}
+
+html[data-theme="light"] .alloc-inline-value{
+  color:#875900!important;
+}
+
+html[data-theme="light"] .alloc-cash-value{
+  color:#1f5aa8!important;
+}
+
+html[data-theme="light"] .threshold-inline{
+  background:#eef4fb!important;
+  border:1px solid #b9c9dc!important;
+  color:#24364f!important;
+}
+
+html[data-theme="light"] #allocationNote,
+html[data-theme="light"] .alloc-note{
+  color:#4f5d70!important;
+}
+
+html[data-theme="light"] .alloc-box.allocation-pending{
+  background:#fffaf0!important;
+  border-color:#b47b12!important;
+}
+
+html[data-theme="light"] .alloc-box.allocation-pending .alloc-group{
+  background:#fff5dc!important;
+  border-color:#d7b365!important;
+}
+
+html[data-theme="light"] .alloc-box.allocation-pending #allocationNote{
+  color:#795000!important;
+}
+
+/* ---------- 成績單整體 ---------- */
+html[data-theme="light"] .share-modal-box{
+  background:#ffffff!important;
+  border-color:#cbd5e1!important;
+  color:#172033!important;
+}
+
+html[data-theme="light"] .portrait-scorecard,
+html[data-theme="light"] #shareCard{
+  background:linear-gradient(180deg,#ffffff,#f6f8fb 55%,#eef3f8)!important;
+  border-color:#cbd5e1!important;
+  color:#172033!important;
+}
+
+html[data-theme="light"] .score-header{
+  border-bottom-color:#d5dde8!important;
+}
+
+html[data-theme="light"] .share-title{
+  color:#172033!important;
+}
+
+html[data-theme="light"] .share-sub,
+html[data-theme="light"] .score-rate-label{
+  color:#5f6d82!important;
+}
+
+html[data-theme="light"] .share-rate{
+  color:#172033!important;
+}
+
+/* 稱號／評語 */
+html[data-theme="light"] .achievement-block{
+  background:#fff8e8!important;
+  border-color:#d9b868!important;
+}
+
+html[data-theme="light"] .share-grade{
+  background:#c98b18!important;
+  color:#ffffff!important;
+}
+
+html[data-theme="light"] .achievement-summary{
+  color:#3d4757!important;
+}
+
+/* 本局摘要 */
+html[data-theme="light"] .score-summary-panel{
+  background:#f3f6fa!important;
+  border-color:#d3dce8!important;
+}
+
+html[data-theme="light"] .score-summary-panel-title{
+  color:#25344a!important;
+}
+
+html[data-theme="light"] .summary-main-item,
+html[data-theme="light"] .summary-asset-item,
+html[data-theme="light"] .summary-end-row{
+  background:#ffffff!important;
+  border-color:#d5dee9!important;
+}
+
+html[data-theme="light"] .summary-main-item span,
+html[data-theme="light"] .summary-asset-item span,
+html[data-theme="light"] .summary-end-row span{
+  color:#69778b!important;
+}
+
+html[data-theme="light"] .summary-main-item b,
+html[data-theme="light"] .summary-asset-item b,
+html[data-theme="light"] .summary-end-row b{
+  color:#172033!important;
+}
+
+html[data-theme="light"] .summary-asset-item.emphasis{
+  background:#eef5ff!important;
+  border-color:#b9cce6!important;
+}
+
+html[data-theme="light"] .summary-asset-item.gold{
+  background:#fff7e5!important;
+  border-color:#d4b15d!important;
+}
+
+html[data-theme="light"] .summary-asset-item.gold b{
+  color:#8a5a00!important;
+}
+
+html[data-theme="light"] .summary-asset-item small{
+  color:#657286!important;
+}
+
+/* 資產走勢卡 */
+html[data-theme="light"] .share-chart-card{
+  background:#ffffff!important;
+  border-color:#d3dce8!important;
+}
+
+html[data-theme="light"] .share-chart-head > span{
+  color:#25344a!important;
+}
+
+html[data-theme="light"] .share-chart-legend{
+  color:#5f6d82!important;
+}
+
+/* 報酬率卡 */
+html[data-theme="light"] .return-card{
+  color:#172033!important;
+}
+
+html[data-theme="light"] .return-card span{
+  color:#5f6d82!important;
+}
+
+html[data-theme="light"] .up-card{
+  background:#fff0f1!important;
+  border-color:#e6b3b8!important;
+}
+
+html[data-theme="light"] .up-card b{
+  color:#b8323c!important;
+}
+
+html[data-theme="light"] .down-card{
+  background:#edf8f1!important;
+  border-color:#add5bd!important;
+}
+
+html[data-theme="light"] .down-card b{
+  color:#14703d!important;
+}
+
+html[data-theme="light"] .avg-card{
+  background:#edf4ff!important;
+  border-color:#b9cce6!important;
+}
+
+html[data-theme="light"] .avg-card b{
+  color:#245fbe!important;
+}
+
+/* 年度報酬率分布 */
+html[data-theme="light"] .score-market-title{
+  color:#25344a!important;
+}
+
+html[data-theme="light"] .market-text-line{
+  background:#ffffff!important;
+  border-color:#d5dee9!important;
+}
+
+html[data-theme="light"] .market-text-line.up-line{
+  color:#b8323c!important;
+}
+
+html[data-theme="light"] .market-text-line.down-line{
+  color:#14703d!important;
+}
+
+/* 成績單底部 */
+html[data-theme="light"] .score-footer{
+  border-top-color:#d5dee9!important;
+  color:#4f5d70!important;
+}
+
+html[data-theme="light"] .score-footer .score-hash,
+html[data-theme="light"] .score-hash,
+html[data-theme="light"] .share-community-title{
+  color:#34435a!important;
+}
+
+html[data-theme="light"] .share-link{
+  color:#245fbe!important;
+}
+
+/* 成績單內所有仍可能殘留的白字，統一拉回深色 */
+html[data-theme="light"] .portrait-scorecard b,
+html[data-theme="light"] .portrait-scorecard strong{
+  text-shadow:none!important;
+}
+
+/* 分享卡操作按鈕維持可讀 */
+html[data-theme="light"] .score-actions button{
+  color:#172033!important;
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
-    <div><h1>🐷 阿肥勞工退休人生模擬器 v1</h1><div style="color:var(--muted);font-size:13px;margin-top:4px">把退休規劃當成一場長期生存遊戲。</div></div>
-    <div class="tag">FIRE MODE</div>
+    <div class="brand-block">
+      <h1>🐷 阿肥退休人生模擬器</h1>
+      <div style="color:var(--muted);font-size:13px;margin-top:4px">把退休規劃當成一場長期生存遊戲。</div>
+    </div>
+    <div class="theme-switch" role="group" aria-label="顯示主題">
+      <button type="button" data-theme-choice="dark" onclick="setThemeMode('dark')">🌙 深色</button>
+      <button type="button" data-theme-choice="light" onclick="setThemeMode('light')">☀️ 淺色</button>
+      <button type="button" data-theme-choice="auto" onclick="setThemeMode('auto')">🖥️ 自動</button>
+    </div>
   </div>
 
-  <div class="grid">
+    <div class="grid">
     <aside class="card">
-      <h2>🎛️ 遊戲設定</h2>
+      <h2>🎛️ 遊戲設定 <span style="font-size:9px;color:var(--muted);font-weight:500">先填好，再按「下一年」</span></h2>
       <div class="settings-scroll">
         <details open>
           <summary>基本</summary>
@@ -582,11 +3085,11 @@ aside.card select:disabled{
         <details open>
         <summary>資產 / 收支</summary>
         <div class="compact-grid">
-          <div class="field"><label>目前金融資產</label><input id="totalAssets" class="money-input" type="text" value="2,000,000"></div>
-          <div class="field"><label>今年生活費／年</label><input id="living" class="money-input" type="text" value="400,000"></div>
-          <div class="field"><label>今年薪資／年</label><input id="salary" class="money-input" type="text" value="600,000"></div>
+          <div class="field"><label>目前金融資產（萬）</label><input id="totalAssets" type="number" value="200" min="0" step="1"></div>
+          <div class="field"><label>今年生活費／年（萬）</label><input id="living" type="number" value="40" min="0" step="1"></div>
+          <div class="field"><label>今年薪資／年（萬）</label><input id="salary" type="number" value="60" min="0" step="1"></div>
         </div>
-        <div class="kpi-note">初始資產依預設股票90% / 現金10%自動拆分。</div>
+        <div class="kpi-note">本區金額單位為「萬元」；初始資產依股票90% / 現金10%自動拆分。</div>
       </details>
 
         <details>
@@ -601,56 +3104,45 @@ aside.card select:disabled{
         </details>
 
         <details>
-          <summary>勞保 / 勞退</summary>
+          <summary>退休給付</summary>
           <div class="compact-grid">
-            <div class="field"><label>目前勞保年資</label><input id="laborInsYears" type="number" value="" step="0.1" placeholder="自行輸入"></div>
-            <div class="field"><label>勞保平均月投保薪資</label><input id="insuredSalary" class="money-input" type="text" value="" placeholder="自行輸入"></div>
-            <div class="field"><label>勞保請領年齡</label><input id="laborInsAge" type="number" value="" placeholder="自行輸入"></div>
-            <div class="field"><label>目前勞退專戶（餘額）</label><input id="laborPensionBalance" class="money-input" type="text" value="" placeholder="自行輸入"></div>
-            <div class="field"><label>勞退月提繳工資（月）</label><input id="laborPensionWage" class="money-input" type="text" value="" placeholder="自行輸入"></div>
-            <div class="field"><label>勞工自提 %</label><input id="selfContribRate" type="number" value="" min="0" max="6" step="1" placeholder="0～6"></div>
-            <div class="field"><label>勞退專戶年化收益 %</label><input id="laborPensionReturn" type="number" value="" step="0.1" placeholder="自行輸入"></div>
-            <div class="field"><label>勞退請領年齡</label><input id="laborPensionAge" type="number" value="" placeholder="自行輸入"></div>
+            <div class="field"><label>月退開始領取年齡（歲）</label><input id="monthlyPensionAge" type="number" min="0" step="1" value=""></div>
+            <div class="field"><label>每月月退金額（元）</label><input id="monthlyPensionAmount" class="money-input" type="text" value=""></div>
+            <div class="field"><label>一次領取年齡（歲）</label><input id="lumpSumAge" type="number" min="0" step="1" value=""></div>
+            <div class="field"><label>一次領金額（元）</label><input id="lumpSumAmount" class="money-input" type="text" value=""></div>
           </div>
-          <div class="kpi-note">勞保／勞退皆為選填。未填時本局不計入勞保年金與勞退專戶；填入資料後才納入模擬。</div>
+          <div class="kpi-note">
+            玩家自行填寫預估退休給付。「退休年齡」代表停止主要工作、進入退休生活的年齡；「月退開始領取年齡」則代表實際開始收到每月退休給付的年齡，兩者不一定相同。月退與一次領可擇一填寫，也可同時存在；遊戲將依各自設定年齡分別計入。月退自設定年齡起，每年加入「每月月退金額 × 12」；一次領則在設定年齡當年一次加入指定金額。退休給付金額以玩家填寫之名目金額計算；遊戲不另模擬勞工、公職或其他制度可能產生的物價、年金、法規或給付調整機制。
+          </div>
         </details>
 
         <details open>
           <summary>現金管理設定</summary>
           <div class="compact-grid">
-            <div class="field"><label>退休前緊急預備金</label>
-              <select id="emergencyMonths">
-                <option value="6" selected>6個月生活費</option>
-                <option value="12">12個月生活費</option>
-              </select>
+            <div class="field"><label>退休前緊急預備金（月）</label>
+              <input id="emergencyMonths" type="number" value="6" min="0" step="1">
             </div>
-            <div class="field"><label>退休後現金池</label>
-              <select id="retirementCashYears">
-                <option value="1">1年淨支出</option>
-                <option value="3">3年淨支出</option>
-                <option value="5" selected>5年淨支出</option>
-              </select>
+            <div class="field"><label>退休後現金池（年）</label>
+              <input id="retirementCashYears" type="number" value="5" min="0" step="1">
             </div>
           </div>
           <div class="kpi-note">
-            退休前：年度結餘先補足緊急預備金，剩餘依玩家的股票／現金策略投入；預備金會隨生活費與通膨調整。<br>
-            退休後：現金池為進入下一年度的安全門檻；股票／現金比例依玩家策略每年再平衡。
+            退休前：可自行設定要預留幾個月生活費作為緊急預備金；門檻會隨生活費與通膨調整。<br>
+            退休後：可自行設定要預留幾年淨支出作為現金池，作為進入下一年度的安全門檻。
           </div>
         </details>
       </div>
 
-      <div class="controls" style="margin-top:8px">
-        <button id="resetSetupBtn" class="secondary" onclick="resetGame()">套用設定</button>
-        <button class="danger" onclick="simulateToEnd()">一鍵跑到100歲</button>
+      <div class="controls primary-flow-controls setup-flow-controls" style="margin-top:8px">
+        <button id="resetSetupBtn" class="setup-btn" onclick="resetGame()">套用設定</button>
+        <button id="runToEndBtn" class="run-end-btn" onclick="openRunToEndConfirm()">一鍵跑到終點</button>
       </div>
-      <div id="setupStatus" class="kpi-note" style="margin-top:5px">可直接調整設定，按「下一年」即可開始。</div>
+      <div id="setupStatus" class="kpi-note" style="margin-top:5px">設定完成後，到中間「下一年度資產配置」按 ▶ 下一年開始遊戲。</div>
     </aside>
 
     <main>
       <div class="card" style="margin-bottom:8px">
-        <div class="mode-switch" style="grid-template-columns:1fr">
-          <button id="modeMonte" class="mode-btn active">🎲 蒙地卡羅隨機模式</button>
-        </div>
+        <button class="main-help-btn" onclick="openHelpModal()">👉📘 新手玩法｜第一次玩請按這裡</button>
         <div id="modeInfo" class="mode-info"></div>
       </div>
       <div class="hero">
@@ -669,25 +3161,21 @@ aside.card select:disabled{
         </div>
 
         <div class="stat-grid compact-status-grid" style="margin-top:5px">
-          <div class="stat">
-            <span>目前提領率</span>
-            <b id="withdrawText">—</b>
-            <div id="withdrawStatus" class="kpi-note">4%為常見參考值，不是保證安全。</div>
-          </div>
-          <div class="stat">
-            <span>4%參考可提領</span>
-            <b id="fourPctAmount">—</b>
-            <div class="kpi-note">＝當年度金融資產 × 4%</div>
+          <div class="stat fourpct-stat" id="fourPctStat">
+            <span>4%提領安全檢查</span>
+            <b id="fourPctTarget">—</b>
+            <div class="kpi-note">參考資產＝當年度淨支出 × 25</div>
+            <div id="fourPctStatus" class="kpi-note">每年自動檢查，不影響遊戲進行。</div>
           </div>
           <div class="stat">
             <span>需由資產支應</span>
             <b id="netNeedAmount">—</b>
-            <div class="kpi-note">生活費＋貸款－薪資－勞保等收入</div>
+            <div class="kpi-note">生活費＋貸款－薪資－退休給付等收入</div>
           </div>
           <div class="stat">
-            <span>現金池</span>
+            <span id="cashLabel">緊急預備金</span>
             <b id="cashText">—</b>
-            <div id="cashStateText" class="kpi-note">依可支應年數判斷</div>
+            <div id="cashStateText" class="kpi-note">依目前人生階段判斷安全門檻</div>
           </div>
         </div>
 
@@ -713,16 +3201,14 @@ aside.card select:disabled{
             </div>
           </div>
 
-          <div id="allocationNote" class="alloc-note">策略設定：股票90% / 現金10%。若不修改，不會自動再平衡。</div>
-        </div>
+          <div id="allocationNote" class="alloc-note">策略設定：股票90% / 現金10%。若不修改，系統會在每年年初先依此比例重新平衡，再進入當年度市場報酬。</div>
 
-        <div style="margin-top:8px" class="controls">
-          <button class="primary mobile-next" onclick="nextYear()">▶ 下一年</button>
-          <button class="secondary" onclick="addCustomExpense()">＋ 事件支出</button>
-          <button class="secondary" onclick="openShareCard()">🏅 我的退休成績單</button>
-          <span id="fatWarningBadge" class="fat-warning-badge" aria-live="polite"></span>
+          <button id="allocationNextBtn" class="allocation-next-btn" onclick="nextYear()">
+            ▶ 下一年
+          </button>
         </div>
-        <div id="quickEvent" class="inline-event" style="display:none">本年度尚無額外事件支出。</div><div id="laborStatus" class="inline-event">勞保 / 勞退資訊載入中…</div>
+<div id="quickEvent" style="display:none"></div><div id="laborStatus" class="inline-event">退休給付資訊載入中…</div>
+        <div class="kpi-note retirement-benefit-note">退休給付為玩家自行輸入之名目金額；不另模擬各制度後續調整。</div>
       </div>
 
       <div class="card" style="margin-bottom:8px">
@@ -730,9 +3216,15 @@ aside.card select:disabled{
         <canvas id="chart" width="900" height="230"></canvas>
         <div class="kpi-note">實線：名目資產；虛線：實質總資產（115年購買力）。</div>
       </div>
-      <div id="eventBox"></div>
-      <div id="statsCard" class="card" style="margin-top:8px;display:none">
-        <h2>📊 100歲市場統計</h2>
+      <div class="card bottom-action-card">
+        <div class="bottom-action-row">
+          <button class="report-btn" onclick="openShareCard()">🏅 我的退休成績單</button>
+          <span id="fatWarningBadge" class="fat-warning-badge" aria-live="polite"></span>
+        </div>
+      </div>
+      <div id="eventBox" style="display:none"></div>
+      <div id="statsCard" class="card" style="display:none!important">
+        <h2 id="statsTitle">📊 終點市場統計</h2>
         <div class="stat-grid">
           <div class="stat"><span>上漲 0～5%</span><b id="up0to5">0</b></div>
           <div class="stat"><span>上漲 5～10%</span><b id="up5to10">0</b></div>
@@ -745,7 +3237,7 @@ aside.card select:disabled{
           <div class="stat"><span>平均年報酬</span><b id="avgReturn">—</b></div>
           <div class="stat"><span>最好年度</span><b id="bestReturn">—</b></div>
           <div class="stat"><span>最差年度</span><b id="worstReturn">—</b></div>
-          <div class="stat"><span>資產最高點</span><b id="peakAsset">—</b><div id="peakAge" class="kpi-note">—</div></div>
+          <div class="stat"><span>名目資產最高點</span><b id="peakAsset">—</b><div id="peakAge" class="kpi-note">—</div></div>
         </div>
         <div id="statsExtra" class="kpi-note" style="margin-top:8px"></div>
       </div>
@@ -753,26 +3245,165 @@ aside.card select:disabled{
 
     <aside class="card right">
       <div>
-        <h2>🏆 退休成功率</h2>
+        <h2>🏆 目前策略退休成功率</h2>
         <div style="font-size:30px;font-weight:800" id="successRate">—</div>
         <div id="successBadge" class="badge ok">尚未計算</div>
 <p id="successExplain" class="kpi-note">
-          蒙地卡羅：依目前設定的年化報酬率與年波動率跑1,000條路徑，計算「資產到100歲前未歸零」的比例。<br>
-          這是模型存活率，不代表未來保證。
+          依目前年齡、目前資產＋目前股票／現金策略，往設定終點模擬1,000條路徑。<br>
+          單一本局的成功或資產歸零，不會直接把此比例改成100%或0%。
         </p>
       </div>
       <div>
-        <h2>📜 人生紀錄｜年度帳</h2>
+        <h2>📜 人生紀錄</h2>
         <div id="timeline" class="timeline"></div>
       </div>
     </aside>
   </div>
 </div>
 
+
+
+<div id="runToEndConfirmModal" class="modal-backdrop" onclick="closeRunToEndConfirm(event)">
+  <div class="run-confirm-modal" onclick="event.stopPropagation()">
+    <div class="run-confirm-title">確定要直接模擬嗎？</div>
+    <div class="run-confirm-sub">系統會直接一路模擬到設定終點，或遇到無法繼續的狀況為止。</div>
+    <div class="run-confirm-actions">
+      <button class="run-confirm-yes" onclick="confirmRunToEnd()">是，放心交給你了！</button>
+      <button class="run-confirm-no" onclick="closeRunToEndConfirm()">否，我先自己玩！</button>
+    </div>
+  </div>
+</div>
+
+<div id="helpModal" class="modal-backdrop" onclick="closeHelpModal(event)">
+  <div class="help-modal" onclick="event.stopPropagation()">
+    <div class="help-modal-head">
+      <div>
+        <div class="help-modal-title">🐷 阿肥退休模擬器｜新手玩法</div>
+        <div class="help-modal-sub">第一次玩，照這4步就可以開始。</div>
+      </div>
+      <button class="help-close" onclick="closeHelpModal()">✕</button>
+    </div>
+
+    <div class="help-steps">
+      <div class="help-step"><div class="help-num">1</div><div><b>先設定你的條件</b><span>填目前年齡、退休年齡、金融資產、收入與支出；資產／年收入／年支出以「萬元」輸入。貸款與退休給付可依需要填寫；退休給付可自行填入勞工、公職或其他制度預估金額；月退與一次領可擇一或同時設定。</span></div></div>
+      <div class="help-step"><div class="help-num">2</div><div><b>到資產配置區按「下一年」</b><span>不用另外按套用；第一回合開始後，左側初始設定會鎖定。</span></div></div>
+      <div class="help-step"><div class="help-num">3</div><div><b>每年做退休決策</b><span>看市場報酬、資產走勢與安全門檻；可調整股票／現金比例，新配置從下一年度生效。</span></div></div>
+      <div class="help-step"><div class="help-num">4</div><div><b>玩到最後看成績</b><span>可逐年玩，也可一鍵跑到終點；完成後打開「我的退休成績單」分享結果。</span></div></div>
+    </div>
+
+    <div class="help-logic">
+      <b>核心邏輯</b>
+      <span>每年只有股票部位承受蒙地卡羅市場漲跌；退休前要守緊急預備金門檻，退休後要守現金池門檻。門檻不足時，要先提高現金比例才能繼續下一年。退休給付依玩家自行填寫的月退／一次領金額加入收支；另有「4%安全資產參考」每年自動檢查，但只作提醒，不會卡住遊戲。</span>
+      <small>台股配色：上漲紅色、下跌綠色。</small>
+    </div>
+
+    <button class="help-start" onclick="closeHelpModal()">我懂了，開始玩</button>
+  </div>
+</div>
+
 <script>
+const THEME_STORAGE_KEY="afei-retirement-theme";
+let themeMode="auto";
+const systemDarkQuery=window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+
+function resolveTheme(mode){
+  if(mode==="dark" || mode==="light") return mode;
+  return systemDarkQuery && systemDarkQuery.matches ? "dark" : "light";
+}
+
+function refreshThemeButtons(){
+  document.querySelectorAll("[data-theme-choice]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.themeChoice===themeMode);
+  });
+}
+
+function applyTheme(mode,save=false){
+  themeMode=(mode==="dark" || mode==="light" || mode==="auto") ? mode : "auto";
+  document.documentElement.dataset.theme=resolveTheme(themeMode);
+  document.documentElement.dataset.themeMode=themeMode;
+  refreshThemeButtons();
+
+  if(save){
+    try{localStorage.setItem(THEME_STORAGE_KEY,themeMode);}catch(e){}
+  }
+
+  // 初次載入時主遊戲狀態尚未完成宣告，不能提前讀取 history。
+  // 只有頁面完成載入後的手動／系統主題切換，才重畫 Canvas。
+  if(document.readyState!=="loading"){
+    requestAnimationFrame(()=>{
+      try{ if(typeof drawChart==="function") drawChart(); }catch(e){}
+      try{
+        const modal=document.getElementById("shareModal");
+        if(modal && modal.classList.contains("show") && typeof renderShareTrendChart==="function"){
+          renderShareTrendChart();
+        }
+      }catch(e){}
+    });
+  }
+}
+
+function setThemeMode(mode){
+  applyTheme(mode,true);
+}
+
+(function initTheme(){
+  let saved="auto";
+  try{
+    const v=localStorage.getItem(THEME_STORAGE_KEY);
+    if(v==="dark" || v==="light" || v==="auto")saved=v;
+  }catch(e){}
+  applyTheme(saved,false);
+
+  if(systemDarkQuery){
+    const handler=()=>{if(themeMode==="auto")applyTheme("auto",false);};
+    if(systemDarkQuery.addEventListener)systemDarkQuery.addEventListener("change",handler);
+    else if(systemDarkQuery.addListener)systemDarkQuery.addListener(handler);
+  }
+
+  window.addEventListener("DOMContentLoaded",()=>{
+    refreshThemeButtons();
+    // 此時遊戲主程式已完成解析；需要時安全重畫圖表。
+    requestAnimationFrame(()=>{
+      try{
+        if(typeof drawChart==="function") drawChart();
+      }catch(e){}
+    });
+  });
+})();
+
+
+
+function openRunToEndConfirm(){
+  const el=document.getElementById("runToEndConfirmModal");
+  if(el) el.classList.add("show");
+}
+
+function closeRunToEndConfirm(ev){
+  if(ev && ev.target && ev.target.id!=="runToEndConfirmModal") return;
+  const el=document.getElementById("runToEndConfirmModal");
+  if(el) el.classList.remove("show");
+}
+
+function confirmRunToEnd(){
+  closeRunToEndConfirm();
+  simulateToEnd();
+}
+
+function openHelpModal(){
+  const el=document.getElementById("helpModal");
+  if(el) el.classList.add("show");
+}
+function closeHelpModal(ev){
+  if(ev && ev.target && ev.target.id!=="helpModal") return;
+  const el=document.getElementById("helpModal");
+  if(el) el.classList.remove("show");
+}
+
+
 let state, history, pendingExtra=0, mode="monte", histStartIndex=0;
 let cachedSuccessRate=null;
 let successRateDirty=true;
+let successRateTaskToken=0;
 let setupDirty=false;
 let gameHasStarted=false;
 
@@ -817,24 +3448,44 @@ function initMoneyInputs(){
 }
 
 
+
+function blankNum(id){
+  const el=$(id);
+  if(!el)return null;
+  const raw=String(el.value??"").replace(/,/g,"").trim();
+  if(raw==="")return null;
+  const v=Number(raw);
+  return Number.isFinite(v)?v:null;
+}
+
 function settings(){
   return {
-    startAge:num("startAge"), retireAge:num("retireAge"), endAge:num("endAge"),
-    totalAssets:num("totalAssets"), baseReturn:pct("baseReturn"), volatility:pct("volatility"),
-    inflation:pct("inflation"), living:num("living"), salary:num("salary"),
-    salaryGrowth:pct("salaryGrowth"), loan:num("loan"), mortgage:num("mortgage"),
-    loanEndYear:String($("loanEndYear").value||"").trim()===""?null:num("loanEndYear"), mortgageEndYear:String($("mortgageEndYear").value||"").trim()===""?null:num("mortgageEndYear"),
-    laborInsYears:num("laborInsYears"), insuredSalary:num("insuredSalary"),
-    laborInsAge:num("laborInsAge"), laborPensionBalance:num("laborPensionBalance"),
-    laborPensionWage:num("laborPensionWage"), selfContribRate:pct("selfContribRate"),
-    laborPensionReturn:pct("laborPensionReturn"), laborPensionAge:num("laborPensionAge"),
-    emergencyMonths:num("emergencyMonths"), retirementCashYears:num("retirementCashYears")
+    startAge:num("startAge"),
+    retireAge:num("retireAge"),
+    endAge:num("endAge"),
+    totalAssets:num("totalAssets")*10000,
+    baseReturn:pct("baseReturn"),
+    volatility:pct("volatility"),
+    inflation:pct("inflation"),
+    living:num("living")*10000,
+    salary:num("salary")*10000,
+    salaryGrowth:pct("salaryGrowth"),
+    loan:num("loan"),
+    mortgage:num("mortgage"),
+    loanEndYear:String($("loanEndYear").value||"").trim()===""?null:num("loanEndYear"),
+    mortgageEndYear:String($("mortgageEndYear").value||"").trim()===""?null:num("mortgageEndYear"),
+    emergencyMonths:num("emergencyMonths"),
+    retirementCashYears:num("retirementCashYears"),
+    monthlyPensionAge:blankNum("monthlyPensionAge"),
+    monthlyPensionAmount:blankNum("monthlyPensionAmount") ?? 0,
+    lumpSumAge:blankNum("lumpSumAge"),
+    lumpSumAmount:blankNum("lumpSumAmount") ?? 0
   };
 }
 
 function setMode(m){ mode="monte"; resetGame(); }
 
-function modeDescription(){ return `蒙地卡羅：以平均報酬 ${num("baseReturn").toFixed(1)}%、年波動 ${num("volatility").toFixed(1)}% 生成年度報酬；成功率跑 1,000 條退休路徑。`; }
+function modeDescription(){ return `蒙地卡羅模式：以平均報酬 ${num("baseReturn").toFixed(1)}%、年波動 ${num("volatility").toFixed(1)}% 生成年度報酬；退休成功率以 1,000 條蒙地卡羅路徑估算。`; }
 
 
 function clampAllocation(v){
@@ -846,9 +3497,14 @@ function currentStockPercent(){
   return total>0?state.stocks/total*100:0;
 }
 function adjustAllocation(delta){
-  targetStockPct=clampAllocation(targetStockPct+delta);
+  const next=clampAllocation(targetStockPct+delta);
+  if(next===targetStockPct)return;
+
+  targetStockPct=next;
   allocationDirty=true;
+
   updateAllocationUI();
+  requestStrategySuccessRate();
 }
 function updateAllocationUI(){
   const current=currentStockPercent();
@@ -856,9 +3512,21 @@ function updateAllocationUI(){
   $("currentAllocation").textContent=`目前實際：股票 ${current.toFixed(0)}% / 現金 ${currentCash.toFixed(0)}%`;
   $("nextStockPct").textContent=targetStockPct+"%";
   $("nextCashPct").textContent=(100-targetStockPct)+"%";
-  $("allocationNote").textContent=allocationDirty
-    ? `下一年度起改為：股票 ${targetStockPct}% / 現金 ${100-targetStockPct}%，之後每年沿用。`
-    : `策略設定：股票 ${targetStockPct}% / 現金 ${100-targetStockPct}%。若不修改，每年會沿用此比例再平衡。`;  if(state) updateThresholdUI();
+
+  const box=document.querySelector(".alloc-box");
+  const nextBtn=$("allocationNextBtn");
+
+  if(allocationDirty){
+    $("allocationNote").textContent=`✅ 下一年套用：股票 ${targetStockPct}% / 現金 ${100-targetStockPct}%`;
+    if(box) box.classList.add("allocation-pending");
+    if(nextBtn) nextBtn.textContent="▶ 套用配置並進入下一年";
+  }else{
+    $("allocationNote").textContent=`策略：股票 ${targetStockPct}% / 現金 ${100-targetStockPct}%｜每年年初自動再平衡`;
+    if(box) box.classList.remove("allocation-pending");
+    if(nextBtn) nextBtn.textContent="▶ 下一年";
+  }
+
+  if(state) updateThresholdUI();
 }
 
 
@@ -884,21 +3552,32 @@ function thresholdCheck(){
   }
   return {status:"ok",required,projectedCash,total,canProceed:true};
 }
+
+function setAllocationAttention(on){
+  const box=document.querySelector(".alloc-box");
+  if(!box)return;
+  box.classList.toggle("allocation-attention",!!on);
+}
+
 function updateThresholdUI(){
   if(!state)return;
   const s=settings(),c=thresholdCheck();
   const phase=state.age < s.retireAge
     ? `緊急預備金 ${s.emergencyMonths}個月`
-    : `退休現金池 ${s.retirementCashYears}年`;
+    : `現金池 ${s.retirementCashYears}年`;
   const el=$("thresholdStatus");
 
   if(c.status==="ok"){
+    setAllocationAttention(false);
     el.innerHTML=`<div><div style="font-size:12px;font-weight:900">✅ ${phase}門檻達標</div><div style="font-size:10px;font-weight:600;opacity:.9">最低 ${fmt(c.required)}｜配置後現金 ${fmt(c.projectedCash)}</div></div>`;
     el.style.color="#58d68d";
   }else if(c.status==="insufficient"){
-    el.innerHTML=`<div><div style="font-size:12px;font-weight:900">⚠️ ${phase}不足</div><div style="font-size:10px;font-weight:600;opacity:.9">最低 ${fmt(c.required)}｜配置後現金 ${fmt(c.projectedCash)}｜請提高現金比例</div></div>`;
+    setAllocationAttention(true);
+    el.innerHTML=`<div><div style="font-size:12px;font-weight:900">⚠️ ${phase}不足｜請調整股票／現金比例</div><div style="font-size:10px;font-weight:600;opacity:.9">最低 ${fmt(c.required)}｜配置後現金 ${fmt(c.projectedCash)}</div></div>`;
     el.style.color="#f5c451";
   }else{
+    // 總資產本身低於門檻時仍允許繼續，因此不做「必須調整」閃爍。
+    setAllocationAttention(false);
     el.innerHTML=`<div><div style="font-size:12px;font-weight:900">🔴 資產不足以滿足${phase}</div><div style="font-size:10px;font-weight:600;opacity:.9">最低 ${fmt(c.required)}｜總資產 ${fmt(c.total)}｜高風險但可繼續</div></div>`;
     el.style.color="#ff7070";
   }
@@ -957,7 +3636,7 @@ function setSetupLocked(locked){
       el.textContent="🔒 遊戲已開始，初始設定已鎖定。";
       el.style.color="#9ba6b7";
     }else{
-      el.textContent="可調整設定，按「下一年」即可開始。";
+      el.textContent="可調整設定；完成後到中間資產配置區按「下一年」開始。";
       el.style.color="#9ba6b7";
     }
   }
@@ -970,7 +3649,7 @@ function markSetupDirty(){
   cachedSuccessRate=null;
   const el=$("setupStatus");
   if(el){
-    el.textContent="設定已更新；按「下一年」會自動套用並開始。";
+    el.textContent="設定已更新；完成後到中間資產配置區按「下一年」會自動套用並開始。";
     el.style.color="#6ea8fe";
   }
 }
@@ -981,12 +3660,14 @@ function updateSetupStatus(){
     el.textContent="🔒 遊戲已開始，初始設定已鎖定。";
     el.style.color="#9ba6b7";
   }else{
-    el.textContent="可調整設定，按「下一年」即可開始。";
+    el.textContent="可調整設定；完成後到中間資產配置區按「下一年」開始。";
     el.style.color="#9ba6b7";
   }
 }
 
 function resetGame(){
+  setAllocationAttention(false);
+  setReportReady(false);
   setupDirty=false;
   gameHasStarted=false;
   setSetupLocked(false);
@@ -995,19 +3676,20 @@ function resetGame(){
   allocationDirty=false;
   successRateDirty=true;
   cachedSuccessRate=null;
+  successRateTaskToken++;
   const s=settings(), horizon=s.endAge-s.startAge;
   const maxStart=Math.max(0,HIST.length-horizon);
   histStartIndex=Math.floor(Math.random()*(maxStart+1));
-  state={age:s.startAge,year:115,stocks:s.totalAssets*0.9,cash:s.totalAssets*0.1,laborPension:s.laborPensionBalance,step:0,failed:false,returns:[]};
+  state={age:s.startAge,year:115,stocks:s.totalAssets*0.9,cash:s.totalAssets*0.1,laborPension:0,step:0,failed:false,returns:[]};
   history=[snapshot()]; pendingExtra=0;
   $("timeline").innerHTML="";
   $("eventBox").innerHTML="按下「下一年」開始阿肥的退休人生。";
   $("statsCard").style.display="none";
   $("quickEvent").textContent="本年度尚無額外事件支出。";
   $("modeInfo").textContent=modeDescription();
-  updateAllocationUI();
-  updateUI();
+  updateUI(true);
   updateSetupStatus();
+  requestStrategySuccessRate();
 }
 
 function snapshot(){
@@ -1030,31 +3712,23 @@ function monteReturn(mean){ const s=settings();return Math.max(-.55,Math.min(.65
 function yearReturn(){ const s=settings(); const r=monteReturn(s.baseReturn); return {r,label:`蒙地卡羅 ${(r*100).toFixed(1)}%`}; }
 
 function projectedLaborInsuranceYears(age){
-  const s=settings();
-  const added=Math.max(0,Math.min(age,s.retireAge)-s.startAge);
-  return s.laborInsYears+added;
+  return 0;
 }
+
 function laborInsuranceMonthlyPension(){
-  const s=settings();
-  if(!s.laborInsYears || !s.insuredSalary || !s.laborInsAge) return 0;
-  const years=projectedLaborInsuranceYears(s.retireAge);
-  const f1=s.insuredSalary*years*0.00775+3000;
-  const f2=s.insuredSalary*years*0.0155;
-  let monthly=Math.max(f1,f2);
-  const earlyYears=Math.max(0,Math.min(5,65-s.laborInsAge));
-  monthly*=1-earlyYears*0.04;
-  return Math.max(0,monthly);
+  return settings().monthlyPensionAmount || 0;
 }
+
 function annualLaborPensionContribution(age){
-  const s=settings();
-  if(age>=s.retireAge) return 0;
-  return s.laborPensionWage*12*(0.06+s.selfContribRate);
+  return 0;
 }
 
 function projectedLaborInsuranceAnnual(age){
   const s=settings();
-  return (s.laborInsAge>0 && age>=s.laborInsAge) ? laborInsuranceMonthlyPension()*12 : 0;
+  if(s.monthlyPensionAge===null || s.monthlyPensionAmount<=0)return 0;
+  return age>=s.monthlyPensionAge ? s.monthlyPensionAmount*12 : 0;
 }
+
 function projectedNetOutflow(age,year){
   const s=settings();
   const infl=Math.pow(1+s.inflation,year-115);
@@ -1090,50 +3764,45 @@ function cashCoverageYears(cash,age,year){
 }
 
 /*
-核心邏輯：
-1. 股票先套用年度報酬。
-2. 收入/支出先進出現金。
-3. 若為上漲或持平年：
-   - 現金不足時，可正常賣股支付生活費（不叫「被迫」）。
-   - 再將現金池回補到目標比例。
-4. 若為下跌年：
-   - 不主動賣股回補現金池。
-   - 只有現金真的跌破 0 時，才被迫賣股支付必要支出。
+目前每年度核心順序：
+1. 先檢查退休前緊急預備金／退休後現金池安全門檻。
+2. 年初依玩家設定的股票／現金比例重新平衡。
+3. 僅股票部位承受當年度蒙地卡羅市場報酬。
+4. 加入工作收入、退休給付，扣除生活費、貸款與額外支出。
+5. 退休前正結餘先補緊急預備金，再依策略比例投入；退休後現金流先進出現金。
+6. 現金不足支付支出時才賣股；總資產耗盡則遊戲結束。
 */
 function calcYear(st,age,year,r,extra=0){
-  const s=settings(), infl=Math.pow(1+s.inflation,year-115);
+  const s=settings();
+  const infl=Math.pow(1+s.inflation,year-115);
   const living=s.living*infl;
-  const salary=age<s.retireAge?s.salary*Math.pow(1+s.salaryGrowth,year-115):0;
-  const loan=(s.loanEndYear!==null&&year<=s.loanEndYear)?s.loan*12:0;
-  const mort=(s.mortgageEndYear!==null&&year<=s.mortgageEndYear)?s.mortgage*12:0;
+  const salary=age<s.retireAge ? s.salary*Math.pow(1+s.salaryGrowth,year-115) : 0;
+  const loan=(s.loanEndYear!==null && year<=s.loanEndYear) ? s.loan*12 : 0;
+  const mort=(s.mortgageEndYear!==null && year<=s.mortgageEndYear) ? s.mortgage*12 : 0;
 
-  let laborPension=(st.laborPension ?? s.laborPensionBalance)*(1+s.laborPensionReturn);
-  laborPension += annualLaborPensionContribution(age);
+  const monthlyPensionAnnual =
+    (s.monthlyPensionAge!==null && age>=s.monthlyPensionAge)
+      ? s.monthlyPensionAmount*12
+      : 0;
 
-  let retirementIncome=0;
-  let laborPensionPaid=0;
-  if(s.laborPensionAge>0 && age===s.laborPensionAge){
-    laborPensionPaid=laborPension;
-    retirementIncome+=laborPensionPaid;
-    laborPension=0;
-  }
-  const laborInsAnnual=(s.laborInsAge>0 && age>=s.laborInsAge)?laborInsuranceMonthlyPension()*12:0;
-  retirementIncome+=laborInsAnnual;
+  const lumpSumIncome =
+    (s.lumpSumAge!==null && age===s.lumpSumAge)
+      ? s.lumpSumAmount
+      : 0;
 
-  // 年初資產配置已在外層完成；股票先承受本年度市場報酬。
+  const retirementIncome=monthlyPensionAnnual+lumpSumIncome;
+
   let stocks=Math.max(0,st.stocks*(1+r));
   let cash=st.cash;
 
   const netFlow=salary+retirementIncome-living-loan-mort-extra;
   let forcedSale=0,investedSurplus=0,reserveFilled=0,cashSurplusAdded=0;
-  const target=age<s.retireAge?emergencyReserveTarget(year):retirementCashTarget(age,year);
+  const target=age<s.retireAge ? emergencyReserveTarget(year) : retirementCashTarget(age,year);
 
   if(age<s.retireAge && netFlow>=0){
-    // 累積期正結餘：
-    // 1. 若現金低於緊急預備金，先補到門檻。
-    // 2. 剩餘結餘依玩家持續設定的股票/現金比例投入。
     let remaining=netFlow;
     const reserveGap=Math.max(0,target-cash);
+
     if(reserveGap>0){
       reserveFilled=Math.min(reserveGap,remaining);
       cash+=reserveFilled;
@@ -1149,26 +3818,40 @@ function calcYear(st,age,year,r,extra=0){
       cashSurplusAdded=cashPart;
     }
   }else{
-    // 退休後，或累積期為負現金流：先由現金吸收。
     cash+=netFlow;
   }
 
-  // 現金不足支付當年度支出時才賣股。
   if(cash<0){
     forcedSale=Math.min(-cash,stocks);
     stocks-=forcedSale;
     cash+=forcedSale;
   }
-  if(cash<0){
-    return {
-      stocks:0,cash:0,laborPension,failed:true,forcedSale,investedSurplus,reserveFilled,cashSurplusAdded,
-      laborPensionPaid,laborInsAnnual,salary,living,loan,mort,target,netFlow
-    };
+
+  const failed=cash<0;
+  if(failed){
+    stocks=0;
+    cash=0;
   }
 
   return {
-    stocks,cash,laborPension,failed:false,forcedSale,investedSurplus,reserveFilled,cashSurplusAdded,
-    laborPensionPaid,laborInsAnnual,salary,living,loan,mort,target,netFlow
+    stocks,
+    cash,
+    laborPension:0,
+    failed,
+    forcedSale,
+    investedSurplus,
+    reserveFilled,
+    cashSurplusAdded,
+    laborPensionPaid:lumpSumIncome,
+    laborInsAnnual:monthlyPensionAnnual,
+    monthlyPensionAnnual,
+    lumpSumIncome,
+    salary,
+    living,
+    loan,
+    mort,
+    target,
+    netFlow
   };
 }
 function buildAnnualLog(year,age,mr,out,extra){
@@ -1190,14 +3873,14 @@ function buildAnnualLog(year,age,mr,out,extra){
   if(out.investedSurplus>0) actions.push(`年度結餘投入股票 ${fmt(out.investedSurplus)}`);
   if(out.cashSurplusAdded>0) actions.push(`年度結餘保留現金 ${fmt(out.cashSurplusAdded)}`);
   if(out.forcedSale>0) actions.push(`現金不足支付當年支出，被迫賣股 ${fmt(out.forcedSale)}`);
-  if(out.laborPensionPaid>0) actions.push(`領取勞退專戶 ${fmt(out.laborPensionPaid)}`);
-  if(s.laborInsAge>0 && age===s.laborInsAge && laborInsuranceMonthlyPension()>0) actions.push(`開始領勞保年金約 ${fmt(laborInsuranceMonthlyPension())}/月`);
+  if(out.lumpSumIncome>0) actions.push(`一次領退休給付 ${fmt(out.lumpSumIncome)}`);
+  if(s.monthlyPensionAge!==null && age===s.monthlyPensionAge && s.monthlyPensionAmount>0) actions.push(`開始領月退 ${fmt(s.monthlyPensionAmount)}/月`);
   if(extra>0) actions.push(`額外支出 ${fmt(extra)}`);
   if(actions.length===0) actions.push("無特殊資產調整");
 
   const advisory=age<s.retireAge
     ? `緊急預備金門檻 ${fmt(out.target)}`
-    : `退休現金池門檻 ${fmt(out.target)}`;
+    : `現金池門檻 ${fmt(out.target)}`;
 
   const returnClass=mr>=0?"#ff5f6d":"#4fd58a";
   return `
@@ -1205,10 +3888,36 @@ function buildAnnualLog(year,age,mr,out,extra){
       <div class="log-year">${year}年｜${age}歲｜${phase}</div>
       <div class="log-return" style="color:${returnClass}">股市 ${mr>=0?"+":""}${(mr*100).toFixed(1)}%</div>
     </div>
-    <div class="log-row"><div class="log-label">收入 / 支出</div><div class="log-value">收入 ${fmt(out.salary)}｜生活費 ${fmt(out.living)}${(out.loan+out.mort)>0?`｜貸款 ${fmt(out.loan+out.mort)}`:""}</div></div>
-    <div class="log-row"><div class="log-label">年度動作</div><div class="log-value">${actions.join("；")}</div></div>
-    <div class="log-row"><div class="log-label">安全門檻</div><div class="log-value">${advisory}</div></div>
-    <div class="log-row"><div class="log-label">勞退專戶</div><div class="log-value">${fmt(out.laborPension)}</div></div>
+    <div class="log-info-grid">
+      <div class="log-info-cell">
+        <div class="log-label">收入 / 支出</div>
+        <div class="log-value">工作收入 ${fmt(out.salary)}${out.monthlyPensionAnnual>0?`｜月退 ${fmt(out.monthlyPensionAnnual)}/年`:""}${out.lumpSumIncome>0?`｜一次領 ${fmt(out.lumpSumIncome)}`:""}｜生活費 ${fmt(out.living)}${(out.loan+out.mort)>0?`｜貸款 ${fmt(out.loan+out.mort)}`:""}</div>
+      </div>
+      <div class="log-info-cell">
+        <div class="log-label">年度動作</div>
+        <div class="log-value">${actions.join("；")}</div>
+      </div>
+      <div class="log-info-cell">
+        <div class="log-label">安全門檻</div>
+        <div class="log-value">${advisory}</div>
+      </div>
+      <div class="log-info-cell">
+        <div class="log-label">退休給付</div>
+        <div class="log-value">${
+          (s.monthlyPensionAge===null || s.monthlyPensionAmount<=0) &&
+          (s.lumpSumAge===null || s.lumpSumAmount<=0)
+            ? "無"
+            : [
+                (s.monthlyPensionAge!==null && s.monthlyPensionAmount>0)
+                  ? `月退：${s.monthlyPensionAge}歲起｜${fmt(s.monthlyPensionAmount)}/月`
+                  : "",
+                (s.lumpSumAge!==null && s.lumpSumAmount>0)
+                  ? `一次領：${s.lumpSumAge}歲｜${fmt(s.lumpSumAmount)}`
+                  : ""
+              ].filter(Boolean).join("<br>")
+        }</div>
+      </div>
+    </div>
     <div class="log-summary">年底總資產 ${fmt(total)}｜股票 ${fmt(out.stocks)}｜${cashLabel} ${fmt(out.cash)}</div>
   `;
 }
@@ -1217,7 +3926,13 @@ function addAnnualLog(year,age,mr,out,extra){
   let cls="log";
   if(mr<0 || out.forcedSale>0) cls+=" bad";
   else if(mr>.15) cls+=" good";
-  if(age===settings().retireAge || out.laborPensionPaid>0 || age===settings().laborInsAge) cls+=" milestone";
+  {
+    const s=settings();
+    const isRetire=age===s.retireAge;
+    const isMonthlyStart=s.monthlyPensionAge!==null && age===s.monthlyPensionAge;
+    const isLumpSum=s.lumpSumAge!==null && age===s.lumpSumAge;
+    if(isRetire || isMonthlyStart || isLumpSum) cls+=" milestone";
+  }
   d.className=cls;
   d.innerHTML=buildAnnualLog(year,age,mr,out,extra);
   $("timeline").prepend(d);
@@ -1226,6 +3941,7 @@ function addAnnualLog(year,age,mr,out,extra){
 function showFatWarning(type){
   const el=$("fatWarningBadge");
   if(!el)return;
+  el.classList.add("show","active");
   if(type==="pre"){
     el.textContent="阿肥表示：快去賺錢";
     el.className="fat-warning-badge show pre";
@@ -1244,9 +3960,8 @@ function hideFatWarning(){
   const el=$("fatWarningBadge");
   if(!el)return;
   el.textContent="";
-  el.className="fat-warning-badge";
+  el.classList.remove("show","active");
 }
-
 function nextYear(){
   // 尚未開始時，直接套用玩家剛填好的左側設定，不要求多按一次重新開始。
   if(!gameHasStarted && setupDirty){
@@ -1268,13 +3983,16 @@ function nextYear(){
 
   const gate=thresholdCheck();
   if(!gate.canProceed){
+    setReportReady(false);
+    setAllocationAttention(true);
     showFatWarning(state.age < s.retireAge ? "pre" : "post");
     $("eventBox").innerHTML=state.age < s.retireAge
       ? `緊急預備金不足｜最低需求 ${fmt(gate.required)}，目前配置後現金 ${fmt(gate.projectedCash)}`
-      : `退休現金池不足｜最低需求 ${fmt(gate.required)}，目前配置後現金 ${fmt(gate.projectedCash)}`;
+      : `現金池不足｜最低需求 ${fmt(gate.required)}，目前配置後現金 ${fmt(gate.projectedCash)}`;
     updateThresholdUI();
     return;
   }
+  setAllocationAttention(false);
   hideFatWarning();
 
   gameHasStarted=true;
@@ -1312,7 +4030,6 @@ function nextYear(){
   history.push(snapshot());
 
   $("eventBox").innerHTML=buildAnnualLog(year,age,mr,out,extra);
-  updateAllocationUI();
   updateUI(true);
 
   if(state.failed){
@@ -1320,7 +4037,13 @@ function nextYear(){
   }else if(state.age>=s.endAge){
     showFatWarning("success");
   }
-  if(state.age>=s.endAge || state.failed) showStats();
+
+  if(state.age>=s.endAge || state.failed){
+    showStats();
+  }else{
+    // 年齡與資產已改變，「目前策略成功率」也必須以新狀態重算。
+    requestStrategySuccessRate();
+  }
 }
 
 function classifyReturns(arr){
@@ -1338,19 +4061,15 @@ function classifyReturns(arr){
 }
 
 function showStats(){
-  const c=classifyReturns(state.returns);
-  ["up0to5","up5to10","up10plus","down0to5","down5to10","down10plus"].forEach(k=>$(k).textContent=c[k]);
-  const avg=state.returns.length?state.returns.reduce((a,b)=>a+b,0)/state.returns.length:0;
-  const best=state.returns.length?Math.max(...state.returns):0;
-  const worst=state.returns.length?Math.min(...state.returns):0;
-  $("avgReturn").textContent=(avg*100).toFixed(1)+"%";
-  $("bestReturn").textContent=(best*100).toFixed(1)+"%";
-  $("worstReturn").textContent=(worst*100).toFixed(1)+"%";
-  const peak=history.reduce((m,h)=>h.total>m.total?h:m,history[0]);
-  $("peakAsset").textContent=fmt(peak.total);
-  $("peakAge").textContent=`${peak.age}歲時`;
-  $("statsExtra").textContent=`共模擬 ${state.returns.length} 個年度`;
-  $("statsCard").style.display="block";
+  setAllocationAttention(false);
+
+  // 終局成績單需要確定值；若背景估算尚未完成，這裡才同步補算一次。
+  successRateTaskToken++;
+  renderStrategySuccessRate();
+
+  const s=settings();
+  const trulyFinished=state.failed || state.age>=s.endAge;
+  setReportReady(trulyFinished);
 }
 
 function addCustomExpense(){
@@ -1363,45 +4082,174 @@ function addCustomExpense(){
   $("eventBox").innerHTML=`已排入本年度額外支出 ${fmt(pendingExtra)}，按「下一年」結算。`;
 }
 
-function runPath(returnProvider){
+function runPath(returnProvider,stockPct=targetStockPct,base=null){
   const s=settings();
-  let st={
-    stocks:s.totalAssets*0.9,
-    cash:s.totalAssets*0.1,
-    laborPension:s.laborPensionBalance
+
+  // 「目前策略退休成功率」必須從玩家此刻的人生狀態往後模擬，
+  // 不能把80歲才採用的策略倒套回30歲。
+  const baseState=base || {
+    age:state.age,
+    year:state.year,
+    stocks:state.stocks,
+    cash:state.cash,
+    failed:state.failed
   };
 
-  for(let age=s.startAge,year=115,step=0;age<s.endAge;age++,year++,step++){
-    // 成功率假設目前玩家設定的資產配置策略持續維持。
+  if(baseState.failed) return false;
+
+  let st={
+    stocks:Math.max(0,baseState.stocks),
+    cash:Math.max(0,baseState.cash),
+    laborPension:0
+  };
+
+  for(let age=baseState.age,year=baseState.year,step=0;age<s.endAge;age++,year++,step++){
     const total=st.stocks+st.cash;
-    if(total>0){
-      st.stocks=total*(targetStockPct/100);
-      st.cash=total-st.stocks;
-    }
+    if(total<=0) return false;
+
+    // 每個模擬年度年初，都依「目前策略」重新平衡。
+    st.stocks=total*(stockPct/100);
+    st.cash=total-st.stocks;
 
     const o=calcYear(st,age,year,returnProvider(step),0);
     st={stocks:o.stocks,cash:o.cash,laborPension:o.laborPension};
 
-    if(o.failed||st.stocks+st.cash<=0)return false;
+    if(o.failed || st.stocks+st.cash<=0) return false;
   }
+
   return true;
 }
-function computeSuccessRate(){
+function computeSuccessRate(stockPct=targetStockPct){
   const s=settings();
+  const base={
+    age:state.age,
+    year:state.year,
+    stocks:state.stocks,
+    cash:state.cash,
+    failed:state.failed
+  };
+
+  // 已經抵達設定終點且資產未耗盡，本局當下的存活率自然視為100%。
+  if(!base.failed && base.age>=s.endAge) return 100;
+  if(base.failed || base.stocks+base.cash<=0) return 0;
+
   let ok=0,N=1000;
-  for(let i=0;i<N;i++) if(runPath(()=>monteReturn(s.baseReturn)))ok++;
+  for(let i=0;i<N;i++){
+    if(runPath(()=>monteReturn(s.baseReturn),stockPct,base)) ok++;
+  }
   return Math.round(ok/N*100);
 }
 function successRate(){
   if(successRateDirty || cachedSuccessRate===null){
-    cachedSuccessRate=computeSuccessRate();
+    cachedSuccessRate=computeSuccessRate(targetStockPct);
     successRateDirty=false;
   }
   return cachedSuccessRate;
 }
 
+function paintStrategySuccessRate(rate){
+  const badge=$("successBadge");
+  if($("successRate")) $("successRate").textContent=rate+"%";
+  if(!badge)return;
+
+  if(rate>=90){
+    badge.textContent="成功率高";
+    badge.className="badge ok";
+  }else if(rate>=75){
+    badge.textContent="可行但需管理";
+    badge.className="badge warn";
+  }else if(rate===0){
+    badge.textContent="1,000條皆未撐到終點";
+    badge.className="badge risk";
+  }else{
+    badge.textContent="風險偏高";
+    badge.className="badge risk";
+  }
+}
+
+function renderStrategySuccessRate(){
+  const rate=successRate();
+  paintStrategySuccessRate(rate);
+  return rate;
+}
+
+/*
+策略改變時將1,000條蒙地卡羅拆成小批次。
+這樣手機不會因為一次同步跑完1,000條路徑而卡住操作。
+*/
+function requestStrategySuccessRate(){
+  const token=++successRateTaskToken;
+  const s=settings();
+  const stockPct=targetStockPct;
+  const N=1000;
+  const chunkSize=50;
+
+  // 固定這次計算的「現在」：年齡、年度、股票、現金。
+  // 即使背景計算尚未結束，也不會被下一年度的狀態偷偷改掉。
+  const base={
+    age:state.age,
+    year:state.year,
+    stocks:state.stocks,
+    cash:state.cash,
+    failed:state.failed
+  };
+
+  successRateDirty=true;
+  cachedSuccessRate=null;
+
+  if(base.failed || base.stocks+base.cash<=0){
+    cachedSuccessRate=0;
+    successRateDirty=false;
+    paintStrategySuccessRate(0);
+    return;
+  }
+
+  if(base.age>=s.endAge){
+    cachedSuccessRate=100;
+    successRateDirty=false;
+    paintStrategySuccessRate(100);
+    return;
+  }
+
+  let done=0,ok=0;
+
+  if($("successRate")) $("successRate").textContent="計算中…";
+  if($("successBadge")){
+    $("successBadge").textContent=`${base.age}歲起｜股票 ${stockPct}% / 現金 ${100-stockPct}%`;
+    $("successBadge").className="badge warn";
+  }
+
+  const runChunk=()=>{
+    if(token!==successRateTaskToken)return;
+
+    const batchEnd=Math.min(done+chunkSize,N);
+    for(;done<batchEnd;done++){
+      if(runPath(()=>monteReturn(s.baseReturn),stockPct,base)) ok++;
+    }
+
+    if(done<N){
+      setTimeout(runChunk,0);
+      return;
+    }
+
+    if(token!==successRateTaskToken)return;
+
+    cachedSuccessRate=Math.round(ok/N*100);
+    successRateDirty=false;
+    paintStrategySuccessRate(cachedSuccessRate);
+  };
+
+  setTimeout(runChunk,0);
+}
 function updateUI(skipSuccess=false){
   const s=settings(),total=state.stocks+state.cash;
+  if($("cashLabel")){
+    $("cashLabel").textContent = state.age < s.retireAge ? "緊急預備金" : "現金池";
+  }
+
+  if($("successExplain")){
+    $("successExplain").innerHTML=`從目前${state.age}歲、目前資產 ${fmt(total)} 出發，假設之後維持股票 ${targetStockPct}% / 現金 ${100-targetStockPct}% 策略，模擬1,000條路徑至${s.endAge}歲。<br>這是「從現在往後」的策略存活率，不會把目前策略倒套回年輕時。`;
+  }
   const real=total/Math.pow(1+s.inflation,state.year-115);
   const living=s.living*Math.pow(1+s.inflation,state.year-115);
   const debt=((s.loanEndYear!==null&&state.year<=s.loanEndYear)?s.loan*12:0)+((s.mortgageEndYear!==null&&state.year<=s.mortgageEndYear)?s.mortgage*12:0);
@@ -1412,19 +4260,39 @@ function updateUI(skipSuccess=false){
   $("livingNow").textContent=fmt(living); $("debtNow").textContent=fmt(debt);
   const netOutflow=projectedNetOutflow(state.age,state.year);
   const withdrawRate=total>0?netOutflow/total:0;
-  $("withdrawText").textContent=(withdrawRate*100).toFixed(1)+"%";
-  $("fourPctAmount").textContent=fmt(total*0.04);
   $("netNeedAmount").textContent=fmt(netOutflow);
 
-  if(withdrawRate<=0.04){
-    $("withdrawStatus").textContent="≤ 4%參考線｜目前較寬裕";
-    $("withdrawStatus").style.color="#58d68d";
-  }else if(withdrawRate<=0.05){
-    $("withdrawStatus").textContent="4%～5%｜開始需要留意";
-    $("withdrawStatus").style.color="#f5c451";
+  // 4%規則參考：以當年度「淨支出」×25作為參考資產。
+  // 這只是提醒，不是遊戲門檻。
+  const fourPctNeed=Math.max(0,netOutflow);
+  const fourPctTarget=fourPctNeed*25;
+  const fourPctRatio=fourPctTarget>0?total/fourPctTarget:Infinity;
+
+  $("fourPctTarget").textContent=fourPctTarget>0?fmt(fourPctTarget):"無需資產提領";
+  const fourStat=$("fourPctStat");
+  const fourStatus=$("fourPctStatus");
+
+  fourStat.classList.remove("safe-green","safe-yellow","safe-red");
+
+  if(fourPctTarget<=0){
+    fourStat.classList.add("safe-green");
+    fourStatus.textContent=`✅ 綠燈｜目前提領率 0.0%｜當年度無淨支出缺口`;
+    fourStatus.style.color="#58d68d";
+  }else if(fourPctRatio>=1){
+    fourStat.classList.add("safe-green");
+    const pct=((total/fourPctTarget-1)*100).toFixed(0);
+    fourStatus.textContent=`✅ 綠燈｜目前提領率 ${(withdrawRate*100).toFixed(1)}%｜目前資產 ${fmt(total)}｜高於參考值 ${pct}%`;
+    fourStatus.style.color="#58d68d";
+  }else if(fourPctRatio>=0.8){
+    fourStat.classList.add("safe-yellow");
+    const pct=((1-total/fourPctTarget)*100).toFixed(0);
+    fourStatus.textContent=`⚠️ 黃燈｜目前提領率 ${(withdrawRate*100).toFixed(1)}%｜目前資產 ${fmt(total)}｜低於參考值 ${pct}%`;
+    fourStatus.style.color="#f5c451";
   }else{
-    $("withdrawStatus").textContent="> 5%｜長期壓力偏高";
-    $("withdrawStatus").style.color="#ff7070";
+    fourStat.classList.add("safe-red");
+    const pct=((1-total/fourPctTarget)*100).toFixed(0);
+    fourStatus.textContent=`🔴 紅燈｜目前提領率 ${(withdrawRate*100).toFixed(1)}%｜目前資產 ${fmt(total)}｜低於參考值 ${pct}%`;
+    fourStatus.style.color="#ff7070";
   }
 
   const coverage=cashCoverageYears(state.cash,state.age,state.year);
@@ -1433,34 +4301,33 @@ function updateUI(skipSuccess=false){
     : retirementCashTarget(state.age,state.year);
 
   $("cashText").textContent=state.age<s.retireAge
-    ? `${fmt(state.cash)}｜緊急預備金`
+    ? `${fmt(state.cash)}`
     : `${fmt(state.cash)}｜約 ${coverage.toFixed(1)} 年`;
 
   if(state.age<s.retireAge){
     $("cashStateText").textContent=`緊急預備金門檻 ${s.emergencyMonths}個月生活費＝${fmt(activeTarget)}`;
     $("cashStateText").style.color=state.cash>=activeTarget?"#73aefe":"#f5c451";
   }else{
-    $("cashStateText").textContent=`退休現金池門檻 ${s.retirementCashYears}年淨支出＝${fmt(activeTarget)}（不會自動補滿）`;
+    $("cashStateText").textContent=`現金池門檻 ${s.retirementCashYears}年淨支出＝${fmt(activeTarget)}（不會自動補滿）`;
     $("cashStateText").style.color=state.cash>=activeTarget?"#73aefe":"#f5c451";
   }
 
-  const badge=$("successBadge");
   if(!skipSuccess){
-    const rate=successRate();
-    $("successRate").textContent=rate+"%";
-    if(rate>=90){badge.textContent="成功率高";badge.className="badge ok";}
-    else if(rate>=75){badge.textContent="可行但需管理";badge.className="badge warn";}
-    else{badge.textContent="風險偏高";badge.className="badge risk";}
+    renderStrategySuccessRate();
   }
 
   $("modeInfo").textContent=modeDescription();
-  if(!s.laborInsYears && !s.insuredSalary && !s.laborPensionBalance && !s.laborPensionWage){
-    $("laborStatus").textContent="勞保 / 勞退：尚未設定（選填）";
+  const hasMonthly=s.monthlyPensionAge!==null && s.monthlyPensionAmount>0;
+  const hasLump=s.lumpSumAge!==null && s.lumpSumAmount>0;
+  if(!hasMonthly && !hasLump){
+    $("laborStatus").textContent="退休給付：尚未設定（選填）";
   }else{
-    $("laborStatus").textContent=`勞保預估年資 ${projectedLaborInsuranceYears(state.age).toFixed(1)} 年｜勞退專戶 ${fmt(state.laborPension)}｜預估勞保年金 ${fmt(laborInsuranceMonthlyPension())}/月`;
+    const parts=[];
+    if(hasMonthly) parts.push(`月退 ${s.monthlyPensionAge}歲起／${fmt(s.monthlyPensionAmount)}/月`);
+    if(hasLump) parts.push(`一次領 ${s.lumpSumAge}歲／${fmt(s.lumpSumAmount)}`);
+    $("laborStatus").textContent="退休給付："+parts.join("｜");
   }
   updateAllocationUI();
-  updateThresholdUI();
   drawChart();
 }
 
@@ -1471,16 +4338,22 @@ function drawChart(){
   const x=i=>p+(W-2*p)*i/Math.max(1,history.length-1);
   const y=v=>H-p-(H-2*p)*v/max;
 
-  ctx.strokeStyle="#273243";ctx.lineWidth=1;
+  const lightTheme=document.documentElement.dataset.theme==="light";
+  const chartGrid=lightTheme?"#d7dee8":"#273243";
+  const chartMuted=lightTheme?"#66758a":"#9ba6b7";
+  const nominalColor=lightTheme?"#168447":"#58d68d";
+  const realColor=lightTheme?"#245fbe":"#6ea8fe";
+
+  ctx.strokeStyle=chartGrid;ctx.lineWidth=1;
   for(let i=0;i<5;i++){let yy=p+(H-2*p)*i/4;ctx.beginPath();ctx.moveTo(p,yy);ctx.lineTo(W-p,yy);ctx.stroke();}
-  ctx.fillStyle="#9ba6b7";ctx.font="12px sans-serif";ctx.fillText(fmt(max),5,p+4);ctx.fillText("0",18,H-p+4);
+  ctx.fillStyle=chartMuted;ctx.font="12px sans-serif";ctx.fillText(fmt(max),5,p+4);ctx.fillText("0",18,H-p+4);
 
   function plot(key,color,dashed){
     ctx.save();ctx.strokeStyle=color;ctx.lineWidth=2.4;ctx.setLineDash(dashed?[7,5]:[]);
     ctx.beginPath();history.forEach((h,i)=>{const xx=x(i),yy=y(h[key]);i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();ctx.restore();
   }
-  plot("total","#58d68d",false);plot("real","#6ea8fe",true);
-  ctx.fillStyle="#9ba6b7";
+  plot("total",nominalColor,false);plot("real",realColor,true);
+  ctx.fillStyle=chartMuted;
   ctx.font="11px sans-serif";
   history.forEach((h,i)=>{
     const isFirst=i===0;
@@ -1508,11 +4381,13 @@ function simulateToEnd(){
   while(state.age<s.endAge && !state.failed && guard<maxSteps){
     const gate=thresholdCheck();
     if(!gate.canProceed){
+      setReportReady(false);
+      setAllocationAttention(true);
       showFatWarning(state.age < s.retireAge ? "pre" : "post");
       gateStopped=true;
       $("eventBox").innerHTML=state.age < s.retireAge
         ? `模擬停在 ${state.age}歲｜緊急預備金不足｜最低 ${fmt(gate.required)}，配置後現金 ${fmt(gate.projectedCash)}`
-        : `模擬停在 ${state.age}歲｜退休現金池不足｜最低 ${fmt(gate.required)}，配置後現金 ${fmt(gate.projectedCash)}`;
+        : `模擬停在 ${state.age}歲｜現金池不足｜最低 ${fmt(gate.required)}，配置後現金 ${fmt(gate.projectedCash)}`;
       break;
     }
     const year=state.year,age=state.age;
@@ -1556,25 +4431,65 @@ function simulateToEnd(){
     }
   }
 
-  updateAllocationUI();
   updateUI(true);
-  showStats();
+
+  if(gateStopped){
+    setReportReady(false);
+    setAllocationAttention(true);
+    requestStrategySuccessRate();
+  }else if(state.failed || state.age>=s.endAge){
+    setAllocationAttention(false);
+    showStats();
+  }else{
+    requestStrategySuccessRate();
+  }
 }
 
 function currentModeName(){
   return "蒙地卡羅";
 }
 function gradeText(rate, real100){
+  const s=settings();
+
+  // 1) 資產耗盡：隱藏成就
+  if(state && state.failed){
+    return "隱藏成就：財富真的自由了";
+  }
+
+  // 2) 尚未跑到設定終點：不可授予成功破關稱號
+  if(!state || state.age < s.endAge){
+    return "本局尚未完成";
+  }
+
+  // 3) 只有成功跑到設定終點，才依目前策略成功率授予7級稱號
   if(rate===null) return "資料不足";
-  if(rate>=90) return "阿肥等級：退休穩穩型";
-  if(rate>=75) return "阿肥等級：可退但要管理型";
-  return "阿肥等級：還要再強化型";
+  if(rate>=95) return "阿肥願封您為：退休外掛仔";
+  if(rate>=90) return "阿肥願封您為：退休躺平王";
+  if(rate>=80) return "阿肥願封您為：退休底氣王";
+  if(rate>=70) return "阿肥願封您為：退休觀察家";
+  if(rate>=55) return "阿肥願封您為：命硬退休仔";
+  if(rate>=40) return "阿肥願封您為：逆風硬撐王";
+  return "阿肥願封您為：天選退休人";
 }
 function summaryText(rate, real100){
+  const s=settings();
+
+  if(state && state.failed){
+    return "您的財富已經～飛走～自由啦！";
+  }
+
+  if(!state || state.age < s.endAge){
+    return `目前只模擬到${state ? state.age : "—"}歲，尚未抵達設定終點${s.endAge}歲；調整資產配置後再繼續挑戰。`;
+  }
+
   if(rate===null) return "目前歷史樣本不足，請調整起始年齡或試算終點。";
-  if(rate>=90) return "你的勞工退休配置在目前模型下相對穩健，但仍需留意市場波動與現金管理。";
-  if(rate>=75) return "整體可行，但要留意股災、現金池與勞保勞退銜接，碰到連續下跌年份時需要更嚴守支出紀律。";
-  return "目前勞工退休條件下風險偏高，建議提高起始資產、延後退休，或降低長期支出後再挑戰。";
+  if(rate>=95) return "市場震兩下你當按摩，退休金多到連通膨都懶得追你。";
+  if(rate>=90) return "工作交給資產，人生交給自己，最大的風險可能只剩花太爽。";
+  if(rate>=80) return "退休不是沒風險，只是你手上的籌碼夠多，遇到股災還有本錢裝鎮定。";
+  if(rate>=70) return "可以退，但建議保留一點危機意識，偶爾還是要看看資產曲線有沒有在鬧脾氣。";
+  if(rate>=55) return "規劃稱不上完美，但你就是很會撐，人生靠的不只是數學，還有一點命硬。";
+  if(rate>=40) return "照模型看是驚險片，結果你硬是演成勵志片，能破關多少帶點運氣。";
+  return "模型都準備替你收攤了，你居然一路活到最後，這局不是規劃，是奇蹟。";
 }
 function getShareData(){
   const total=state.stocks+state.cash;
@@ -1584,19 +4499,120 @@ function getShareData(){
   const arr=state.returns||[];
   const best=arr.length?Math.max(...arr):0;
   const worst=arr.length?Math.min(...arr):0;
+  const avg=arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;
+  const bestIndex=arr.length?arr.indexOf(best):-1;
+  const worstIndex=arr.length?arr.indexOf(worst):-1;
+  const bestAge=bestIndex>=0?s.startAge+bestIndex:null;
+  const worstAge=worstIndex>=0?s.startAge+worstIndex:null;
+  const peak=history.reduce((m,h)=>h.total>m.total?h:m,history[0]);
+  const counts=classifyReturns(arr);
   return {
     mode: currentModeName(),
     rate: rate,
     startAsset: s.totalAssets,
     retireAge: s.retireAge,
+    endAge: s.endAge,
+    playedToAge: state.age,
     nominal100: total,
     real100: real,
     best: best,
     worst: worst,
+    bestAge: bestAge,
+    worstAge: worstAge,
+    avg: avg,
+    peakAsset: peak.total,
+    peakAge: peak.age,
+    years: arr.length,
+    counts: counts,
     grade: gradeText(rate, real),
     summary: summaryText(rate, real)
   };
 }
+
+function setReportReady(ready){
+  const btn=document.querySelector(".report-btn");
+  if(!btn)return;
+  if(ready){
+    btn.classList.add("report-ready");
+    btn.textContent="🏅 遊戲結束｜查看我的退休成績單";
+  }else{
+    btn.classList.remove("report-ready");
+    btn.textContent="🏅 我的退休成績單";
+  }
+}
+
+
+function renderShareTrendChart(){
+  const svg=$("shareTrendChart");
+  if(!svg || !history || !history.length)return;
+
+  const W=320,H=170,pad={l:42,r:8,t:12,b:24};
+  const hist=history;
+  const nominal=hist.map(h=>Math.max(0,Number(h.total)||0));
+  const real=hist.map(h=>Math.max(0,Number(h.real)||0));
+  const dataMax=Math.max(...nominal,...real,1);
+
+  function niceStep(maxValue,targetTicks=4){
+    const raw=maxValue/targetTicks;
+    const pow=Math.pow(10,Math.floor(Math.log10(Math.max(raw,1))));
+    const n=raw/pow;
+    const nice=n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10;
+    return nice*pow;
+  }
+  const step=niceStep(dataMax,4);
+  const axisMax=Math.max(step,Math.ceil(dataMax/step)*step);
+
+  const x=i=>pad.l+(hist.length<=1?0:i*(W-pad.l-pad.r)/(hist.length-1));
+  const y=v=>H-pad.b-(v/axisMax)*(H-pad.t-pad.b);
+  const pathFor=arr=>arr.map((v,i)=>`${i===0?"M":"L"} ${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(" ");
+
+  const fmtAxis=v=>{
+    const wan=v/10000;
+    if(wan>=10000)return `${(wan/10000).toFixed(wan%10000===0?0:1)}億`;
+    if(wan>=1000)return `${Math.round(wan/100)*100}萬`;
+    return `${Math.round(wan)}萬`;
+  };
+
+  const ages=hist.map(h=>h.age),first=ages[0],last=ages[ages.length-1];
+  const ageTicks=[];
+  for(let a=Math.ceil(first/5)*5;a<=last;a+=5)ageTicks.push(a);
+  if(!ageTicks.includes(first))ageTicks.unshift(first);
+  if(!ageTicks.includes(last))ageTicks.push(last);
+  const xForAge=age=>{
+    const idx=ages.indexOf(age);
+    if(idx>=0)return x(idx);
+    return pad.l+((age-first)/Math.max(1,last-first))*(W-pad.l-pad.r);
+  };
+
+  const lightTheme=document.documentElement.dataset.theme==="light";
+  const gridStroke=lightTheme?"rgba(75,91,112,.16)":"rgba(255,255,255,.08)";
+  const gridStrokeX=lightTheme?"rgba(75,91,112,.10)":"rgba(255,255,255,.05)";
+  const axisText=lightTheme?"#66758a":"#8ea0b7";
+  const nominalStroke=lightTheme?"#168447":"#58d68d";
+  const realStroke=lightTheme?"#245fbe":"#6ea8fe";
+
+  let grid="";
+  for(let v=0;v<=axisMax+step*.01;v+=step){
+    const yy=y(v);
+    grid+=`<line x1="${pad.l}" y1="${yy}" x2="${W-pad.r}" y2="${yy}" stroke="${gridStroke}" stroke-width="1"/>`;
+    grid+=`<text x="${pad.l-4}" y="${yy+3}" text-anchor="end" font-size="8" fill="${axisText}">${fmtAxis(v)}</text>`;
+  }
+  ageTicks.forEach(age=>{
+    const xx=xForAge(age);
+    grid+=`<line x1="${xx}" y1="${pad.t}" x2="${xx}" y2="${H-pad.b}" stroke="${gridStrokeX}" stroke-width="1"/>`;
+    grid+=`<text x="${xx}" y="${H-7}" text-anchor="middle" font-size="8" fill="${axisText}">${age}</text>`;
+  });
+
+  const lastIdx=hist.length-1;
+  svg.innerHTML=`
+    ${grid}
+    <path d="${pathFor(nominal)}" fill="none" stroke="${nominalStroke}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="${pathFor(real)}" fill="none" stroke="${realStroke}" stroke-width="2.3" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle cx="${x(lastIdx)}" cy="${y(nominal[lastIdx])}" r="3" fill="${nominalStroke}"></circle>
+    <circle cx="${x(lastIdx)}" cy="${y(real[lastIdx])}" r="3" fill="${realStroke}"></circle>
+  `;
+}
+
 function openShareCard(){
   const d=getShareData();
   $("shareMode").textContent="模式："+d.mode;
@@ -1604,11 +4620,27 @@ function openShareCard(){
   $("shareGrade").textContent=d.grade;
   $("shareStartAsset").textContent=fmt(d.startAsset);
   $("shareRetireAge").textContent=d.retireAge+"歲";
+  $("sharePlayedToAge").textContent=d.playedToAge+"歲";
+  $("shareGameRange").textContent=`${settings().startAge}歲 → ${d.playedToAge}歲｜共 ${d.years} 個年度`;
+  $("shareConfiguredEndAge").textContent=d.endAge+"歲";
+  if($("shareNominalLabel")) $("shareNominalLabel").textContent="結束時名目資產";
+  if($("shareRealLabel")) $("shareRealLabel").textContent="結束時實質總資產";
   $("shareNominal100").textContent=fmt(d.nominal100);
   $("shareReal100").textContent=fmt(d.real100);
-  $("shareBest").textContent=(d.best*100).toFixed(1)+"%";
-  $("shareWorst").textContent=(d.worst*100).toFixed(1)+"%";
+  $("sharePeakAsset").textContent=fmt(d.peakAsset);
+  $("sharePeakAge").textContent=d.peakAge+"歲時";
+  $("shareAvgReturn").textContent=(d.avg*100).toFixed(1)+"%";
+  $("shareBest").textContent=(d.best*100).toFixed(1)+"%"+(d.bestAge!==null?`（${d.bestAge}歲）`:"");
+  $("shareWorst").textContent=(d.worst*100).toFixed(1)+"%"+(d.worstAge!==null?`（${d.worstAge}歲）`:"");
+  $("shareUp0to5").textContent=d.counts.up0to5+"年";
+  $("shareUp5to10").textContent=d.counts.up5to10+"年";
+  $("shareUp10plus").textContent=d.counts.up10plus+"年";
+  $("shareDown0to5").textContent=d.counts.down0to5+"年";
+  $("shareDown5to10").textContent=d.counts.down5to10+"年";
+  $("shareDown10plus").textContent=d.counts.down10plus+"年";
   $("shareSummary").textContent=d.summary;
+  $("shareYears").textContent=`本局從${settings().startAge}歲模擬到${d.playedToAge}歲，共 ${d.years} 個年度`;
+  renderShareTrendChart();
   $("shareModal").classList.add("show");
 }
 function closeShareCard(){
@@ -1616,101 +4648,159 @@ function closeShareCard(){
 }
 function downloadShareCard(){
   const d=getShareData();
-  const canvas=$("shareCanvas"), ctx=canvas.getContext("2d");
-  const W=canvas.width, H=canvas.height;
+  const canvas=$("shareCanvas"),ctx=canvas.getContext("2d");
+  const W=1080,H=1920;
+  canvas.width=W; canvas.height=H;
 
-  function roundRect(x,y,w,h,r,fill,stroke){
-    ctx.beginPath();
-    ctx.moveTo(x+r,y);
-    ctx.arcTo(x+w,y,x+w,y+h,r);
-    ctx.arcTo(x+w,y+h,x,y+h,r);
-    ctx.arcTo(x,y+h,x,y,r);
-    ctx.arcTo(x,y,x+w,y,r);
-    ctx.closePath();
-    if(fill) ctx.fill();
-    if(stroke) ctx.stroke();
-  }
-  function textLine(txt,x,y,size,color="#fff",weight="normal",align="left"){
-    ctx.fillStyle=color;
-    ctx.font=`${weight} ${size}px "Noto Sans TC", Arial, sans-serif`;
-    ctx.textAlign=align;
-    ctx.fillText(txt,x,y);
-  }
-  function wrapText(txt,x,y,maxWidth,lineHeight,size,color="#fff"){
-    ctx.fillStyle=color;
-    ctx.font=`normal ${size}px "Noto Sans TC", Arial, sans-serif`;
-    ctx.textAlign="left";
-    let line="", yy=y;
-    for(const ch of txt){
-      const test=line+ch;
-      if(ctx.measureText(test).width>maxWidth && line){
-        ctx.fillText(line,x,yy);
-        line=ch;
-        yy+=lineHeight;
-      }else{
-        line=test;
-      }
-    }
-    if(line) ctx.fillText(line,x,yy);
-  }
+  const rr=(x,y,w,h,r,fill,stroke)=>{
+    ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+    if(fill)ctx.fill();if(stroke)ctx.stroke();
+  };
+  const tx=(t,x,y,s,c="#fff",w="700",a="left")=>{
+    ctx.fillStyle=c;ctx.font=`${w} ${s}px Arial,"Noto Sans TC",sans-serif`;ctx.textAlign=a;ctx.fillText(t,x,y);
+  };
+
+  const drawMiniChart=(x,y,w,h)=>{
+    const hist=history || [];
+    if(!hist.length){ return; }
+    const pad={l:58,r:18,t:22,b:34};
+    const nominal=hist.map(h=>Math.max(0,h.total));
+    const real=hist.map(h=>Math.max(0,typeof h.real==="number" ? h.real : 0));
+    const all=nominal.concat(real);
+    const maxV=Math.max(...all,1);
+
+    const xp=i => x+pad.l + (hist.length<=1 ? 0 : i*(w-pad.l-pad.r)/(hist.length-1));
+    const yp=v => y+h-pad.b - (v/(maxV||1))*(h-pad.t-pad.b);
+
+    ctx.fillStyle="rgba(255,255,255,.03)";
+    ctx.strokeStyle="rgba(255,255,255,.10)";
+    rr(x,y,w,h,22,true,true);
+
+    [0.25,0.5,0.75,1].forEach(fr=>{
+      const yy=y+h-pad.b - fr*(h-pad.t-pad.b);
+      ctx.beginPath(); ctx.moveTo(x+pad.l,yy); ctx.lineTo(x+w-pad.r,yy); ctx.strokeStyle="rgba(255,255,255,.08)"; ctx.lineWidth=1; ctx.stroke();
+      tx(`${Math.round(maxV*fr/10000)}萬`, x+pad.l-10, yy+6, 18, "#8ea0b7", "400", "right");
+    });
+
+    const ages=hist.map(h=>h.age);
+    const firstAge=ages[0], lastAge=ages[ages.length-1];
+    const tickAges=[];
+    let startTick=Math.ceil(firstAge/5)*5;
+    for(let a=startTick;a<=lastAge;a+=5) tickAges.push(a);
+    if(!tickAges.includes(firstAge)) tickAges.unshift(firstAge);
+    if(!tickAges.includes(lastAge)) tickAges.push(lastAge);
+
+    const xForAge=(age)=>{
+      const idx=ages.indexOf(age);
+      if(idx>=0) return xp(idx);
+      const ratio=(age-firstAge)/Math.max(1,(lastAge-firstAge));
+      return x+pad.l + ratio*(w-pad.l-pad.r);
+    };
+
+    tickAges.forEach(age=>{
+      const xx=xForAge(age);
+      ctx.beginPath(); ctx.moveTo(xx,y+pad.t); ctx.lineTo(xx,y+h-pad.b); ctx.strokeStyle="rgba(255,255,255,.06)"; ctx.lineWidth=1; ctx.stroke();
+      tx(String(age), xx, y+h-10, 18, "#8ea0b7", "400", "center");
+    });
+
+    ctx.beginPath(); ctx.moveTo(x+pad.l,y+h-pad.b); ctx.lineTo(x+w-pad.r,y+h-pad.b); ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+pad.l,y+pad.t); ctx.lineTo(x+pad.l,y+h-pad.b); ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.stroke();
+
+    const drawSeries=(arr,color,dash=[])=>{
+      ctx.save();
+      ctx.beginPath();
+      arr.forEach((v,i)=>{
+        const xx=xp(i), yy=yp(v);
+        if(i===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+      });
+      ctx.strokeStyle=color; ctx.lineWidth=4;
+      if(dash.length) ctx.setLineDash(dash);
+      ctx.lineJoin="round"; ctx.lineCap="round"; ctx.stroke();
+      ctx.restore();
+      const lx=xp(arr.length-1), ly=yp(arr[arr.length-1]);
+      ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();
+    };
+
+    drawSeries(nominal,"#ff7a7a",[]);
+    drawSeries(real,"#66d68d",[10,7]);
+
+    tx("📈 資產走勢", x+22, y+30, 26, "#fff", "900");
+    tx("名目資產", x+w-170, y+30, 18, "#d7dfeb", "400", "left");
+    ctx.beginPath(); ctx.moveTo(x+w-230,y+24); ctx.lineTo(x+w-182,y+24); ctx.strokeStyle="#ff7a7a"; ctx.lineWidth=4; ctx.stroke();
+    tx("實質總資產", x+w-170, y+56, 18, "#d7dfeb", "400", "left");
+    ctx.beginPath(); ctx.setLineDash([10,7]); ctx.moveTo(x+w-230,y+50); ctx.lineTo(x+w-182,y+50); ctx.strokeStyle="#66d68d"; ctx.lineWidth=4; ctx.stroke(); ctx.setLineDash([]);
+  };
 
   const grad=ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,"#101822");
-  grad.addColorStop(0.45,"#182335");
-  grad.addColorStop(1,"#111722");
-  ctx.fillStyle=grad;
-  ctx.fillRect(0,0,W,H);
+  grad.addColorStop(0,"#101722");grad.addColorStop(.55,"#151f2d");grad.addColorStop(1,"#0d131d");
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle="#344054";ctx.lineWidth=3;rr(35,35,W-70,H-70,28,false,true);
 
-  ctx.strokeStyle="rgba(255,255,255,.12)";
-  ctx.lineWidth=3;
-  roundRect(40,40,W-80,H-80,38,false,true);
+  tx("🐷 阿肥退休人生模擬器",70,115,44,"#fff","900");
+  tx("模式："+d.mode,70,160,24,"#aeb9c9","400");
+  tx(d.rate===null?"—":d.rate+"%",W-70,125,92,"#fff","900","right");
+  tx("退休成功率",W-70,165,24,"#aeb9c9","400","right");
 
-  textLine("阿肥退休人生",90,135,58,"#fff","800");
-  textLine("模擬器 v5",90,205,58,"#fff","800");
-  textLine("模式："+d.mode,90,255,28,"#c8d1de");
-  textLine(d.rate===null?"—":d.rate+"%",W-95,165,120,"#fff","900","right");
-  textLine("退休成功率",W-95,215,28,"#c8d1de","normal","right");
+  ctx.fillStyle="#f5c451";rr(70,205,500,58,28,true,false);
+  tx(d.grade,320,244,26,"#111","900","center");
 
-  ctx.fillStyle="#f5c451";
-  roundRect(90,285,430,62,31,true,false);
-  textLine(d.grade,305,327,28,"#111","800","center");
-
-  const boxes = [
+  const boxes=[
     ["起始資產",fmt(d.startAsset)],["退休年齡",d.retireAge+"歲"],
-    ["100歲名目資產",fmt(d.nominal100)],["100歲實質總資產",fmt(d.real100)],
-    ["最佳年度報酬",(d.best*100).toFixed(1)+"%"],["最差年度報酬",(d.worst*100).toFixed(1)+"%"]
+    ["本局玩到",d.playedToAge+"歲"],["設定終點",d.endAge+"歲"],
+    ["結束時名目資產",fmt(d.nominal100)],["結束時實質總資產",fmt(d.real100)],
+    ["資產最高點",fmt(d.peakAsset)+`｜${d.peakAge}歲`],["平均年報酬",(d.avg*100).toFixed(1)+"%"]
   ];
-  const positions=[[90,390],[560,390],[90,580],[560,580],[90,770],[560,770]];
-  boxes.forEach((item,idx)=>{
-    const label=item[0], val=item[1], pos=positions[idx], x=pos[0], y=pos[1];
-    ctx.fillStyle="rgba(255,255,255,.05)";
-    ctx.strokeStyle="rgba(255,255,255,.08)";
-    ctx.lineWidth=2;
-    roundRect(x,y,430,145,26,true,true);
-    textLine(label,x+24,y+42,24,"#b7c3d7");
-    textLine(val,x+24,y+102,42,"#fff","700");
+  const pos=[[70,300],[560,300],[70,438],[560,438],[70,576],[560,576],[70,714],[560,714]];
+  boxes.forEach((it,i)=>{
+    const [x,y]=pos[i];
+    ctx.fillStyle=i===4?"#241d10":"#151d29";ctx.strokeStyle=i===4?"#9a7732":"#2f3a4b";ctx.lineWidth=2;
+    rr(x,y,450,112,22,true,true);
+    tx(it[0],x+22,y+31,20,"#9facbe","400");
+    tx(it[1],x+22,y+80,33,i===6?"#ffd86b":"#fff","900");
   });
 
-  ctx.fillStyle="rgba(110,168,254,.10)";
-  ctx.strokeStyle="rgba(110,168,254,.25)";
-  roundRect(90,980,W-180,250,28,true,true);
-  textLine("阿肥評語",120,1030,30,"#9bc0ff","700");
-  wrapText(d.summary,120,1090,W-240,46,34,"#fff");
+  ctx.fillStyle="rgba(220,70,70,.13)";ctx.strokeStyle="rgba(240,90,90,.4)";
+  rr(70,1200,450,115,22,true,true);
+  tx("最佳年度報酬",92,1235,22,"#d7dfeb","400");
+  tx((d.best*100).toFixed(1)+"%"+(d.bestAge!==null?`｜${d.bestAge}歲`:""),92,1285,34,"#ff7a7a","900");
 
-  ctx.strokeStyle="rgba(255,255,255,.08)";
-  ctx.beginPath();
-  ctx.moveTo(90,1700);
-  ctx.lineTo(W-90,1700);
-  ctx.stroke();
-  textLine("歡迎到《阿肥生活雜記》粉專分享你的退休成績單",W/2,1770,28,"#d7dfeb","700","center");
-  textLine("#阿肥勞工退休人生模擬器",W/2,1820,24,"#c8d1de","normal","center");
+  ctx.fillStyle="rgba(60,190,110,.11)";ctx.strokeStyle="rgba(80,210,130,.35)";
+  rr(560,1200,450,115,22,true,true);
+  tx("最差年度報酬",582,1235,22,"#d7dfeb","400");
+  tx((d.worst*100).toFixed(1)+"%"+(d.worstAge!==null?`｜${d.worstAge}歲`:""),582,1285,34,"#66d68d","900");
 
-  const link=document.createElement("a");
-  link.download="阿肥勞工退休成績單.png";
-  link.href=canvas.toDataURL("image/png");
-  link.click();
+  tx("📊 市場年度分布（年數）",70,1365,28,"#fff","900");
+  const dist=[
+    ["漲0～5%",d.counts.up0to5+"年","#ff7676"],["漲5～10%",d.counts.up5to10+"年","#ff7676"],["漲>10%",d.counts.up10plus+"年","#ff7676"],
+    ["跌0～5%",d.counts.down0to5+"年","#65d98d"],["跌5～10%",d.counts.down5to10+"年","#65d98d"],["跌>10%",d.counts.down10plus+"年","#65d98d"]
+  ];
+  dist.forEach((it,i)=>{
+    const col=i%3,row=Math.floor(i/3),x=70+col*320,y=1395+row*95;
+    ctx.fillStyle="#131a25";ctx.strokeStyle="#2c3647";ctx.lineWidth=2;rr(x,y,290,90,18,true,true);
+    tx(it[0],x+18,y+30,19,"#9facbe","400");tx(String(it[1]),x+18,y+68,32,it[2],"900");
+  });
+
+  ctx.fillStyle="rgba(110,168,254,.08)";ctx.strokeStyle="rgba(110,168,254,.24)";
+  rr(70,1595,940,170,24,true,true);
+  tx("阿肥評語",95,1632,28,"#9bc0ff","900");
+  let line="",yy=1672;
+  ctx.font='700 28px Arial,"Noto Sans TC",sans-serif';ctx.fillStyle="#fff";ctx.textAlign="left";
+  for(const ch of d.summary){
+    const test=line+ch;
+    if(ctx.measureText(test).width>880 && line){ctx.fillText(line,95,yy);line=ch;yy+=42}else line=test;
+  }
+  if(line)ctx.fillText(line,95,yy);
+
+  tx(`本局玩到 ${d.playedToAge}歲｜設定終點 ${d.endAge}歲｜共模擬 ${d.years} 個年度`,W/2,1805,22,"#c8d1de","400","center");
+  tx("歡迎到《阿肥生活雜記》粉專分享你的退休成績單",W/2,1855,24,"#d7dfeb","900","center");
+  tx("#阿肥退休人生模擬器",W/2,1892,21,"#8fa6c5","400","center");
+
+  const a=document.createElement("a");
+  a.download="阿肥退休成績單.png";
+  a.href=canvas.toDataURL("image/png");
+  a.click();
 }
-
 
 function initSuccessRateInvalidation(){
   document.querySelectorAll("input,select").forEach(el=>{
@@ -1741,42 +4831,116 @@ resetGame();
 </script>
 
 <div id="shareModal" class="modal">
-  <div class="modal-box">
-    <div id="shareCard" class="share-card">
-      <div>
-        <div class="share-head">
-          <div>
-            <div class="share-title">阿肥勞工退休人生<br>模擬器 v1</div>
-            <div class="share-sub" id="shareMode">模式：—</div>
+  <div class="modal-box share-modal-box">
+    <div id="shareCard" class="share-card portrait-scorecard">
+      <div class="score-header">
+        <div>
+          <div class="share-title">🐷 阿肥退休人生模擬器</div>
+          <div class="share-sub" id="shareMode">模式：—</div>
+        </div>
+        <div class="score-rate-block">
+          <div class="share-rate" id="shareRate">—</div>
+          <div class="score-rate-label">退休成功率</div>
+        </div>
+      </div>
+
+      <div class="score-grade-row achievement-block">
+        <span id="shareGrade" class="share-grade">—</span>
+        <div id="shareSummary" class="achievement-summary">—</div>
+      </div>
+
+      <div class="score-summary-panel">
+        <div class="score-summary-panel-title">📋 本局摘要</div>
+
+        <div class="summary-main-row">
+          <div class="summary-main-item">
+            <span>本局區間</span>
+            <b id="shareGameRange">—</b>
           </div>
-          <div style="text-align:right">
-            <div class="share-rate" id="shareRate">—</div>
-            <div style="font-size:13px;color:#c8d1de">退休成功率</div>
+          <div class="summary-main-item">
+            <span>退休年齡</span>
+            <b id="shareRetireAge">—</b>
           </div>
         </div>
-        <div style="margin-top:10px"><span id="shareGrade" class="share-grade">—</span></div>
-        <div class="share-grid">
-          <div class="share-item"><span>起始資產</span><b id="shareStartAsset">—</b></div>
-          <div class="share-item"><span>退休年齡</span><b id="shareRetireAge">—</b></div>
-          <div class="share-item"><span>100歲名目資產</span><b id="shareNominal100">—</b></div>
-          <div class="share-item"><span>100歲實質總資產</span><b id="shareReal100">—</b></div>
-          <div class="share-item"><span>最佳年度報酬</span><b id="shareBest">—</b></div>
-          <div class="share-item"><span>最差年度報酬</span><b id="shareWorst">—</b></div>
+
+        <div class="summary-asset-grid">
+          <div class="summary-asset-item">
+            <span>起始名目資產</span>
+            <b id="shareStartAsset">—</b>
+          </div>
+          <div class="summary-asset-item emphasis">
+            <span>結束時名目資產</span>
+            <b id="shareNominal100">—</b>
+          </div>
+          <div class="summary-asset-item">
+            <span>結束時實質總資產</span>
+            <b id="shareReal100">—</b>
+          </div>
+          <div class="summary-asset-item gold">
+            <span>名目資產最高點</span>
+            <b id="sharePeakAsset">—</b>
+            <small id="sharePeakAge">—</small>
+          </div>
         </div>
-        <div id="shareSummary" class="share-summary">—</div>
+
+        <span id="shareConfiguredEndAge" style="display:none"></span>
+        <span id="sharePlayedToAge" style="display:none"></span>
       </div>
-      <div class="share-footer">
-        歡迎到《阿肥生活雜記》粉專分享你的退休成績單｜#阿肥勞工退休人生模擬器
+      <div class="share-chart-card">
+        <div class="share-chart-head">
+          <span>📈 資產走勢</span>
+          <div class="share-chart-legend">
+            <span class="legend-item"><i class="legend-line nominal"></i>名目資產</span>
+            <span class="legend-item"><i class="legend-line real"></i>實質總資產</span>
+          </div>
+        </div>
+        <svg id="shareTrendChart" viewBox="0 0 320 170" preserveAspectRatio="none"></svg>
       </div>
+
+      <div class="score-return-grid compact-return-grid">
+        <div class="return-card up-card"><span>最佳報酬率</span><b id="shareBest">—</b></div>
+        <div class="return-card down-card"><span>最差報酬率</span><b id="shareWorst">—</b></div>
+        <div class="return-card avg-card"><span>平均報酬率</span><b id="shareAvgReturn">—</b></div>
+      </div>
+
+      <div class="score-market-title">📊 年度報酬率分布</div>
+      <div class="market-compact-lines">
+        <div class="market-text-line up-line">
+          <b class="market-line-label">上漲</b>
+          <span>0～5%：<b id="shareUp0to5">0年</b></span>
+          <i>｜</i>
+          <span>5～10%：<b id="shareUp5to10">0年</b></span>
+          <i>｜</i>
+          <span>&gt;10%：<b id="shareUp10plus">0年</b></span>
+        </div>
+        <div class="market-text-line down-line">
+          <b class="market-line-label">下跌</b>
+          <span>0～5%：<b id="shareDown0to5">0年</b></span>
+          <i>｜</i>
+          <span>5～10%：<b id="shareDown5to10">0年</b></span>
+          <i>｜</i>
+          <span>&gt;10%：<b id="shareDown10plus">0年</b></span>
+        </div>
+      </div>
+
+      <div class="score-footer">
+        <div id="shareYears" style="display:none"></div>
+        <div class="share-community-title">歡迎到《阿肥生活雜記》FB粉專分享你的退休成績單</div>
+        <a class="share-link" href="https://www.facebook.com/share/1FH2osLrUG/" target="_blank" rel="noopener">https://www.facebook.com/share/1FH2osLrUG/</a>
+        <div class="share-community-title score-hash">#阿肥退休人生模擬器</div>
+        <a class="share-link" href="https://dafat2026.github.io/afei-retirement-game/" target="_blank" rel="noopener">https://dafat2026.github.io/afei-retirement-game/</a>
+      </div>
+      <span id="shareNominalLabel" style="display:none"></span>
+      <span id="shareRealLabel" style="display:none"></span>
     </div>
-    <div class="share-actions">
+
+    <div class="share-actions score-actions">
       <button class="primary" onclick="downloadShareCard()">下載成績單 PNG</button>
       <button class="secondary" onclick="closeShareCard()">關閉</button>
     </div>
     <div class="kpi-note" style="margin-top:6px">手機可直接截圖，或下載成 PNG 再分享到 FB / IG / LINE。</div>
   </div>
-  <canvas id="shareCanvas" width="1080" height="1920"></canvas>
+  <canvas id="shareCanvas" width="1080" height="1920" style="display:none"></canvas>
 </div>
-
 </body>
 </html>
