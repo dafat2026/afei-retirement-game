@@ -4778,7 +4778,7 @@ async function downloadShareCard(){
   const drawMiniChart=(x,y,w,h)=>{
     const hist=history || [];
     if(!hist.length){ return; }
-    const pad={l:58,r:18,t:22,b:34};
+    const pad={l:78,r:20,t:74,b:34};
     const nominal=hist.map(h=>Math.max(0,h.total));
     const real=hist.map(h=>Math.max(0,typeof h.real==="number" ? h.real : 0));
     const all=nominal.concat(real);
@@ -4793,8 +4793,9 @@ async function downloadShareCard(){
 
     [0.25,0.5,0.75,1].forEach(fr=>{
       const yy=y+h-pad.b - fr*(h-pad.t-pad.b);
-      ctx.beginPath(); ctx.moveTo(x+pad.l,yy); ctx.lineTo(x+w-pad.r,yy); ctx.strokeStyle="rgba(255,255,255,.08)"; ctx.lineWidth=1; ctx.stroke();
-      tx(`${Math.round(maxV*fr/10000)}萬`, x+pad.l-10, yy+6, 18, "#8ea0b7", "400", "right");
+      ctx.beginPath(); ctx.moveTo(x+pad.l,yy); ctx.lineTo(x+w-pad.r,yy);
+      ctx.strokeStyle="rgba(255,255,255,.08)"; ctx.lineWidth=1; ctx.stroke();
+      tx(`${Math.round(maxV*fr/10000)}萬`, x+pad.l-12, yy+6, 18, "#8ea0b7", "400", "right");
     });
 
     const ages=hist.map(h=>h.age);
@@ -4814,12 +4815,15 @@ async function downloadShareCard(){
 
     tickAges.forEach(age=>{
       const xx=xForAge(age);
-      ctx.beginPath(); ctx.moveTo(xx,y+pad.t); ctx.lineTo(xx,y+h-pad.b); ctx.strokeStyle="rgba(255,255,255,.06)"; ctx.lineWidth=1; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(xx,y+pad.t); ctx.lineTo(xx,y+h-pad.b);
+      ctx.strokeStyle="rgba(255,255,255,.06)"; ctx.lineWidth=1; ctx.stroke();
       tx(String(age), xx, y+h-10, 18, "#8ea0b7", "400", "center");
     });
 
-    ctx.beginPath(); ctx.moveTo(x+pad.l,y+h-pad.b); ctx.lineTo(x+w-pad.r,y+h-pad.b); ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(x+pad.l,y+pad.t); ctx.lineTo(x+pad.l,y+h-pad.b); ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+pad.l,y+h-pad.b); ctx.lineTo(x+w-pad.r,y+h-pad.b);
+    ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+pad.l,y+pad.t); ctx.lineTo(x+pad.l,y+h-pad.b);
+    ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.stroke();
 
     const drawSeries=(arr,color,dash=[])=>{
       ctx.save();
@@ -4828,9 +4832,10 @@ async function downloadShareCard(){
         const xx=xp(i), yy=yp(v);
         if(i===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
       });
-      ctx.strokeStyle=color; ctx.lineWidth=4;
+      ctx.strokeStyle=color;
+      ctx.lineWidth=4;
       if(dash.length) ctx.setLineDash(dash);
-      ctx.lineJoin="round"; ctx.lineCap="round"; ctx.stroke();
+      ctx.stroke();
       ctx.restore();
       const lx=xp(arr.length-1), ly=yp(arr[arr.length-1]);
       ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();
@@ -4839,11 +4844,14 @@ async function downloadShareCard(){
     drawSeries(nominal,"#58d68d",[]);
     drawSeries(real,"#6ea8fe",[10,7]);
 
-    tx("📈 資產走勢", x+22, y+30, 26, "#fff", "900");
-    tx("名目資產", x+w-170, y+30, 18, "#d7dfeb", "400", "left");
-    ctx.beginPath(); ctx.moveTo(x+w-230,y+24); ctx.lineTo(x+w-182,y+24); ctx.strokeStyle="#58d68d"; ctx.lineWidth=4; ctx.stroke();
-    tx("實質總資產", x+w-170, y+56, 18, "#d7dfeb", "400", "left");
-    ctx.beginPath(); ctx.setLineDash([10,7]); ctx.moveTo(x+w-230,y+50); ctx.lineTo(x+w-182,y+50); ctx.strokeStyle="#6ea8fe"; ctx.lineWidth=4; ctx.stroke(); ctx.setLineDash([]);
+    tx("📈 資產走勢", x+pad.l+6, y+34, 24, "#fff", "900");
+    ctx.beginPath(); ctx.moveTo(x+pad.l+220,y+28); ctx.lineTo(x+pad.l+270,y+28);
+    ctx.strokeStyle="#58d68d"; ctx.lineWidth=4; ctx.stroke();
+    tx("名目資產", x+pad.l+280, y+34, 17, "#d7dfeb", "400", "left");
+
+    ctx.beginPath(); ctx.setLineDash([10,7]); ctx.moveTo(x+pad.l+470,y+28); ctx.lineTo(x+pad.l+520,y+28);
+    ctx.strokeStyle="#6ea8fe"; ctx.lineWidth=4; ctx.stroke(); ctx.setLineDash([]);
+    tx("實質總資產", x+pad.l+530, y+34, 17, "#d7dfeb", "400", "left");
   };
 
   const grad=ctx.createLinearGradient(0,0,0,H);
@@ -4856,8 +4864,29 @@ async function downloadShareCard(){
   tx(d.rate===null?"—":d.rate+"%",W-70,125,92,"#fff","900","right");
   tx("退休成功率",W-70,165,24,"#aeb9c9","400","right");
 
-  ctx.fillStyle="#f5c451";rr(70,205,500,58,28,true,false);
+  ctx.fillStyle="#f5c451";
+  rr(70,205,500,58,28,true,false);
   tx(d.grade,320,244,26,"#111","900","center");
+
+  ctx.fillStyle="rgba(110,168,254,.08)";
+  ctx.strokeStyle="rgba(110,168,254,.24)";
+  rr(70,278,940,92,22,true,true);
+  tx("阿肥評語",95,312,22,"#9bc0ff","900");
+  let line="",yy=348;
+  ctx.font='700 25px Arial,"Noto Sans TC",sans-serif';
+  ctx.fillStyle="#fff";
+  ctx.textAlign="left";
+  for(const ch of d.summary){
+    const test=line+ch;
+    if(ctx.measureText(test).width>885 && line){
+      ctx.fillText(line,95,yy);
+      line=ch;
+      yy+=34;
+    }else{
+      line=test;
+    }
+  }
+  if(line) ctx.fillText(line,95,yy);
 
   const boxes=[
     ["本局區間",`${settings().startAge}歲 → ${d.playedToAge}歲`],
@@ -4869,9 +4898,9 @@ async function downloadShareCard(){
   ];
 
   const boxPos=[
-    [70,300],[560,300],
-    [70,422],[560,422],
-    [70,544],[560,544]
+    [70,392],[560,392],
+    [70,504],[560,504],
+    [70,616],[560,616]
   ];
 
   boxes.forEach((it,i)=>{
@@ -4880,15 +4909,13 @@ async function downloadShareCard(){
     ctx.fillStyle=gold?"#241d10":"#151d29";
     ctx.strokeStyle=gold?"#9a7732":"#2f3a4b";
     ctx.lineWidth=2;
-    rr(x,y,450,98,20,true,true);
-    tx(it[0],x+20,y+28,18,"#9facbe","400");
-    tx(it[1],x+20,y+68,29,gold?"#ffd86b":"#fff","900");
+    rr(x,y,450,90,20,true,true);
+    tx(it[0],x+20,y+27,18,"#9facbe","400");
+    tx(it[1],x+20,y+63,28,gold?"#ffd86b":"#fff","900");
   });
 
-  // 資產走勢：原本只有預留空間卻沒有真正呼叫，這裡補上。
-  drawMiniChart(70,665,940,360);
+  drawMiniChart(70,725,940,300);
 
-  // 三個報酬率指標
   const returnY=1050;
   const returnCards=[
     ["最佳報酬率",(d.best*100).toFixed(1)+"%"+(d.bestAge!==null?`｜${d.bestAge}歲`:""),"#ff7a7a","rgba(220,70,70,.13)","rgba(240,90,90,.40)"],
@@ -4900,12 +4927,12 @@ async function downloadShareCard(){
     ctx.fillStyle=it[3];
     ctx.strokeStyle=it[4];
     ctx.lineWidth=2;
-    rr(x,returnY,290,102,20,true,true);
+    rr(x,returnY,290,98,20,true,true);
     tx(it[0],x+18,returnY+30,18,"#d7dfeb","400");
-    tx(it[1],x+18,returnY+72,27,it[2],"900");
+    tx(it[1],x+18,returnY+68,25,it[2],"900");
   });
 
-  tx("📊 年度報酬率分布",70,1200,27,"#fff","900");
+  tx("📊 年度報酬率分布",70,1198,27,"#fff","900");
 
   const dist=[
     ["漲0～5%",d.counts.up0to5+"年","#ff7676"],
@@ -4926,34 +4953,13 @@ async function downloadShareCard(){
     tx(it[1],x+16,y+57,27,it[2],"900");
   });
 
-  ctx.fillStyle="rgba(110,168,254,.08)";
-  ctx.strokeStyle="rgba(110,168,254,.24)";
-  rr(70,1410,940,170,22,true,true);
-  tx("阿肥評語",95,1445,26,"#9bc0ff","900");
+  tx(`本局從 ${settings().startAge}歲 模擬到 ${d.playedToAge}歲｜共 ${d.years} 個年度`,W/2,1458,20,"#c8d1de","400","center");
 
-  let line="",yy=1486;
-  ctx.font='700 27px Arial,"Noto Sans TC",sans-serif';
-  ctx.fillStyle="#fff";
-  ctx.textAlign="left";
-  for(const ch of d.summary){
-    const test=line+ch;
-    if(ctx.measureText(test).width>880 && line){
-      ctx.fillText(line,95,yy);
-      line=ch;
-      yy+=39;
-    }else{
-      line=test;
-    }
-  }
-  if(line)ctx.fillText(line,95,yy);
+  tx("歡迎到《阿肥生活雜記》FB粉專分享你的退休成績單",W/2,1502,22,"#d7dfeb","900","center");
+  tx("https://www.facebook.com/share/1FH2osLrUG/",W/2,1538,18,"#8fb7ff","400","center");
 
-  tx(`本局從 ${settings().startAge}歲 模擬到 ${d.playedToAge}歲｜共 ${d.years} 個年度`,W/2,1635,20,"#c8d1de","400","center");
-
-  tx("歡迎到《阿肥生活雜記》FB粉專分享你的退休成績單",W/2,1685,22,"#d7dfeb","900","center");
-  tx("https://www.facebook.com/share/1FH2osLrUG/",W/2,1722,18,"#8fb7ff","400","center");
-
-  tx("#阿肥退休人生模擬器",W/2,1775,21,"#d7dfeb","900","center");
-  tx("https://dafat2026.github.io/afei-retirement-game/",W/2,1812,18,"#8fb7ff","400","center");
+  tx("#阿肥退休人生模擬器",W/2,1588,21,"#d7dfeb","900","center");
+  tx("https://dafat2026.github.io/afei-retirement-game/",W/2,1623,18,"#8fb7ff","400","center");
 
   const dataUrl=canvas.toDataURL("image/png");
 
