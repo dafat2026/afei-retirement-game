@@ -3049,6 +3049,94 @@ html[data-theme="light"] .score-actions button{
   color:#172033!important;
 }
 
+
+/* ===== v93 手機分享／儲存成績單 ===== */
+.score-image-preview-box{
+  width:min(94vw,430px);
+  max-height:92vh;
+  overflow:auto;
+  background:#111722;
+  border:1px solid #344054;
+  border-radius:14px;
+  padding:10px;
+  box-shadow:0 18px 45px rgba(0,0,0,.42);
+}
+.score-image-preview-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:8px;
+}
+.score-image-preview-title{
+  font-size:16px;
+  font-weight:900;
+  color:#f5f7fb;
+}
+.score-image-preview-sub{
+  font-size:10px;
+  color:#aeb8c8;
+  line-height:1.35;
+  margin-top:3px;
+}
+.score-image-preview-close{
+  flex:0 0 auto;
+  min-width:36px;
+  min-height:36px;
+  background:#273142;
+  color:#fff;
+  border:1px solid #3d4a60;
+}
+#scoreImagePreview{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:10px;
+  border:1px solid #344054;
+  background:#0d131d;
+}
+.score-image-preview-done{
+  width:100%;
+  min-height:42px;
+  margin-top:8px;
+  background:#245fbe;
+  color:#fff;
+  border:1px solid #1d4f9f;
+}
+
+html[data-theme="light"] .score-image-preview-box{
+  background:#ffffff;
+  border-color:#cbd5e1;
+  color:#172033;
+}
+html[data-theme="light"] .score-image-preview-title{
+  color:#172033;
+}
+html[data-theme="light"] .score-image-preview-sub{
+  color:#5f6d82;
+}
+html[data-theme="light"] .score-image-preview-close{
+  background:#e7ecf3;
+  color:#26344a;
+  border-color:#c8d1df;
+}
+html[data-theme="light"] #scoreImagePreview{
+  border-color:#cbd5e1;
+  background:#f7f9fc;
+}
+
+
+/* ===== v94 成績單：桌機下載 / 手機分享分流 ===== */
+#scoreSaveShareBtn{
+  white-space:nowrap;
+  font-weight:900;
+}
+@media(max-width:560px){
+  #scoreSaveShareBtn{
+    font-size:12.5px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -4614,6 +4702,7 @@ function renderShareTrendChart(){
 }
 
 function openShareCard(){
+  updateScoreSaveShareButton();
   const d=getShareData();
   $("shareMode").textContent="模式："+d.mode;
   $("shareRate").textContent=(d.rate===null?"—":d.rate+"%");
@@ -4646,7 +4735,32 @@ function openShareCard(){
 function closeShareCard(){
   $("shareModal").classList.remove("show");
 }
-function downloadShareCard(){
+
+function isMobileLikeDevice(){
+  // 以 coarse pointer / touch 為主，避免只看 UA。
+  const coarse=window.matchMedia && window.matchMedia("(pointer:coarse)").matches;
+  const noHover=window.matchMedia && window.matchMedia("(hover:none)").matches;
+  const touchPoints=(navigator.maxTouchPoints||0)>0;
+
+  // 平板也視為手機流程；觸控筆電若仍有精準指標則偏向桌機。
+  const fine=window.matchMedia && window.matchMedia("(pointer:fine)").matches;
+  return (coarse || noHover || touchPoints) && !fine;
+}
+
+function updateScoreSaveShareButton(){
+  const btn=document.getElementById("scoreSaveShareBtn");
+  if(!btn)return;
+
+  if(isMobileLikeDevice()){
+    btn.textContent="📤 分享／存照片";
+    btn.title="使用手機系統分享；若不支援則開啟圖片預覽供長按儲存";
+  }else{
+    btn.textContent="💾 另存成績單照片";
+    btn.title="下載 PNG 成績單到電腦";
+  }
+}
+
+async function downloadShareCard(){
   const d=getShareData();
   const canvas=$("shareCanvas"),ctx=canvas.getContext("2d");
   const W=1080,H=1920;
@@ -4796,10 +4910,58 @@ function downloadShareCard(){
   tx("歡迎到《阿肥生活雜記》粉專分享你的退休成績單",W/2,1855,24,"#d7dfeb","900","center");
   tx("#阿肥退休人生模擬器",W/2,1892,21,"#8fa6c5","400","center");
 
-  const a=document.createElement("a");
-  a.download="阿肥退休成績單.png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
+  const dataUrl=canvas.toDataURL("image/png");
+
+  // 轉成 Blob / File，供手機原生分享使用
+  const blob=await (await fetch(dataUrl)).blob();
+  const file=new File([blob],"阿肥退休成績單.png",{type:"image/png"});
+
+  const mobileLike=isMobileLikeDevice();
+
+  // 桌機：直接下載 PNG，不繞分享面板。
+  if(!mobileLike){
+    const a=document.createElement("a");
+    a.download="阿肥退休成績單.png";
+    a.href=dataUrl;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return;
+  }
+
+  // 手機／平板：優先使用系統分享面板。
+  try{
+    if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+      await navigator.share({
+        files:[file],
+        title:"阿肥退休人生模擬器",
+        text:"我的退休成績單"
+      });
+      return;
+    }
+  }catch(err){
+    // 使用者取消分享就直接結束；其他錯誤才進入備援。
+    if(err && err.name==="AbortError") return;
+  }
+
+  // 手機備援：開啟圖片預覽，可長按儲存。
+  openScoreImagePreview(dataUrl);
+}
+
+
+function openScoreImagePreview(dataUrl){
+  const modal=$("scoreImagePreviewModal");
+  const img=$("scoreImagePreview");
+  if(!modal || !img)return;
+  img.src=dataUrl;
+  modal.classList.add("show");
+}
+
+function closeScoreImagePreview(){
+  const modal=$("scoreImagePreviewModal");
+  const img=$("scoreImagePreview");
+  if(modal) modal.classList.remove("show");
+  if(img) img.removeAttribute("src");
 }
 
 function initSuccessRateInvalidation(){
@@ -4824,11 +4986,33 @@ function initSetupChangeTracking(){
   });
 }
 
+
+updateScoreSaveShareButton();
+window.addEventListener("resize",()=>{
+  clearTimeout(window.__afeiScoreBtnResizeTimer);
+  window.__afeiScoreBtnResizeTimer=setTimeout(updateScoreSaveShareButton,120);
+});
+
 initMoneyInputs();
 initSetupChangeTracking();
 initSuccessRateInvalidation();
 resetGame();
 </script>
+
+
+<div id="scoreImagePreviewModal" class="modal">
+  <div class="score-image-preview-box">
+    <div class="score-image-preview-head">
+      <div>
+        <div class="score-image-preview-title">📱 成績單圖片</div>
+        <div class="score-image-preview-sub">若手機沒有出現分享選單，可長按圖片儲存到照片或檔案。</div>
+      </div>
+      <button class="score-image-preview-close" onclick="closeScoreImagePreview()">✕</button>
+    </div>
+    <img id="scoreImagePreview" alt="阿肥退休成績單 PNG">
+    <button class="score-image-preview-done" onclick="closeScoreImagePreview()">關閉</button>
+  </div>
+</div>
 
 <div id="shareModal" class="modal">
   <div class="modal-box share-modal-box">
@@ -4935,10 +5119,10 @@ resetGame();
     </div>
 
     <div class="share-actions score-actions">
-      <button class="primary" onclick="downloadShareCard()">下載成績單 PNG</button>
+      <button id="scoreSaveShareBtn" class="primary" onclick="downloadShareCard()">📤 分享／存照片</button>
       <button class="secondary" onclick="closeShareCard()">關閉</button>
     </div>
-    <div class="kpi-note" style="margin-top:6px">手機可直接截圖，或下載成 PNG 再分享到 FB / IG / LINE。</div>
+    <div class="kpi-note" style="margin-top:6px"></div>
   </div>
   <canvas id="shareCanvas" width="1080" height="1920" style="display:none"></canvas>
 </div>
