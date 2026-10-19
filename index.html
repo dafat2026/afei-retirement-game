@@ -3174,6 +3174,87 @@ html[data-theme="light"] .share-watermark-logo{opacity:.11}
   overflow-x:hidden!important;
 }
 .score-footer{position:relative!important;z-index:2!important}
+
+/* ===== v104 分享隱私控制 ===== */
+.share-privacy-box{
+  margin-top:9px;
+  padding:9px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:var(--panel2);
+}
+.share-privacy-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:7px;
+  font-size:12px;
+  font-weight:900;
+}
+.share-privacy-modes{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+}
+.share-privacy-mode{
+  min-height:36px;
+  padding:6px 7px;
+  background:var(--button-secondary,#2a3344);
+  color:var(--button-secondary-text,#fff);
+  border:1px solid var(--line);
+  font-size:11px;
+}
+.share-privacy-mode.active{
+  background:var(--blue);
+  color:#fff;
+  border-color:var(--blue);
+}
+.share-privacy-note{
+  margin-top:6px;
+  font-size:9.5px;
+  line-height:1.4;
+  color:var(--muted);
+}
+.share-privacy-custom{
+  display:none;
+  grid-template-columns:1fr 1fr;
+  gap:5px 8px;
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid var(--line);
+}
+.share-privacy-custom.show{display:grid}
+.share-privacy-custom label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:0;
+  font-size:10px;
+  color:var(--text);
+  cursor:pointer;
+}
+.share-privacy-custom input{
+  width:auto!important;
+  min-height:0!important;
+  margin:0;
+  accent-color:var(--blue);
+}
+.share-private-masked{
+  color:var(--muted)!important;
+  font-style:italic;
+  font-weight:700!important;
+}
+html[data-theme="light"] .share-privacy-box{
+  background:#f5f8fc;
+  border-color:#d4dde9;
+}
+@media(max-width:560px){
+  .share-privacy-box{padding:8px}
+  .share-privacy-mode{font-size:10.5px}
+  .share-privacy-custom{grid-template-columns:1fr 1fr}
+}
+
 </style>
 </head>
 <body>
@@ -4721,6 +4802,7 @@ function renderShareTrendChart(){
     return `${Math.round(wan)}萬`;
   };
 
+  const privacy=getSharePrivacyConfig();
   const ages=hist.map(h=>h.age),first=ages[0],last=ages[ages.length-1];
   const ageTicks=[];
   for(let a=Math.ceil(first/5)*5;a<=last;a+=5)ageTicks.push(a);
@@ -4748,7 +4830,8 @@ function renderShareTrendChart(){
   ageTicks.forEach(age=>{
     const xx=xForAge(age);
     grid+=`<line x1="${xx}" y1="${pad.t}" x2="${xx}" y2="${H-pad.b}" stroke="${gridStrokeX}" stroke-width="1"/>`;
-    grid+=`<text x="${xx}" y="${H-7}" text-anchor="middle" font-size="8" fill="${axisText}">${age}</text>`;
+    const tickLabel=privacy.ageInfo ? `${age}` : `+${age-first}年`;
+    grid+=`<text x="${xx}" y="${H-7}" text-anchor="middle" font-size="8" fill="${axisText}">${tickLabel}</text>`;
   });
 
   const lastIdx=hist.length-1;
@@ -4759,6 +4842,123 @@ function renderShareTrendChart(){
     <circle cx="${x(lastIdx)}" cy="${y(nominal[lastIdx])}" r="3" fill="${nominalStroke}"></circle>
     <circle cx="${x(lastIdx)}" cy="${y(real[lastIdx])}" r="3" fill="${realStroke}"></circle>
   `;
+}
+
+
+let sharePrivacyMode="full";
+const sharePrivacyCustomState={
+  ageInfo:true,
+  startAsset:true,
+  successRate:true,
+  achievement:true,
+  nominalEnd:true,
+  realEnd:true,
+  peakAsset:true,
+  trend:true,
+  returns:true,
+  distribution:true
+};
+
+function getSharePrivacyConfig(){
+  if(sharePrivacyMode==="privacy"){
+    return {
+      ageInfo:false,
+      startAsset:false,
+      successRate:true,
+      achievement:true,
+      nominalEnd:true,
+      realEnd:true,
+      peakAsset:true,
+      trend:true,
+      returns:true,
+      distribution:true
+    };
+  }
+  if(sharePrivacyMode==="custom"){
+    return {...sharePrivacyCustomState};
+  }
+  return {
+    ageInfo:true,
+    startAsset:true,
+    successRate:true,
+    achievement:true,
+    nominalEnd:true,
+    realEnd:true,
+    peakAsset:true,
+    trend:true,
+    returns:true,
+    distribution:true
+  };
+}
+
+function setSharePrivacyMode(mode){
+  sharePrivacyMode=(mode==="privacy" || mode==="custom") ? mode : "full";
+
+  document.querySelectorAll("[data-share-privacy-mode]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.sharePrivacyMode===sharePrivacyMode);
+  });
+
+  const custom=$("sharePrivacyCustom");
+  if(custom) custom.classList.toggle("show",sharePrivacyMode==="custom");
+
+  const note=$("sharePrivacyNote");
+  if(note){
+    note.textContent=
+      sharePrivacyMode==="privacy"
+        ?"隱私版：預設隱藏年齡資訊與起始資產；其他資訊照常顯示。"
+        :sharePrivacyMode==="custom"
+          ?"自訂：勾選要出現在成績單與分享圖片中的資訊。"
+          :"完整：顯示全部成績單資訊。";
+  }
+
+  applySharePrivacy();
+}
+
+function onSharePrivacyCustomChange(){
+  document.querySelectorAll("[data-share-field]").forEach(input=>{
+    sharePrivacyCustomState[input.dataset.shareField]=!!input.checked;
+  });
+  if(sharePrivacyMode==="custom") applySharePrivacy();
+}
+
+function setMaskedText(id,actual,visible){
+  const el=$(id);
+  if(!el)return;
+  el.textContent=visible?actual:"已隱藏";
+  el.classList.toggle("share-private-masked",!visible);
+}
+
+function applySharePrivacy(){
+  const d=getShareData();
+  const p=getSharePrivacyConfig();
+
+  setMaskedText("shareRate",(d.rate===null?"—":d.rate+"%"),p.successRate);
+
+  if($("shareAchievementBlock")){
+    $("shareAchievementBlock").style.display=p.achievement?"":"none";
+  }
+
+  setMaskedText("shareGameRange",`${settings().startAge}歲 → ${d.playedToAge}歲｜共 ${d.years} 個年度`,p.ageInfo);
+  setMaskedText("shareRetireAge",d.retireAge+"歲",p.ageInfo);
+  setMaskedText("shareStartAsset",fmt(d.startAsset),p.startAsset);
+  setMaskedText("shareNominal100",fmt(d.nominal100),p.nominalEnd);
+  setMaskedText("shareReal100",fmt(d.real100),p.realEnd);
+  setMaskedText("sharePeakAsset",fmt(d.peakAsset),p.peakAsset);
+
+  const peakAge=$("sharePeakAge");
+  if(peakAge){
+    peakAge.textContent=(p.peakAsset && p.ageInfo)?d.peakAge+"歲時":"";
+  }
+
+  $("shareBest").textContent=(d.best*100).toFixed(1)+"%"+(p.ageInfo && d.bestAge!==null?`（${d.bestAge}歲）`:"");
+  $("shareWorst").textContent=(d.worst*100).toFixed(1)+"%"+(p.ageInfo && d.worstAge!==null?`（${d.worstAge}歲）`:"");
+
+  if($("shareTrendSection")) $("shareTrendSection").style.display=p.trend?"":"none";
+  if($("shareReturnSection")) $("shareReturnSection").style.display=p.returns?"":"none";
+  if($("shareDistributionTitle")) $("shareDistributionTitle").style.display=p.distribution?"":"none";
+  if($("shareDistributionSection")) $("shareDistributionSection").style.display=p.distribution?"":"none";
+
+  renderShareTrendChart();
 }
 
 function openShareCard(){
@@ -4789,8 +4989,8 @@ function openShareCard(){
   $("shareDown10plus").textContent=d.counts.down10plus+"年";
   $("shareSummary").textContent=d.summary;
   $("shareYears").textContent=`本局從${settings().startAge}歲模擬到${d.playedToAge}歲，共 ${d.years} 個年度`;
-  renderShareTrendChart();
   $("shareModal").classList.add("show");
+  setSharePrivacyMode(sharePrivacyMode);
 }
 function closeShareCard(){
   $("shareModal").classList.remove("show");
@@ -4822,6 +5022,7 @@ function updateScoreSaveShareButton(){
 
 async function downloadShareCard(){
   const d=getShareData();
+  const privacy=getSharePrivacyConfig();
   const canvas=$("shareCanvas"),ctx=canvas.getContext("2d");
   const W=1080,H=1920;
   canvas.width=W; canvas.height=H;
@@ -4878,7 +5079,8 @@ async function downloadShareCard(){
       const xx=xForAge(age);
       ctx.beginPath(); ctx.moveTo(xx,y+pad.t); ctx.lineTo(xx,y+h-pad.b);
       ctx.strokeStyle="rgba(255,255,255,.06)"; ctx.lineWidth=1; ctx.stroke();
-      tx(String(age), xx, y+h-10, 18, "#8ea0b7", "400", "center");
+      const tickLabel=privacy.ageInfo ? String(age) : `+${age-firstAge}年`;
+      tx(tickLabel, xx, y+h-10, 18, "#8ea0b7", "400", "center");
     });
 
     ctx.beginPath(); ctx.moveTo(x+pad.l,y+h-pad.b); ctx.lineTo(x+w-pad.r,y+h-pad.b);
@@ -4934,40 +5136,47 @@ async function downloadShareCard(){
 
   tx("🐷 阿肥退休人生模擬器",150,115,44,"#fff","900");
   tx("模式："+d.mode,150,160,24,"#aeb9c9","400");
-  tx(d.rate===null?"—":d.rate+"%",W-70,125,92,"#fff","900","right");
+  tx(privacy.successRate?(d.rate===null?"—":d.rate+"%"):"已隱藏",W-70,125,privacy.successRate?92:34,privacy.successRate?"#fff":"#8ea0b7","900","right");
   tx("退休成功率",W-70,165,24,"#aeb9c9","400","right");
 
-  ctx.fillStyle="#f5c451";
-  rr(70,205,500,58,28,true,false);
-  tx(d.grade,320,244,26,"#111","900","center");
+  if(privacy.achievement){
+    ctx.fillStyle="#f5c451";
+    rr(70,205,500,58,28,true,false);
+    tx(d.grade,320,244,26,"#111","900","center");
 
-  ctx.fillStyle="rgba(110,168,254,.08)";
-  ctx.strokeStyle="rgba(110,168,254,.24)";
-  rr(70,278,940,92,22,true,true);
-  tx("阿肥評語",95,312,22,"#9bc0ff","900");
-  let line="",yy=348;
-  ctx.font='700 25px Arial,"Noto Sans TC",sans-serif';
-  ctx.fillStyle="#fff";
-  ctx.textAlign="left";
-  for(const ch of d.summary){
-    const test=line+ch;
-    if(ctx.measureText(test).width>885 && line){
-      ctx.fillText(line,95,yy);
-      line=ch;
-      yy+=34;
-    }else{
-      line=test;
+    ctx.fillStyle="rgba(110,168,254,.08)";
+    ctx.strokeStyle="rgba(110,168,254,.24)";
+    rr(70,278,940,92,22,true,true);
+    tx("阿肥評語",95,312,22,"#9bc0ff","900");
+    let line="",yy=348;
+    ctx.font='700 25px Arial,"Noto Sans TC",sans-serif';
+    ctx.fillStyle="#fff";
+    ctx.textAlign="left";
+    for(const ch of d.summary){
+      const test=line+ch;
+      if(ctx.measureText(test).width>885 && line){
+        ctx.fillText(line,95,yy);
+        line=ch;
+        yy+=34;
+      }else{
+        line=test;
+      }
     }
+    if(line) ctx.fillText(line,95,yy);
+  }else{
+    ctx.fillStyle="rgba(255,255,255,.035)";
+    ctx.strokeStyle="rgba(255,255,255,.10)";
+    rr(70,205,940,165,22,true,true);
+    tx("阿肥稱號／評語已隱藏",W/2,292,28,"#8ea0b7","800","center");
   }
-  if(line) ctx.fillText(line,95,yy);
 
   const boxes=[
-    ["本局區間",`${settings().startAge}歲 → ${d.playedToAge}歲`],
-    ["退休年齡",d.retireAge+"歲"],
-    ["起始名目資產",fmt(d.startAsset)],
-    ["結束時名目資產",fmt(d.nominal100)],
-    ["結束時實質總資產",fmt(d.real100)],
-    ["名目資產最高點",fmt(d.peakAsset)+`｜${d.peakAge}歲`]
+    ["本局區間",privacy.ageInfo?`${settings().startAge}歲 → ${d.playedToAge}歲`:"已隱藏"],
+    ["退休年齡",privacy.ageInfo?d.retireAge+"歲":"已隱藏"],
+    ["起始名目資產",privacy.startAsset?fmt(d.startAsset):"已隱藏"],
+    ["結束時名目資產",privacy.nominalEnd?fmt(d.nominal100):"已隱藏"],
+    ["結束時實質總資產",privacy.realEnd?fmt(d.real100):"已隱藏"],
+    ["名目資產最高點",privacy.peakAsset?(fmt(d.peakAsset)+(privacy.ageInfo?`｜${d.peakAge}歲`:"")):"已隱藏"]
   ];
 
   const boxPos=[
@@ -4987,25 +5196,44 @@ async function downloadShareCard(){
     tx(it[1],x+20,y+63,28,gold?"#ffd86b":"#fff","900");
   });
 
-  drawMiniChart(70,725,940,300);
+  if(privacy.trend){
+    drawMiniChart(70,725,940,300);
+  }else{
+    ctx.fillStyle="rgba(255,255,255,.03)";
+    ctx.strokeStyle="rgba(255,255,255,.10)";
+    rr(70,725,940,300,22,true,true);
+    tx("📈 資產走勢",148,766,24,"#fff","900");
+    tx("已隱藏",W/2,882,30,"#8ea0b7","800","center");
+  }
 
   const returnY=1050;
   const returnCards=[
-    ["最佳報酬率",(d.best*100).toFixed(1)+"%"+(d.bestAge!==null?`｜${d.bestAge}歲`:""),"#ff7a7a","rgba(220,70,70,.13)","rgba(240,90,90,.40)"],
-    ["最差報酬率",(d.worst*100).toFixed(1)+"%"+(d.worstAge!==null?`｜${d.worstAge}歲`:""),"#66d68d","rgba(60,190,110,.11)","rgba(80,210,130,.35)"],
+    ["最佳報酬率",(d.best*100).toFixed(1)+"%"+(privacy.ageInfo && d.bestAge!==null?`｜${d.bestAge}歲`:""),"#ff7a7a","rgba(220,70,70,.13)","rgba(240,90,90,.40)"],
+    ["最差報酬率",(d.worst*100).toFixed(1)+"%"+(privacy.ageInfo && d.worstAge!==null?`｜${d.worstAge}歲`:""),"#66d68d","rgba(60,190,110,.11)","rgba(80,210,130,.35)"],
     ["平均報酬率",(d.avg*100).toFixed(1)+"%","#6ea8fe","rgba(110,168,254,.10)","rgba(110,168,254,.30)"]
   ];
-  returnCards.forEach((it,i)=>{
-    const x=70+i*320;
-    ctx.fillStyle=it[3];
-    ctx.strokeStyle=it[4];
-    ctx.lineWidth=2;
-    rr(x,returnY,290,98,20,true,true);
-    tx(it[0],x+18,returnY+30,18,"#d7dfeb","400");
-    tx(it[1],x+18,returnY+68,25,it[2],"900");
-  });
+  if(privacy.returns){
+    returnCards.forEach((it,i)=>{
+      const x=70+i*320;
+      ctx.fillStyle=it[3];
+      ctx.strokeStyle=it[4];
+      ctx.lineWidth=2;
+      rr(x,returnY,290,98,20,true,true);
+      tx(it[0],x+18,returnY+30,18,"#d7dfeb","400");
+      tx(it[1],x+18,returnY+68,25,it[2],"900");
+    });
+  }else{
+    ctx.fillStyle="rgba(255,255,255,.03)";
+    ctx.strokeStyle="rgba(255,255,255,.10)";
+    rr(70,returnY,930,98,20,true,true);
+    tx("報酬率指標已隱藏",W/2,returnY+60,27,"#8ea0b7","800","center");
+  }
 
-  tx("📊 年度報酬率分布",70,1198,27,"#fff","900");
+  if(privacy.distribution){
+    tx("📊 年度報酬率分布",70,1198,27,"#fff","900");
+  }else{
+    tx("📊 年度報酬率分布｜已隱藏",70,1198,27,"#8ea0b7","900");
+  }
 
   const dist=[
     ["漲0～5%",d.counts.up0to5+"年","#ff7676"],
@@ -5015,16 +5243,23 @@ async function downloadShareCard(){
     ["跌5～10%",d.counts.down5to10+"年","#65d98d"],
     ["跌>10%",d.counts.down10plus+"年","#65d98d"]
   ];
-  dist.forEach((it,i)=>{
-    const col=i%3,row=Math.floor(i/3);
-    const x=70+col*320,y=1230+row*82;
-    ctx.fillStyle="#131a25";
-    ctx.strokeStyle="#2c3647";
-    ctx.lineWidth=2;
-    rr(x,y,290,76,16,true,true);
-    tx(it[0],x+16,y+25,17,"#9facbe","400");
-    tx(it[1],x+16,y+57,27,it[2],"900");
-  });
+  if(privacy.distribution){
+    dist.forEach((it,i)=>{
+      const col=i%3,row=Math.floor(i/3);
+      const x=70+col*320,y=1230+row*82;
+      ctx.fillStyle="#131a25";
+      ctx.strokeStyle="#2c3647";
+      ctx.lineWidth=2;
+      rr(x,y,290,76,16,true,true);
+      tx(it[0],x+16,y+25,17,"#9facbe","400");
+      tx(it[1],x+16,y+57,27,it[2],"900");
+    });
+  }else{
+    ctx.fillStyle="rgba(255,255,255,.03)";
+    ctx.strokeStyle="rgba(255,255,255,.10)";
+    rr(70,1230,930,158,18,true,true);
+    tx("已隱藏",W/2,1324,28,"#8ea0b7","800","center");
+  }
   tx("歡迎到《阿肥生活雜記》FB粉專分享你的退休成績單",W/2,1468,28,"#d7dfeb","900","center");
   tx("https://www.facebook.com/share/1FH2osLrUG/",W/2,1508,22,"#8fb7ff","500","center");
 
@@ -5146,13 +5381,13 @@ resetGame();
             <div class="share-sub" id="shareMode">模式：—</div>
           </div>
         </div>
-        <div class="score-rate-block">
+        <div id="shareSuccessRateBlock" class="score-rate-block">
           <div class="share-rate" id="shareRate">—</div>
           <div class="score-rate-label">退休成功率</div>
         </div>
       </div>
 
-      <div class="score-grade-row achievement-block">
+      <div id="shareAchievementBlock" class="score-grade-row achievement-block">
         <span id="shareGrade" class="share-grade">—</span>
         <div id="shareSummary" class="achievement-summary">—</div>
       </div>
@@ -5161,30 +5396,30 @@ resetGame();
         <div class="score-summary-panel-title">📋 本局摘要</div>
 
         <div class="summary-main-row">
-          <div class="summary-main-item">
+          <div id="shareAgeRangeItem" class="summary-main-item">
             <span>本局區間</span>
             <b id="shareGameRange">—</b>
           </div>
-          <div class="summary-main-item">
+          <div id="shareRetireAgeItem" class="summary-main-item">
             <span>退休年齡</span>
             <b id="shareRetireAge">—</b>
           </div>
         </div>
 
         <div class="summary-asset-grid">
-          <div class="summary-asset-item">
+          <div id="shareStartAssetItem" class="summary-asset-item">
             <span>起始名目資產</span>
             <b id="shareStartAsset">—</b>
           </div>
-          <div class="summary-asset-item emphasis">
+          <div id="shareNominalEndItem" class="summary-asset-item emphasis">
             <span>結束時名目資產</span>
             <b id="shareNominal100">—</b>
           </div>
-          <div class="summary-asset-item">
+          <div id="shareRealEndItem" class="summary-asset-item">
             <span>結束時實質總資產</span>
             <b id="shareReal100">—</b>
           </div>
-          <div class="summary-asset-item gold">
+          <div id="sharePeakAssetItem" class="summary-asset-item gold">
             <span>名目資產最高點</span>
             <b id="sharePeakAsset">—</b>
             <small id="sharePeakAge">—</small>
@@ -5194,7 +5429,7 @@ resetGame();
         <span id="shareConfiguredEndAge" style="display:none"></span>
         <span id="sharePlayedToAge" style="display:none"></span>
       </div>
-      <div class="share-chart-card">
+      <div id="shareTrendSection" class="share-chart-card">
         <div class="share-chart-head">
           <span>📈 資產走勢</span>
           <div class="share-chart-legend">
@@ -5205,14 +5440,14 @@ resetGame();
         <svg id="shareTrendChart" viewBox="0 0 320 170" preserveAspectRatio="none"></svg>
       </div>
 
-      <div class="score-return-grid compact-return-grid">
+      <div id="shareReturnSection" class="score-return-grid compact-return-grid">
         <div class="return-card up-card"><span>最佳報酬率</span><b id="shareBest">—</b></div>
         <div class="return-card down-card"><span>最差報酬率</span><b id="shareWorst">—</b></div>
         <div class="return-card avg-card"><span>平均報酬率</span><b id="shareAvgReturn">—</b></div>
       </div>
 
-      <div class="score-market-title">📊 年度報酬率分布</div>
-      <div class="market-compact-lines">
+      <div id="shareDistributionTitle" class="score-market-title">📊 年度報酬率分布</div>
+      <div id="shareDistributionSection" class="market-compact-lines">
         <div class="market-text-line up-line">
           <b class="market-line-label">上漲</b>
           <span>0～5%：<b id="shareUp0to5">0年</b></span>
@@ -5243,6 +5478,30 @@ resetGame();
       </div>
       <span id="shareNominalLabel" style="display:none"></span>
       <span id="shareRealLabel" style="display:none"></span>
+    </div>
+
+    <div class="share-privacy-box">
+      <div class="share-privacy-title">
+        <span>🔒 分享隱私</span>
+      </div>
+      <div class="share-privacy-modes">
+        <button type="button" class="share-privacy-mode active" data-share-privacy-mode="full" onclick="setSharePrivacyMode('full')">完整</button>
+        <button type="button" class="share-privacy-mode" data-share-privacy-mode="privacy" onclick="setSharePrivacyMode('privacy')">隱私版</button>
+        <button type="button" class="share-privacy-mode" data-share-privacy-mode="custom" onclick="setSharePrivacyMode('custom')">自訂</button>
+      </div>
+      <div id="sharePrivacyNote" class="share-privacy-note">完整：顯示全部成績單資訊。</div>
+      <div id="sharePrivacyCustom" class="share-privacy-custom">
+        <label><input type="checkbox" data-share-field="ageInfo" checked onchange="onSharePrivacyCustomChange()">年齡資訊</label>
+        <label><input type="checkbox" data-share-field="startAsset" checked onchange="onSharePrivacyCustomChange()">起始資產</label>
+        <label><input type="checkbox" data-share-field="successRate" checked onchange="onSharePrivacyCustomChange()">退休成功率</label>
+        <label><input type="checkbox" data-share-field="achievement" checked onchange="onSharePrivacyCustomChange()">阿肥稱號／評語</label>
+        <label><input type="checkbox" data-share-field="nominalEnd" checked onchange="onSharePrivacyCustomChange()">結束名目資產</label>
+        <label><input type="checkbox" data-share-field="realEnd" checked onchange="onSharePrivacyCustomChange()">結束實質資產</label>
+        <label><input type="checkbox" data-share-field="peakAsset" checked onchange="onSharePrivacyCustomChange()">資產最高點</label>
+        <label><input type="checkbox" data-share-field="trend" checked onchange="onSharePrivacyCustomChange()">資產走勢圖</label>
+        <label><input type="checkbox" data-share-field="returns" checked onchange="onSharePrivacyCustomChange()">報酬率指標</label>
+        <label><input type="checkbox" data-share-field="distribution" checked onchange="onSharePrivacyCustomChange()">年度報酬分布</label>
+      </div>
     </div>
 
     <div class="share-actions score-actions">
