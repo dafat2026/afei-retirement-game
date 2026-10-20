@@ -3545,6 +3545,60 @@ html[data-theme="light"] .share-privacy-box{
   body.mobile-app-mode #shareModal{display:none!important}
 }
 
+
+/* ===== v107 手機遊戲 KPI 固定＋走勢比例修正 ===== */
+@media(max-width:760px){
+  /* 遊戲分頁：核心三項 KPI 永遠留在視線頂端 */
+  body.mobile-app-mode #mobilePaneGame main>.hero{
+    position:sticky!important;
+    top:0!important;
+    z-index:30!important;
+    background:var(--bg)!important;
+    padding:4px 0 6px!important;
+    margin:0 0 6px!important;
+    border-bottom:1px solid var(--line)!important;
+    box-shadow:0 6px 12px rgba(0,0,0,.16)!important;
+  }
+  body.mobile-app-mode #mobilePaneGame main>.hero .stat{
+    min-height:54px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+  }
+  body.mobile-app-mode #mobilePaneGame main>.hero .stat span{
+    line-height:1.15!important;
+  }
+  body.mobile-app-mode #mobilePaneGame main>.hero .stat b{
+    margin-top:3px!important;
+    line-height:1.15!important;
+  }
+
+  /* 避免遊戲內容最後一段緊貼底部導覽列 */
+  body.mobile-app-mode #mobilePaneGame{
+    padding-bottom:22px!important;
+    scroll-padding-top:72px!important;
+  }
+
+  /* 走勢頁：維持原始 canvas 900×230 比例，禁止拉伸變形 */
+  body.mobile-app-mode #mobilePaneTrend{
+    overflow-y:auto!important;
+  }
+  body.mobile-app-mode #mobilePaneTrend .card{
+    width:100%!important;
+    margin:0!important;
+    padding:8px!important;
+  }
+  body.mobile-app-mode #mobilePaneTrend #chart{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:900 / 230!important;
+    margin:0 auto!important;
+  }
+}
+
 </style>
 </head>
 <body>
