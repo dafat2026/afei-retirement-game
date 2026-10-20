@@ -3500,6 +3500,51 @@ html[data-theme="light"] .share-privacy-box{
   body.mobile-app-mode .modal-backdrop{z-index:9999!important}
 }
 
+
+/* ===== v106 手機五分頁＋自動存檔 ===== */
+.resume-game-modal{width:min(92vw,390px);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 16px;box-shadow:0 22px 60px rgba(0,0,0,.42);text-align:center}
+.resume-game-icon{font-size:38px;line-height:1;margin-bottom:8px}
+.resume-game-title{font-size:19px;font-weight:900;color:var(--text);margin-bottom:7px}
+.resume-game-summary{font-size:12px;line-height:1.5;color:var(--muted);margin-bottom:14px}
+.resume-game-actions{display:grid;gap:8px}
+.resume-game-actions button{min-height:48px;font-size:14px;font-weight:900}
+.resume-game-continue{background:var(--green);color:#fff}
+.resume-game-new{background:var(--button-secondary,#2a3344);color:var(--button-secondary-text,#fff);border:1px solid var(--line)}
+.resume-game-note{font-size:9px;line-height:1.4;color:var(--muted);margin-top:10px}
+
+@media(max-width:760px){
+  body.mobile-app-mode .mobile-app-nav{grid-template-columns:repeat(5,1fr)!important;gap:2px!important;padding-left:3px!important;padding-right:3px!important}
+  body.mobile-app-mode .mobile-app-nav button{min-height:52px!important;padding:5px 1px!important;font-size:9px!important}
+  body.mobile-app-mode .mobile-app-nav button .mobile-nav-icon{font-size:18px!important;margin-bottom:3px!important}
+
+  /* 遊戲頁：推進操作集中，不再使用會壓住配置欄的 sticky 下一年 */
+  body.mobile-app-mode #mobilePaneGame .allocation-next-btn{position:static!important;bottom:auto!important;z-index:auto!important;box-shadow:none!important;margin:0!important;min-height:50px!important}
+  body.mobile-app-mode .mobile-advance-actions{display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr)!important;gap:7px!important;margin-top:8px!important}
+  body.mobile-app-mode .mobile-advance-actions #allocationNextBtn,
+  body.mobile-app-mode .mobile-advance-actions #runToEndBtn{width:100%!important;min-width:0!important;min-height:50px!important;margin:0!important;font-size:12px!important;padding:7px 5px!important;white-space:normal!important;line-height:1.2!important}
+  body.mobile-app-mode .mobile-advance-actions #runToEndBtn{background:#2b3547!important;color:var(--text)!important;border:1px solid var(--line)!important}
+  body.mobile-app-mode #mobilePaneGame .bottom-action-card{padding:5px 8px!important;margin-bottom:4px!important;min-height:0!important}
+  body.mobile-app-mode #mobilePaneGame .bottom-action-card .report-btn{display:none!important}
+  body.mobile-app-mode #mobilePaneGame .bottom-action-row{min-height:0!important}
+
+  /* 設定頁可以自然捲動；套用設定在內容底部，套用後自動跳遊戲 */
+  body.mobile-app-mode #mobilePaneSettings{padding-bottom:22px!important}
+  body.mobile-app-mode #mobilePaneSettings .setup-flow-controls #runToEndBtn{display:none!important}
+
+  /* 走勢獨立頁 */
+  body.mobile-app-mode #mobilePaneTrend .card{margin:0!important;width:100%!important}
+  body.mobile-app-mode #mobilePaneTrend canvas{height:calc(100dvh - 205px)!important;min-height:280px!important;max-height:520px!important}
+
+  /* 成績單直接成為第五分頁，不再是彈窗 */
+  body.mobile-app-mode #mobilePaneReport{padding:8px 6px 22px!important}
+  body.mobile-app-mode #mobilePaneReport #shareCard{width:100%!important;max-width:none!important;margin:0!important;border-radius:14px!important}
+  body.mobile-app-mode #mobilePaneReport .share-privacy-box{margin:9px 0!important}
+  body.mobile-app-mode #mobilePaneReport .share-actions{margin:8px 0 0!important;display:grid!important;grid-template-columns:1fr!important}
+  body.mobile-app-mode #mobilePaneReport .share-actions .secondary{display:none!important}
+  body.mobile-app-mode #mobilePaneReport #scoreSaveShareBtn{width:100%!important;min-height:50px!important}
+  body.mobile-app-mode #shareModal{display:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -3522,28 +3567,28 @@ html[data-theme="light"] .share-privacy-box{
 
   <div id="mobileAppShell" class="mobile-app-shell" aria-hidden="true">
     <div class="mobile-app-content">
-      <section id="mobilePaneGame" class="mobile-app-pane active" data-mobile-tab="game">
-        <div class="mobile-app-pane-title"><span>🎮 遊戲</span><small>調整策略後直接進下一年</small></div>
+      <section id="mobilePaneSettings" class="mobile-app-pane active" data-mobile-tab="settings">
+        <div class="mobile-app-pane-title"><span>⚙️ 設定</span><small>先設定條件，再開始退休人生</small></div>
       </section>
-      <section id="mobilePaneSettings" class="mobile-app-pane" data-mobile-tab="settings">
-        <div class="mobile-app-pane-title"><span>⚙️ 設定</span><small>初始設定與快速模擬</small></div>
+      <section id="mobilePaneGame" class="mobile-app-pane" data-mobile-tab="game">
+        <div class="mobile-app-pane-title"><span>🎮 遊戲</span><small>調整策略、下一年或直接模擬</small></div>
       </section>
       <section id="mobilePaneRecord" class="mobile-app-pane" data-mobile-tab="record">
         <div class="mobile-app-pane-title"><span>📜 紀錄</span><small>逐年人生紀錄</small></div>
       </section>
-      <section id="mobilePaneScore" class="mobile-app-pane" data-mobile-tab="score">
-        <div class="mobile-app-pane-title"><span>🏆 成績</span><small>走勢、成績單與分享</small></div>
-        <div class="card mobile-score-intro">
-          <h2>🏆 成績與分享</h2>
-          <p>資產走勢與退休成績單集中在這裡；遊戲結束後可設定分享隱私並另存或分享成績單。</p>
-        </div>
+      <section id="mobilePaneTrend" class="mobile-app-pane" data-mobile-tab="trend">
+        <div class="mobile-app-pane-title"><span>📈 走勢</span><small>名目資產與實質總資產</small></div>
+      </section>
+      <section id="mobilePaneReport" class="mobile-app-pane" data-mobile-tab="report">
+        <div class="mobile-app-pane-title"><span>🏆 成績</span><small>退休成績單、隱私與分享</small></div>
       </section>
     </div>
     <nav class="mobile-app-nav" aria-label="手機版分頁">
-      <button type="button" class="active" data-mobile-nav="game" onclick="switchMobileAppTab('game')"><span class="mobile-nav-icon">🎮</span>遊戲</button>
-      <button type="button" data-mobile-nav="settings" onclick="switchMobileAppTab('settings')"><span class="mobile-nav-icon">⚙️</span>設定</button>
+      <button type="button" class="active" data-mobile-nav="settings" onclick="switchMobileAppTab('settings')"><span class="mobile-nav-icon">⚙️</span>設定</button>
+      <button type="button" data-mobile-nav="game" onclick="switchMobileAppTab('game')"><span class="mobile-nav-icon">🎮</span>遊戲</button>
       <button type="button" data-mobile-nav="record" onclick="switchMobileAppTab('record')"><span class="mobile-nav-icon">📜</span>紀錄</button>
-      <button type="button" data-mobile-nav="score" onclick="switchMobileAppTab('score')"><span class="mobile-nav-icon">🏆</span>成績</button>
+      <button type="button" data-mobile-nav="trend" onclick="switchMobileAppTab('trend')"><span class="mobile-nav-icon">📈</span>走勢</button>
+      <button type="button" data-mobile-nav="report" onclick="switchMobileAppTab('report')"><span class="mobile-nav-icon">🏆</span>成績</button>
     </nav>
   </div>
 
@@ -3616,7 +3661,7 @@ html[data-theme="light"] .share-privacy-box{
       </div>
 
       <div class="controls primary-flow-controls setup-flow-controls" style="margin-top:8px">
-        <button id="resetSetupBtn" class="setup-btn" onclick="resetGame()">套用設定</button>
+        <button id="resetSetupBtn" class="setup-btn" onclick="handleSetupAction()">套用設定</button>
         <button id="runToEndBtn" class="run-end-btn" onclick="openRunToEndConfirm()">一鍵跑到終點</button>
       </div>
       <div id="setupStatus" class="kpi-note" style="margin-top:5px">設定完成後，到中間「下一年度資產配置」按 ▶ 下一年開始遊戲。</div>
@@ -3745,6 +3790,19 @@ html[data-theme="light"] .share-privacy-box{
 
 
 
+<div id="resumeGameModal" class="modal-backdrop">
+  <div class="resume-game-modal" onclick="event.stopPropagation()">
+    <div class="resume-game-icon">🐷</div>
+    <div class="resume-game-title">發現上次未完成的退休人生</div>
+    <div id="resumeGameSummary" class="resume-game-summary">要接著上次的進度繼續嗎？</div>
+    <div class="resume-game-actions">
+      <button class="resume-game-continue" onclick="continueSavedGame()">▶ 繼續上次進度</button>
+      <button class="resume-game-new" onclick="startNewGameFromSave()">↻ 重新開始</button>
+    </div>
+    <div class="resume-game-note">進度只儲存在目前這個瀏覽器／裝置，不會自動上傳。</div>
+  </div>
+</div>
+
 <div id="runToEndConfirmModal" class="modal-backdrop" onclick="closeRunToEndConfirm(event)">
   <div class="run-confirm-modal" onclick="event.stopPropagation()">
     <div class="run-confirm-title">確定要直接模擬嗎？</div>
@@ -3785,30 +3843,35 @@ html[data-theme="light"] .share-privacy-box{
 
 <script>
 
-/* ===== v105 手機 App 四分頁 ===== */
+/* ===== v106 手機 App 五分頁 ===== */
 const mobileAppMedia=window.matchMedia("(max-width:760px)");
 let mobileAppMounted=false;
 let mobileAppMoves=[];
-let mobileCurrentTab="game";
+let mobileCurrentTab="settings";
+let mobileAdvanceWrapper=null;
 
 function mobileRememberMove(node,target,before=null){
   if(!node || !target)return;
-  const placeholder=document.createComment("v105-mobile-placeholder");
+  const placeholder=document.createComment("v106-mobile-placeholder");
   node.parentNode.insertBefore(placeholder,node);
   mobileAppMoves.push({node,placeholder});
   if(before)target.insertBefore(node,before);else target.appendChild(node);
 }
 
 function switchMobileAppTab(tab){
-  if(!["game","settings","record","score"].includes(tab))tab="game";
+  if(!["settings","game","record","trend","report"].includes(tab))tab="settings";
   mobileCurrentTab=tab;
   document.querySelectorAll(".mobile-app-pane").forEach(p=>p.classList.toggle("active",p.dataset.mobileTab===tab));
   document.querySelectorAll("[data-mobile-nav]").forEach(b=>b.classList.toggle("active",b.dataset.mobileNav===tab));
   const pane=document.querySelector(`.mobile-app-pane[data-mobile-tab="${tab}"]`);
   if(pane)pane.scrollTop=0;
-  if(tab==="score"){
+  if(tab==="trend"){
     try{if(typeof drawChart==="function")requestAnimationFrame(()=>drawChart());}catch(e){}
   }
+  if(tab==="report"){
+    try{if(typeof openShareCard==="function")openShareCard();}catch(e){}
+  }
+  try{saveGameProgress();}catch(e){}
 }
 
 function mountMobileApp(){
@@ -3821,22 +3884,24 @@ function mountMobileApp(){
   const gamePane=document.getElementById("mobilePaneGame");
   const settingsPane=document.getElementById("mobilePaneSettings");
   const recordPane=document.getElementById("mobilePaneRecord");
-  const scorePane=document.getElementById("mobilePaneScore");
-  if(!shell || !grid || !settingsAside || !main || !right || !gamePane || !settingsPane || !recordPane || !scorePane)return;
+  const trendPane=document.getElementById("mobilePaneTrend");
+  const reportPane=document.getElementById("mobilePaneReport");
+  if(!shell || !grid || !settingsAside || !main || !right || !gamePane || !settingsPane || !recordPane || !trendPane || !reportPane)return;
 
   const themeSwitch=document.querySelector(".topbar > .theme-switch");
   const helpCard=main.querySelector(":scope > .card:first-child");
   const chart=document.getElementById("chart");
   const chartCard=chart?.closest(".card");
-  const scoreCard=main.querySelector(".bottom-action-card");
   const successBlock=right.children[0]||null;
   const recordBlock=right.children[1]||null;
+  const runToEndBtn=document.getElementById("runToEndBtn");
+  const nextBtn=document.getElementById("allocationNextBtn");
+  const allocBox=document.querySelector(".alloc-box");
 
   if(themeSwitch)mobileRememberMove(themeSwitch,settingsPane,settingsPane.querySelector(".mobile-app-pane-title")?.nextSibling||null);
   mobileRememberMove(settingsAside,settingsPane);
   if(helpCard)mobileRememberMove(helpCard,settingsPane);
-  if(chartCard)mobileRememberMove(chartCard,scorePane);
-  if(scoreCard)mobileRememberMove(scoreCard,scorePane);
+  if(chartCard)mobileRememberMove(chartCard,trendPane);
   if(successBlock){
     successBlock.classList.add("mobile-success-card");
     mobileRememberMove(successBlock,gamePane);
@@ -3849,6 +3914,24 @@ function mountMobileApp(){
 
   const hero=main.querySelector(":scope > .hero");
   if(hero && successBlock)hero.insertAdjacentElement("afterend",successBlock);
+
+  // 下一年與一鍵跑到終點集中在同一個年度操作區。
+  if(allocBox && nextBtn && runToEndBtn){
+    mobileAdvanceWrapper=document.createElement("div");
+    mobileAdvanceWrapper.className="mobile-advance-actions";
+    allocBox.appendChild(mobileAdvanceWrapper);
+    mobileRememberMove(nextBtn,mobileAdvanceWrapper);
+    mobileRememberMove(runToEndBtn,mobileAdvanceWrapper);
+  }
+
+  // 成績單本體與隱私／分享控制直接搬到第五分頁。
+  const shareCard=document.getElementById("shareCard");
+  const shareModalBox=document.querySelector("#shareModal .share-modal-box");
+  const privacyBox=shareModalBox?.querySelector(".share-privacy-box");
+  const shareActions=shareModalBox?.querySelector(".share-actions");
+  if(shareCard)mobileRememberMove(shareCard,reportPane);
+  if(privacyBox)mobileRememberMove(privacyBox,reportPane);
+  if(shareActions)mobileRememberMove(shareActions,reportPane);
 
   document.body.classList.add("mobile-app-mode");
   shell.setAttribute("aria-hidden","false");
@@ -3867,6 +3950,8 @@ function unmountMobileApp(){
     }
   }
   mobileAppMoves=[];
+  if(mobileAdvanceWrapper?.parentNode)mobileAdvanceWrapper.remove();
+  mobileAdvanceWrapper=null;
   document.querySelectorAll(".mobile-success-card").forEach(x=>x.classList.remove("mobile-success-card"));
   document.querySelectorAll(".mobile-record-card").forEach(x=>x.classList.remove("mobile-record-card"));
   document.body.classList.remove("mobile-app-mode");
@@ -3880,9 +3965,7 @@ function syncMobileAppMode(){
   if(mobileAppMedia.matches)mountMobileApp();else unmountMobileApp();
 }
 
-window.addEventListener("DOMContentLoaded",()=>{
-  setTimeout(syncMobileAppMode,0);
-});
+window.addEventListener("DOMContentLoaded",()=>setTimeout(syncMobileAppMode,0));
 if(mobileAppMedia.addEventListener)mobileAppMedia.addEventListener("change",syncMobileAppMode);
 else if(mobileAppMedia.addListener)mobileAppMedia.addListener(syncMobileAppMode);
 
@@ -3990,6 +4073,7 @@ function closeRunToEndConfirm(ev){
 function confirmRunToEnd(){
   closeRunToEndConfirm();
   simulateToEnd();
+  scheduleGameSave();
 }
 
 function openHelpModal(){
@@ -4024,6 +4108,172 @@ const HIST = [
 
 let targetStockPct=90;
 let allocationDirty=false;
+
+const GAME_SAVE_KEY="afei-retirement-v106-save";
+let restoringSavedGame=false;
+let gameSaveReady=false;
+let saveTimer=null;
+
+function getSettingInputSnapshot(){
+  const values={};
+  document.querySelectorAll("input[id],select[id]").forEach(el=>{
+    if(el.id && !["scoreImagePreview"].includes(el.id))values[el.id]=el.value;
+  });
+  return values;
+}
+function applySettingInputSnapshot(values){
+  if(!values || typeof values!=="object")return;
+  Object.entries(values).forEach(([id,value])=>{
+    const el=document.getElementById(id);
+    if(el && (el.matches("input") || el.matches("select")))el.value=value;
+  });
+}
+function isCurrentGameFinished(){
+  if(!state)return false;
+  try{return !!state.failed || state.age>=settings().endAge;}catch(e){return !!state.failed;}
+}
+function buildGameSave(){
+  if(!state || !history)return null;
+  return {
+    version:106,
+    savedAt:Date.now(),
+    inputs:getSettingInputSnapshot(),
+    state:JSON.parse(JSON.stringify(state)),
+    history:JSON.parse(JSON.stringify(history)),
+    pendingExtra,
+    mode,
+    histStartIndex,
+    targetStockPct,
+    allocationDirty,
+    setupDirty,
+    gameHasStarted,
+    finished:isCurrentGameFinished(),
+    timelineHTML:document.getElementById("timeline")?.innerHTML||"",
+    eventHTML:document.getElementById("eventBox")?.innerHTML||"",
+    quickEventText:document.getElementById("quickEvent")?.textContent||"",
+    sharePrivacyMode:typeof sharePrivacyMode!=="undefined"?sharePrivacyMode:"full",
+    sharePrivacyCustomState:typeof sharePrivacyCustomState!=="undefined"?{...sharePrivacyCustomState}:null,
+    mobileTab:mobileCurrentTab||"settings"
+  };
+}
+function saveGameProgress(){
+  if(restoringSavedGame || !gameSaveReady)return;
+  try{
+    const data=buildGameSave();
+    if(data)localStorage.setItem(GAME_SAVE_KEY,JSON.stringify(data));
+  }catch(e){}
+}
+function scheduleGameSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveGameProgress,80);
+}
+function readGameSave(){
+  try{
+    const raw=localStorage.getItem(GAME_SAVE_KEY);
+    if(!raw)return null;
+    const data=JSON.parse(raw);
+    if(!data || !data.state || !Array.isArray(data.history))return null;
+    return data;
+  }catch(e){return null;}
+}
+function clearGameSave(){
+  try{localStorage.removeItem(GAME_SAVE_KEY);}catch(e){}
+}
+function restoreGameSave(data){
+  if(!data)return false;
+  restoringSavedGame=true;
+  try{
+    applySettingInputSnapshot(data.inputs);
+    state=data.state;
+    history=data.history;
+    pendingExtra=Number(data.pendingExtra)||0;
+    mode=data.mode||"monte";
+    histStartIndex=Number(data.histStartIndex)||0;
+    targetStockPct=Number.isFinite(Number(data.targetStockPct))?Number(data.targetStockPct):90;
+    allocationDirty=!!data.allocationDirty;
+    setupDirty=!!data.setupDirty;
+    gameHasStarted=!!data.gameHasStarted;
+    successRateDirty=true;
+    cachedSuccessRate=null;
+    successRateTaskToken++;
+    if(typeof sharePrivacyMode!=="undefined" && data.sharePrivacyMode)sharePrivacyMode=data.sharePrivacyMode;
+    if(typeof sharePrivacyCustomState!=="undefined" && data.sharePrivacyCustomState)Object.assign(sharePrivacyCustomState,data.sharePrivacyCustomState);
+    if(document.getElementById("timeline"))document.getElementById("timeline").innerHTML=data.timelineHTML||"";
+    if(document.getElementById("eventBox"))document.getElementById("eventBox").innerHTML=data.eventHTML||"";
+    if(document.getElementById("quickEvent"))document.getElementById("quickEvent").textContent=data.quickEventText||"本年度尚無額外事件支出。";
+    setSetupLocked(gameHasStarted);
+    updateUI(true);
+    updateSetupStatus();
+    updateAllocationUI();
+    if(isCurrentGameFinished())showStats();else requestStrategySuccessRate();
+    mobileCurrentTab=data.finished?"report":(data.mobileTab||"game");
+    return true;
+  }catch(e){return false;}
+  finally{restoringSavedGame=false;}
+}
+function showResumeGameModal(data){
+  const modal=document.getElementById("resumeGameModal");
+  const summary=document.getElementById("resumeGameSummary");
+  if(summary && data?.state){
+    const total=(Number(data.state.stocks)||0)+(Number(data.state.cash)||0);
+    summary.textContent=`上次玩到 ${data.state.age} 歲｜目前名目資產 ${fmt(total)}。`;
+  }
+  if(modal)modal.classList.add("show");
+}
+function closeResumeGameModal(){
+  const modal=document.getElementById("resumeGameModal");
+  if(modal)modal.classList.remove("show");
+}
+function continueSavedGame(){
+  const data=readGameSave();
+  closeResumeGameModal();
+  if(data && restoreGameSave(data)){
+    if(mobileAppMedia.matches){setTimeout(()=>{syncMobileAppMode();switchMobileAppTab(data.finished?"report":"game");},0);}
+    scheduleGameSave();
+  }else{
+    resetGame(false);
+  }
+}
+function startNewGameFromSave(){
+  closeResumeGameModal();
+  clearGameSave();
+  resetGame(false);
+  mobileCurrentTab="settings";
+  if(mobileAppMedia.matches)setTimeout(()=>switchMobileAppTab("settings"),0);
+  scheduleGameSave();
+}
+function initializeGameSave(){
+  const data=readGameSave();
+  gameSaveReady=true;
+  if(data?.finished){
+    restoreGameSave(data);
+    if(mobileAppMedia.matches)mobileCurrentTab="report";
+    return;
+  }
+  if(data?.gameHasStarted){
+    // 只建立乾淨畫面供背景顯示；玩家選擇前絕不能覆蓋舊存檔。
+    restoringSavedGame=true;
+    resetGame(false);
+    restoringSavedGame=false;
+    setTimeout(()=>showResumeGameModal(data),0);
+    return;
+  }
+  resetGame(false);
+  if(mobileAppMedia.matches)mobileCurrentTab="settings";
+  scheduleGameSave();
+}
+function handleSetupAction(){
+  if(gameHasStarted){
+    clearGameSave();
+    resetGame(false);
+    mobileCurrentTab="settings";
+    if(mobileAppMounted)switchMobileAppTab("settings");
+  }else{
+    resetGame(false);
+    scheduleGameSave();
+    if(mobileAppMounted)switchMobileAppTab("game");
+  }
+}
 
 const $=id=>document.getElementById(id);
 const num=id=>Number(String($(id).value||0).replace(/,/g,""));
@@ -4108,6 +4358,7 @@ function adjustAllocation(delta){
 
   updateAllocationUI();
   requestStrategySuccessRate();
+  scheduleGameSave();
 }
 function updateAllocationUI(){
   const current=currentStockPercent();
@@ -4268,7 +4519,7 @@ function updateSetupStatus(){
   }
 }
 
-function resetGame(){
+function resetGame(fromUser=false){
   setAllocationAttention(false);
   setReportReady(false);
   setupDirty=false;
@@ -4293,6 +4544,7 @@ function resetGame(){
   updateUI(true);
   updateSetupStatus();
   requestStrategySuccessRate();
+  if(gameSaveReady && !restoringSavedGame)scheduleGameSave();
 }
 
 function snapshot(){
@@ -4647,6 +4899,10 @@ function nextYear(){
     // 年齡與資產已改變，「目前策略成功率」也必須以新狀態重算。
     requestStrategySuccessRate();
   }
+  scheduleGameSave();
+  if((state.failed || state.age>=s.endAge) && mobileAppMounted){
+    setTimeout(()=>switchMobileAppTab("report"),120);
+  }
 }
 
 function classifyReturns(arr){
@@ -4683,6 +4939,7 @@ function addCustomExpense(){
   pendingExtra+=amount;
   $("quickEvent").textContent=`本年度已加入額外支出：${fmt(pendingExtra)}`;
   $("eventBox").innerHTML=`已排入本年度額外支出 ${fmt(pendingExtra)}，按「下一年」結算。`;
+  scheduleGameSave();
 }
 
 function runPath(returnProvider,stockPct=targetStockPct,base=null){
@@ -5046,6 +5303,10 @@ function simulateToEnd(){
   }else{
     requestStrategySuccessRate();
   }
+  scheduleGameSave();
+  if((state.failed || state.age>=s.endAge) && mobileAppMounted){
+    setTimeout(()=>switchMobileAppTab("report"),120);
+  }
 }
 
 function currentModeName(){
@@ -5286,6 +5547,7 @@ function setSharePrivacyMode(mode){
   }
 
   applySharePrivacy();
+  scheduleGameSave();
 }
 
 function onSharePrivacyCustomChange(){
@@ -5293,6 +5555,7 @@ function onSharePrivacyCustomChange(){
     sharePrivacyCustomState[input.dataset.shareField]=!!input.checked;
   });
   if(sharePrivacyMode==="custom") applySharePrivacy();
+  scheduleGameSave();
 }
 
 function setMaskedText(id,actual,visible){
@@ -5363,11 +5626,13 @@ function openShareCard(){
   $("shareDown10plus").textContent=d.counts.down10plus+"年";
   $("shareSummary").textContent=d.summary;
   $("shareYears").textContent=`本局從${settings().startAge}歲模擬到${d.playedToAge}歲，共 ${d.years} 個年度`;
-  $("shareModal").classList.add("show");
+  if(!mobileAppMounted)$("shareModal").classList.add("show");
   setSharePrivacyMode(sharePrivacyMode);
+  scheduleGameSave();
 }
 function closeShareCard(){
   $("shareModal").classList.remove("show");
+  if(mobileAppMounted)switchMobileAppTab("trend");
 }
 
 function isMobileLikeDevice(){
@@ -5726,7 +5991,22 @@ window.addEventListener("resize",()=>{
 initMoneyInputs();
 initSetupChangeTracking();
 initSuccessRateInvalidation();
-resetGame();
+
+// 設定欄位與頁面離開時都自動保存；瀏覽器若不顯示離開警示，仍可靠存檔恢復。
+document.querySelectorAll("input,select").forEach(el=>{
+  el.addEventListener("change",scheduleGameSave);
+  el.addEventListener("input",scheduleGameSave);
+});
+window.addEventListener("pagehide",saveGameProgress);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")saveGameProgress();});
+window.addEventListener("beforeunload",e=>{
+  saveGameProgress();
+  if(gameHasStarted && !isCurrentGameFinished()){
+    e.preventDefault();
+    e.returnValue="";
+  }
+});
+initializeGameSave();
 </script>
 
 
