@@ -3255,6 +3255,251 @@ html[data-theme="light"] .share-privacy-box{
   .share-privacy-custom{grid-template-columns:1fr 1fr}
 }
 
+
+/* ===== v105 手機 App 式四分頁介面 ===== */
+.mobile-app-shell{display:none}
+.mobile-app-pane-title{display:none}
+.mobile-score-intro{display:none}
+
+@media(max-width:760px){
+  html,body{height:100%;}
+  body.mobile-app-mode{overflow:hidden!important;overscroll-behavior:none}
+  body.mobile-app-mode .wrap{
+    height:100dvh!important;
+    max-width:none!important;
+    padding:6px 8px 0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+  body.mobile-app-mode .topbar{
+    flex:0 0 auto!important;
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:6px!important;
+    min-height:42px!important;
+    margin-bottom:6px!important;
+  }
+  body.mobile-app-mode .topbar .brand-line{gap:7px!important;min-width:0}
+  body.mobile-app-mode .topbar .site-logo{width:34px!important;height:34px!important}
+  body.mobile-app-mode .topbar .brand-block{min-width:0}
+  body.mobile-app-mode .topbar .brand-block>div{display:none!important}
+  body.mobile-app-mode .topbar h1{
+    font-size:17px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+  }
+  body.mobile-app-mode .grid{display:none!important}
+
+  body.mobile-app-mode .mobile-app-shell{
+    display:flex!important;
+    flex:1 1 auto!important;
+    min-height:0!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+    border:1px solid var(--line);
+    border-radius:14px 14px 0 0;
+    background:var(--bg);
+  }
+  body.mobile-app-mode .mobile-app-content{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    position:relative!important;
+    overflow:hidden!important;
+  }
+  body.mobile-app-mode .mobile-app-pane{
+    display:none!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch;
+    padding:8px 8px 16px!important;
+    scrollbar-width:thin;
+  }
+  body.mobile-app-mode .mobile-app-pane.active{display:block!important}
+  body.mobile-app-mode .mobile-app-pane-title{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:8px!important;
+    font-size:15px!important;
+    font-weight:900!important;
+    color:var(--text)!important;
+    margin:1px 1px 8px!important;
+  }
+  body.mobile-app-mode .mobile-app-pane-title small{
+    color:var(--muted)!important;
+    font-size:9px!important;
+    font-weight:500!important;
+  }
+
+  body.mobile-app-mode .mobile-app-nav{
+    flex:0 0 auto!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,1fr)!important;
+    gap:3px!important;
+    padding:5px 5px calc(5px + env(safe-area-inset-bottom))!important;
+    border-top:1px solid var(--line)!important;
+    background:var(--panel)!important;
+    box-shadow:0 -6px 18px rgba(0,0,0,.16)!important;
+    z-index:50!important;
+  }
+  body.mobile-app-mode .mobile-app-nav button{
+    min-width:0!important;
+    min-height:49px!important;
+    padding:5px 2px!important;
+    border:1px solid transparent!important;
+    border-radius:10px!important;
+    background:transparent!important;
+    color:var(--muted)!important;
+    font-size:10px!important;
+    font-weight:800!important;
+    line-height:1.15!important;
+  }
+  body.mobile-app-mode .mobile-app-nav button .mobile-nav-icon{
+    display:block!important;
+    font-size:20px!important;
+    line-height:1!important;
+    margin-bottom:3px!important;
+  }
+  body.mobile-app-mode .mobile-app-nav button.active{
+    background:var(--panel2)!important;
+    color:var(--text)!important;
+    border-color:var(--blue)!important;
+    box-shadow:inset 0 0 0 1px rgba(110,168,254,.12)!important;
+  }
+
+  /* 設定分頁 */
+  body.mobile-app-mode #mobilePaneSettings>.theme-switch{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    width:100%!important;
+    margin-bottom:8px!important;
+  }
+  body.mobile-app-mode #mobilePaneSettings>.theme-switch button{
+    width:100%!important;
+    min-height:36px!important;
+    font-size:11px!important;
+  }
+  body.mobile-app-mode #mobilePaneSettings>aside.card{
+    width:100%!important;
+    margin:0 0 8px!important;
+  }
+  body.mobile-app-mode #mobilePaneSettings .settings-scroll{
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  body.mobile-app-mode #mobilePaneSettings .main-help-btn{
+    min-height:48px!important;
+    font-size:14px!important;
+  }
+
+  /* 遊戲分頁 */
+  body.mobile-app-mode #mobilePaneGame main{display:block!important;width:100%!important}
+  body.mobile-app-mode #mobilePaneGame main>.hero{
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:5px!important;
+    margin-bottom:6px!important;
+  }
+  body.mobile-app-mode #mobilePaneGame main>.hero .stat{
+    min-width:0!important;
+    padding:7px 4px!important;
+    text-align:center!important;
+  }
+  body.mobile-app-mode #mobilePaneGame main>.hero .stat span{font-size:9px!important}
+  body.mobile-app-mode #mobilePaneGame main>.hero .stat b{font-size:16px!important;white-space:nowrap!important}
+  body.mobile-app-mode .mobile-success-card{
+    background:var(--panel)!important;
+    border:1px solid var(--line)!important;
+    border-radius:11px!important;
+    padding:8px 10px!important;
+    margin:0 0 7px!important;
+  }
+  body.mobile-app-mode .mobile-success-card h2{
+    display:inline-block!important;
+    margin:0 7px 0 0!important;
+    font-size:11px!important;
+  }
+  body.mobile-app-mode .mobile-success-card #successRate{
+    display:inline-block!important;
+    font-size:24px!important;
+    vertical-align:middle!important;
+  }
+  body.mobile-app-mode .mobile-success-card #successBadge{
+    margin-left:6px!important;
+    vertical-align:middle!important;
+  }
+  body.mobile-app-mode .mobile-success-card #successExplain{
+    margin:5px 0 0!important;
+    font-size:9px!important;
+    line-height:1.3!important;
+  }
+  body.mobile-app-mode #mobilePaneGame main>.card{margin-bottom:6px!important}
+  body.mobile-app-mode #mobilePaneGame .compact-status-grid{
+    grid-template-columns:repeat(2,1fr)!important;
+    gap:5px!important;
+  }
+  body.mobile-app-mode #mobilePaneGame .compact-status-grid .stat{min-height:44px!important}
+  body.mobile-app-mode #mobilePaneGame .fourpct-stat{grid-column:auto!important}
+  body.mobile-app-mode #mobilePaneGame .allocation-next-btn{
+    position:sticky!important;
+    bottom:2px!important;
+    z-index:12!important;
+    min-height:54px!important;
+    box-shadow:0 6px 18px rgba(0,0,0,.30)!important;
+  }
+
+  /* 紀錄分頁 */
+  body.mobile-app-mode #mobilePaneRecord .mobile-record-card{
+    height:100%!important;
+    min-height:0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    background:var(--panel)!important;
+    border:1px solid var(--line)!important;
+    border-radius:12px!important;
+    padding:9px!important;
+  }
+  body.mobile-app-mode #mobilePaneRecord .mobile-record-card h2{margin:0 0 7px!important}
+  body.mobile-app-mode #mobilePaneRecord .timeline{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow-y:auto!important;
+    font-size:13px!important;
+  }
+
+  /* 成績分頁 */
+  body.mobile-app-mode .mobile-score-intro{
+    display:block!important;
+    margin-bottom:8px!important;
+  }
+  body.mobile-app-mode #mobilePaneScore .mobile-score-intro h2{margin-bottom:5px!important}
+  body.mobile-app-mode #mobilePaneScore .mobile-score-intro p{
+    margin:0!important;
+    color:var(--muted)!important;
+    font-size:10px!important;
+    line-height:1.4!important;
+  }
+  body.mobile-app-mode #mobilePaneScore .card{margin-bottom:8px!important}
+  body.mobile-app-mode #mobilePaneScore .bottom-action-card{padding:10px!important}
+  body.mobile-app-mode #mobilePaneScore .report-btn{
+    width:100%!important;
+    min-height:54px!important;
+    font-size:16px!important;
+  }
+  body.mobile-app-mode #mobilePaneScore canvas{height:185px!important}
+
+  /* modal 不受 App 內部捲動限制 */
+  body.mobile-app-mode .modal,
+  body.mobile-app-mode .modal-backdrop{z-index:9999!important}
+}
+
 </style>
 </head>
 <body>
@@ -3273,6 +3518,33 @@ html[data-theme="light"] .share-privacy-box{
       <button type="button" data-theme-choice="light" onclick="setThemeMode('light')">☀️ 淺色</button>
       <button type="button" data-theme-choice="auto" onclick="setThemeMode('auto')">🖥️ 自動</button>
     </div>
+  </div>
+
+  <div id="mobileAppShell" class="mobile-app-shell" aria-hidden="true">
+    <div class="mobile-app-content">
+      <section id="mobilePaneGame" class="mobile-app-pane active" data-mobile-tab="game">
+        <div class="mobile-app-pane-title"><span>🎮 遊戲</span><small>調整策略後直接進下一年</small></div>
+      </section>
+      <section id="mobilePaneSettings" class="mobile-app-pane" data-mobile-tab="settings">
+        <div class="mobile-app-pane-title"><span>⚙️ 設定</span><small>初始設定與快速模擬</small></div>
+      </section>
+      <section id="mobilePaneRecord" class="mobile-app-pane" data-mobile-tab="record">
+        <div class="mobile-app-pane-title"><span>📜 紀錄</span><small>逐年人生紀錄</small></div>
+      </section>
+      <section id="mobilePaneScore" class="mobile-app-pane" data-mobile-tab="score">
+        <div class="mobile-app-pane-title"><span>🏆 成績</span><small>走勢、成績單與分享</small></div>
+        <div class="card mobile-score-intro">
+          <h2>🏆 成績與分享</h2>
+          <p>資產走勢與退休成績單集中在這裡；遊戲結束後可設定分享隱私並另存或分享成績單。</p>
+        </div>
+      </section>
+    </div>
+    <nav class="mobile-app-nav" aria-label="手機版分頁">
+      <button type="button" class="active" data-mobile-nav="game" onclick="switchMobileAppTab('game')"><span class="mobile-nav-icon">🎮</span>遊戲</button>
+      <button type="button" data-mobile-nav="settings" onclick="switchMobileAppTab('settings')"><span class="mobile-nav-icon">⚙️</span>設定</button>
+      <button type="button" data-mobile-nav="record" onclick="switchMobileAppTab('record')"><span class="mobile-nav-icon">📜</span>紀錄</button>
+      <button type="button" data-mobile-nav="score" onclick="switchMobileAppTab('score')"><span class="mobile-nav-icon">🏆</span>成績</button>
+    </nav>
   </div>
 
     <div class="grid">
@@ -3512,6 +3784,108 @@ html[data-theme="light"] .share-privacy-box{
 </div>
 
 <script>
+
+/* ===== v105 手機 App 四分頁 ===== */
+const mobileAppMedia=window.matchMedia("(max-width:760px)");
+let mobileAppMounted=false;
+let mobileAppMoves=[];
+let mobileCurrentTab="game";
+
+function mobileRememberMove(node,target,before=null){
+  if(!node || !target)return;
+  const placeholder=document.createComment("v105-mobile-placeholder");
+  node.parentNode.insertBefore(placeholder,node);
+  mobileAppMoves.push({node,placeholder});
+  if(before)target.insertBefore(node,before);else target.appendChild(node);
+}
+
+function switchMobileAppTab(tab){
+  if(!["game","settings","record","score"].includes(tab))tab="game";
+  mobileCurrentTab=tab;
+  document.querySelectorAll(".mobile-app-pane").forEach(p=>p.classList.toggle("active",p.dataset.mobileTab===tab));
+  document.querySelectorAll("[data-mobile-nav]").forEach(b=>b.classList.toggle("active",b.dataset.mobileNav===tab));
+  const pane=document.querySelector(`.mobile-app-pane[data-mobile-tab="${tab}"]`);
+  if(pane)pane.scrollTop=0;
+  if(tab==="score"){
+    try{if(typeof drawChart==="function")requestAnimationFrame(()=>drawChart());}catch(e){}
+  }
+}
+
+function mountMobileApp(){
+  if(mobileAppMounted || !mobileAppMedia.matches)return;
+  const shell=document.getElementById("mobileAppShell");
+  const grid=document.querySelector(".grid");
+  const settingsAside=grid?.querySelector(":scope > aside.card:not(.right)");
+  const main=grid?.querySelector(":scope > main");
+  const right=grid?.querySelector(":scope > aside.right");
+  const gamePane=document.getElementById("mobilePaneGame");
+  const settingsPane=document.getElementById("mobilePaneSettings");
+  const recordPane=document.getElementById("mobilePaneRecord");
+  const scorePane=document.getElementById("mobilePaneScore");
+  if(!shell || !grid || !settingsAside || !main || !right || !gamePane || !settingsPane || !recordPane || !scorePane)return;
+
+  const themeSwitch=document.querySelector(".topbar > .theme-switch");
+  const helpCard=main.querySelector(":scope > .card:first-child");
+  const chart=document.getElementById("chart");
+  const chartCard=chart?.closest(".card");
+  const scoreCard=main.querySelector(".bottom-action-card");
+  const successBlock=right.children[0]||null;
+  const recordBlock=right.children[1]||null;
+
+  if(themeSwitch)mobileRememberMove(themeSwitch,settingsPane,settingsPane.querySelector(".mobile-app-pane-title")?.nextSibling||null);
+  mobileRememberMove(settingsAside,settingsPane);
+  if(helpCard)mobileRememberMove(helpCard,settingsPane);
+  if(chartCard)mobileRememberMove(chartCard,scorePane);
+  if(scoreCard)mobileRememberMove(scoreCard,scorePane);
+  if(successBlock){
+    successBlock.classList.add("mobile-success-card");
+    mobileRememberMove(successBlock,gamePane);
+  }
+  if(recordBlock){
+    recordBlock.classList.add("mobile-record-card");
+    mobileRememberMove(recordBlock,recordPane);
+  }
+  mobileRememberMove(main,gamePane);
+
+  const hero=main.querySelector(":scope > .hero");
+  if(hero && successBlock)hero.insertAdjacentElement("afterend",successBlock);
+
+  document.body.classList.add("mobile-app-mode");
+  shell.setAttribute("aria-hidden","false");
+  mobileAppMounted=true;
+  switchMobileAppTab(mobileCurrentTab);
+  try{if(typeof drawChart==="function")requestAnimationFrame(()=>drawChart());}catch(e){}
+}
+
+function unmountMobileApp(){
+  if(!mobileAppMounted)return;
+  for(let i=mobileAppMoves.length-1;i>=0;i--){
+    const {node,placeholder}=mobileAppMoves[i];
+    if(placeholder?.parentNode){
+      placeholder.parentNode.insertBefore(node,placeholder);
+      placeholder.remove();
+    }
+  }
+  mobileAppMoves=[];
+  document.querySelectorAll(".mobile-success-card").forEach(x=>x.classList.remove("mobile-success-card"));
+  document.querySelectorAll(".mobile-record-card").forEach(x=>x.classList.remove("mobile-record-card"));
+  document.body.classList.remove("mobile-app-mode");
+  const shell=document.getElementById("mobileAppShell");
+  if(shell)shell.setAttribute("aria-hidden","true");
+  mobileAppMounted=false;
+  try{if(typeof drawChart==="function")requestAnimationFrame(()=>drawChart());}catch(e){}
+}
+
+function syncMobileAppMode(){
+  if(mobileAppMedia.matches)mountMobileApp();else unmountMobileApp();
+}
+
+window.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(syncMobileAppMode,0);
+});
+if(mobileAppMedia.addEventListener)mobileAppMedia.addEventListener("change",syncMobileAppMode);
+else if(mobileAppMedia.addListener)mobileAppMedia.addListener(syncMobileAppMode);
+
 const THEME_STORAGE_KEY="afei-retirement-theme";
 let themeMode="auto";
 const systemDarkQuery=window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
