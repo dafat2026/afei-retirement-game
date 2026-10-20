@@ -3611,6 +3611,7 @@ html[data-theme="light"] .share-privacy-box{
   .mobile-help-steps .help-step span{font-size:11px!important;line-height:1.5!important}
 }
 
+\n/* ===== v109 手機新手玩法精簡 ===== */\n.mobile-help-sub,.mobile-help-logic{display:none!important}\n@media(max-width:760px){\n  .desktop-help-sub,.desktop-help-logic{display:none!important}\n  .mobile-help-sub,.mobile-help-logic{display:block!important}\n  #helpModal{padding:8px!important}\n  #helpModal .help-modal{\n    width:min(96vw,430px)!important;\n    max-height:calc(100dvh - 16px)!important;\n    overflow:hidden!important;\n    padding:9px!important;\n    display:flex!important;\n    flex-direction:column!important;\n  }\n  #helpModal .help-modal-head{margin-bottom:6px!important;flex:0 0 auto!important}\n  #helpModal .help-modal-title{font-size:15px!important}\n  #helpModal .help-modal-sub{font-size:10px!important;margin-top:2px!important}\n  #helpModal .mobile-help-steps{display:grid!important;gap:4px!important;flex:0 0 auto!important}\n  #helpModal .mobile-help-steps .help-step{padding:6px 7px!important;gap:7px!important;min-height:0!important}\n  #helpModal .mobile-help-steps .help-num{width:24px!important;height:24px!important;flex-basis:24px!important;font-size:11px!important}\n  #helpModal .mobile-help-steps .help-step b{font-size:11px!important;margin-bottom:1px!important}\n  #helpModal .mobile-help-steps .help-step span{font-size:9.5px!important;line-height:1.28!important}\n  #helpModal .mobile-help-logic{margin-top:5px!important;padding:6px 8px!important;flex:0 0 auto!important}\n  #helpModal .mobile-help-logic b{font-size:10px!important;margin-bottom:1px!important}\n  #helpModal .mobile-help-logic span{font-size:9.5px!important;line-height:1.25!important}\n  #helpModal .help-start{margin-top:6px!important;min-height:40px!important;font-size:12px!important;flex:0 0 auto!important}\n}\n
 </style>
 </head>
 <body>
@@ -3885,7 +3886,8 @@ html[data-theme="light"] .share-privacy-box{
     <div class="help-modal-head">
       <div>
         <div class="help-modal-title">🐷 阿肥退休模擬器｜新手玩法</div>
-        <div class="help-modal-sub">第一次玩，照這4步就可以開始。</div>
+        <div class="help-modal-sub desktop-help-sub">第一次玩，照這4步就可以開始。</div>
+        <div class="help-modal-sub mobile-help-sub">第一次玩，照這 5 個分頁走就可以開始。</div>
       </div>
       <button class="help-close" onclick="closeHelpModal()">✕</button>
     </div>
@@ -3898,17 +3900,21 @@ html[data-theme="light"] .share-privacy-box{
     </div>
 
     <div class="help-steps mobile-help-steps">
-      <div class="help-step"><div class="help-num">1</div><div><b>先從「設定」開始</b><span>手機版預設先停在 ⚙️ 設定。填好年齡、資產、收入支出、退休給付等條件，再按套用開始。設定內容較多，這一頁可以上下捲動。</span></div></div>
-      <div class="help-step"><div class="help-num">2</div><div><b>到「遊戲」逐年操作</b><span>切到 🎮 遊戲後，上方會固定顯示年齡、名目資產與實質資產。每年看完市場結果與安全門檻後，可調整股票／現金比例，再按「下一年」。</span></div></div>
-      <div class="help-step"><div class="help-num">3</div><div><b>想快轉就用「一鍵跑到終點」</b><span>「下一年」與「一鍵跑到終點」都放在遊戲頁。逐年玩適合自己做決策；想快速看結果時，可用一鍵模擬，系統會先跳確認避免誤按。</span></div></div>
-      <div class="help-step"><div class="help-num">4</div><div><b>紀錄與走勢分開看</b><span>📜 紀錄可查看每年的收入、支出與資產動作；📈 走勢專門看名目資產與實質總資產變化，不需要回到主畫面找圖。</span></div></div>
-      <div class="help-step"><div class="help-num">5</div><div><b>最後到「成績」分享結果</b><span>🏆 成績就是完整退休成績單，可選「完整／隱私版／自訂」後再分享或存照片。遊戲會自動存檔；若中途關掉頁面，下次用同一手機與瀏覽器開啟時，可選擇繼續上次進度。</span></div></div>
+      <div class="help-step"><div class="help-num">1</div><div><b>⚙️ 設定</b><span>填年齡、資產、收支與退休給付，再按「套用設定」。</span></div></div>
+      <div class="help-step"><div class="help-num">2</div><div><b>🎮 遊戲</b><span>看資產與市場結果，調整股票／現金後按「下一年」；想快轉可一鍵跑到終點。</span></div></div>
+      <div class="help-step"><div class="help-num">3</div><div><b>📜 紀錄</b><span>查看每年的收入、支出、退休給付與資產動作。</span></div></div>
+      <div class="help-step"><div class="help-num">4</div><div><b>📈 走勢</b><span>查看名目資產與實質總資產的長期變化。</span></div></div>
+      <div class="help-step"><div class="help-num">5</div><div><b>🏆 成績</b><span>查看退休成績單，設定分享隱私後即可分享或存照片。</span></div></div>
     </div>
 
-    <div class="help-logic">
+    <div class="help-logic desktop-help-logic">
       <b>核心邏輯</b>
       <span>每年只有股票部位承受蒙地卡羅市場漲跌；退休前要守緊急預備金門檻，退休後要守現金池門檻。門檻不足時，要先提高現金比例才能繼續下一年。退休給付依玩家自行填寫的月退／一次領金額加入收支；另有「4%安全資產參考」每年自動檢查，但只作提醒，不會卡住遊戲。</span>
       <small>台股配色：上漲紅色、下跌綠色。</small>
+    </div>
+    <div class="help-logic mobile-help-logic">
+      <b>小提醒</b>
+      <span>遊戲會自動存檔；緊急預備金／現金池不足時，先提高現金比例再繼續。</span>
     </div>
 
     <button class="help-start" onclick="closeHelpModal()">我懂了，開始玩</button>
