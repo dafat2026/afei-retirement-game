@@ -3611,7 +3611,87 @@ html[data-theme="light"] .share-privacy-box{
   .mobile-help-steps .help-step span{font-size:11px!important;line-height:1.5!important}
 }
 
-\n/* ===== v109 手機新手玩法精簡 ===== */\n.mobile-help-sub,.mobile-help-logic{display:none!important}\n@media(max-width:760px){\n  .desktop-help-sub,.desktop-help-logic{display:none!important}\n  .mobile-help-sub,.mobile-help-logic{display:block!important}\n  #helpModal{padding:8px!important}\n  #helpModal .help-modal{\n    width:min(96vw,430px)!important;\n    max-height:calc(100dvh - 16px)!important;\n    overflow:hidden!important;\n    padding:9px!important;\n    display:flex!important;\n    flex-direction:column!important;\n  }\n  #helpModal .help-modal-head{margin-bottom:6px!important;flex:0 0 auto!important}\n  #helpModal .help-modal-title{font-size:15px!important}\n  #helpModal .help-modal-sub{font-size:10px!important;margin-top:2px!important}\n  #helpModal .mobile-help-steps{display:grid!important;gap:4px!important;flex:0 0 auto!important}\n  #helpModal .mobile-help-steps .help-step{padding:6px 7px!important;gap:7px!important;min-height:0!important}\n  #helpModal .mobile-help-steps .help-num{width:24px!important;height:24px!important;flex-basis:24px!important;font-size:11px!important}\n  #helpModal .mobile-help-steps .help-step b{font-size:11px!important;margin-bottom:1px!important}\n  #helpModal .mobile-help-steps .help-step span{font-size:9.5px!important;line-height:1.28!important}\n  #helpModal .mobile-help-logic{margin-top:5px!important;padding:6px 8px!important;flex:0 0 auto!important}\n  #helpModal .mobile-help-logic b{font-size:10px!important;margin-bottom:1px!important}\n  #helpModal .mobile-help-logic span{font-size:9.5px!important;line-height:1.25!important}\n  #helpModal .help-start{margin-top:6px!important;min-height:40px!important;font-size:12px!important;flex:0 0 auto!important}\n}\n
+
+/* ===== v110 手機新手玩法按鈕強化 ===== */
+.mobile-help-logic{display:none!important}
+@media(max-width:760px){
+  .desktop-help-logic{display:none!important}
+  .mobile-help-logic{display:block!important}
+
+  #helpModal{padding:8px!important}
+  #helpModal .help-modal{
+    width:min(96vw,430px)!important;
+    max-height:calc(100dvh - 16px)!important;
+    overflow:hidden!important;
+    padding:9px!important;
+    display:flex!important;
+    flex-direction:column!important;
+  }
+  #helpModal .help-modal-head{
+    margin-bottom:5px!important;
+    flex:0 0 auto!important;
+  }
+  #helpModal .help-modal-title{
+    font-size:15px!important;
+    line-height:1.2!important;
+  }
+  #helpModal .mobile-help-steps{
+    display:grid!important;
+    gap:4px!important;
+    flex:0 0 auto!important;
+  }
+  #helpModal .mobile-help-steps .help-step{
+    padding:6px 7px!important;
+    gap:7px!important;
+    min-height:0!important;
+  }
+  #helpModal .mobile-help-steps .help-num{
+    width:24px!important;
+    height:24px!important;
+    flex-basis:24px!important;
+    font-size:11px!important;
+  }
+  #helpModal .mobile-help-steps .help-step b{
+    font-size:11px!important;
+    margin-bottom:1px!important;
+  }
+  #helpModal .mobile-help-steps .help-step span{
+    font-size:9.5px!important;
+    line-height:1.26!important;
+  }
+  #helpModal .mobile-help-logic{
+    margin-top:5px!important;
+    padding:6px 8px!important;
+    flex:0 0 auto!important;
+  }
+  #helpModal .mobile-help-logic b{
+    font-size:10px!important;
+    margin-bottom:1px!important;
+  }
+  #helpModal .mobile-help-logic span{
+    font-size:9.5px!important;
+    line-height:1.23!important;
+  }
+  #helpModal .help-start{
+    width:100%!important;
+    margin-top:6px!important;
+    min-height:48px!important;
+    flex:0 0 auto!important;
+    background:#46d47b!important;
+    color:#08150d!important;
+    border:2px solid #79e8a2!important;
+    border-radius:12px!important;
+    font-size:14px!important;
+    font-weight:950!important;
+    letter-spacing:.2px!important;
+    box-shadow:0 4px 14px rgba(70,212,123,.34),0 0 0 1px rgba(255,255,255,.06) inset!important;
+  }
+  #helpModal .help-start:active{
+    transform:translateY(1px)!important;
+    box-shadow:0 2px 8px rgba(70,212,123,.26)!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3886,8 +3966,6 @@ html[data-theme="light"] .share-privacy-box{
     <div class="help-modal-head">
       <div>
         <div class="help-modal-title">🐷 阿肥退休模擬器｜新手玩法</div>
-        <div class="help-modal-sub desktop-help-sub">第一次玩，照這4步就可以開始。</div>
-        <div class="help-modal-sub mobile-help-sub">第一次玩，照這 5 個分頁走就可以開始。</div>
       </div>
       <button class="help-close" onclick="closeHelpModal()">✕</button>
     </div>
