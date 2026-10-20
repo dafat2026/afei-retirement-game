@@ -3599,6 +3599,18 @@ html[data-theme="light"] .share-privacy-box{
   }
 }
 
+
+/* ===== v108 手機版新手玩法分流 ===== */
+.mobile-help-steps{display:none!important}
+.desktop-help-steps{display:grid}
+@media(max-width:760px){
+  .desktop-help-steps{display:none!important}
+  .mobile-help-steps{display:grid!important;grid-template-columns:1fr!important}
+  .mobile-help-steps .help-step{padding:10px!important}
+  .mobile-help-steps .help-step b{font-size:13px!important}
+  .mobile-help-steps .help-step span{font-size:11px!important;line-height:1.5!important}
+}
+
 </style>
 </head>
 <body>
@@ -3878,11 +3890,19 @@ html[data-theme="light"] .share-privacy-box{
       <button class="help-close" onclick="closeHelpModal()">✕</button>
     </div>
 
-    <div class="help-steps">
+    <div class="help-steps desktop-help-steps">
       <div class="help-step"><div class="help-num">1</div><div><b>先設定你的條件</b><span>填目前年齡、退休年齡、金融資產、收入與支出；資產／年收入／年支出以「萬元」輸入。貸款與退休給付可依需要填寫；退休給付可自行填入勞工、公職或其他制度預估金額；月退與一次領可擇一或同時設定。</span></div></div>
       <div class="help-step"><div class="help-num">2</div><div><b>到資產配置區按「下一年」</b><span>不用另外按套用；第一回合開始後，左側初始設定會鎖定。</span></div></div>
       <div class="help-step"><div class="help-num">3</div><div><b>每年做退休決策</b><span>看市場報酬、資產走勢與安全門檻；可調整股票／現金比例，新配置從下一年度生效。</span></div></div>
       <div class="help-step"><div class="help-num">4</div><div><b>玩到最後看成績</b><span>可逐年玩，也可一鍵跑到終點；完成後打開「我的退休成績單」分享結果。</span></div></div>
+    </div>
+
+    <div class="help-steps mobile-help-steps">
+      <div class="help-step"><div class="help-num">1</div><div><b>先從「設定」開始</b><span>手機版預設先停在 ⚙️ 設定。填好年齡、資產、收入支出、退休給付等條件，再按套用開始。設定內容較多，這一頁可以上下捲動。</span></div></div>
+      <div class="help-step"><div class="help-num">2</div><div><b>到「遊戲」逐年操作</b><span>切到 🎮 遊戲後，上方會固定顯示年齡、名目資產與實質資產。每年看完市場結果與安全門檻後，可調整股票／現金比例，再按「下一年」。</span></div></div>
+      <div class="help-step"><div class="help-num">3</div><div><b>想快轉就用「一鍵跑到終點」</b><span>「下一年」與「一鍵跑到終點」都放在遊戲頁。逐年玩適合自己做決策；想快速看結果時，可用一鍵模擬，系統會先跳確認避免誤按。</span></div></div>
+      <div class="help-step"><div class="help-num">4</div><div><b>紀錄與走勢分開看</b><span>📜 紀錄可查看每年的收入、支出與資產動作；📈 走勢專門看名目資產與實質總資產變化，不需要回到主畫面找圖。</span></div></div>
+      <div class="help-step"><div class="help-num">5</div><div><b>最後到「成績」分享結果</b><span>🏆 成績就是完整退休成績單，可選「完整／隱私版／自訂」後再分享或存照片。遊戲會自動存檔；若中途關掉頁面，下次用同一手機與瀏覽器開啟時，可選擇繼續上次進度。</span></div></div>
     </div>
 
     <div class="help-logic">
