@@ -3692,6 +3692,20 @@ html[data-theme="light"] .share-privacy-box{
   }
 }
 
+
+/* ===== v111 手機設定流程與續玩修正 ===== */
+@media(max-width:760px){
+  body.mobile-app-mode #mobilePaneSettings .mobile-app-pane-title{margin-bottom:6px!important}
+  body.mobile-app-mode #mobilePaneSettings .main-help-btn{
+    width:100%!important;
+    margin:0 0 8px!important;
+    min-height:48px!important;
+    font-size:14px!important;
+    box-shadow:0 4px 12px rgba(110,168,254,.16)!important;
+  }
+  body.mobile-app-mode #mobilePaneSettings>.theme-switch{margin:0 0 8px!important}
+}
+
 </style>
 </head>
 <body>
@@ -4056,9 +4070,11 @@ function mountMobileApp(){
   const nextBtn=document.getElementById("allocationNextBtn");
   const allocBox=document.querySelector(".alloc-box");
 
-  if(themeSwitch)mobileRememberMove(themeSwitch,settingsPane,settingsPane.querySelector(".mobile-app-pane-title")?.nextSibling||null);
+  const settingsTitle=settingsPane.querySelector(".mobile-app-pane-title");
+  // 手機設定頁流程：先看新手玩法，再選主題，最後填遊戲設定。
+  if(helpCard)mobileRememberMove(helpCard,settingsPane,settingsTitle?.nextSibling||null);
+  if(themeSwitch)mobileRememberMove(themeSwitch,settingsPane);
   mobileRememberMove(settingsAside,settingsPane);
-  if(helpCard)mobileRememberMove(helpCard,settingsPane);
   if(chartCard)mobileRememberMove(chartCard,trendPane);
   if(successBlock){
     successBlock.classList.add("mobile-success-card");
@@ -4271,6 +4287,9 @@ const GAME_SAVE_KEY="afei-retirement-v106-save";
 let restoringSavedGame=false;
 let gameSaveReady=false;
 let saveTimer=null;
+// 若偵測到未完成存檔，在玩家選擇「繼續／重新開始」前，禁止任何初始化或手機分頁切換覆蓋舊存檔。
+let resumeChoicePending=false;
+let pendingResumeData=null;
 
 function getSettingInputSnapshot(){
   const values={};
@@ -4315,7 +4334,7 @@ function buildGameSave(){
   };
 }
 function saveGameProgress(){
-  if(restoringSavedGame || !gameSaveReady)return;
+  if(restoringSavedGame || !gameSaveReady || resumeChoicePending)return;
   try{
     const data=buildGameSave();
     if(data)localStorage.setItem(GAME_SAVE_KEY,JSON.stringify(data));
@@ -4323,6 +4342,7 @@ function saveGameProgress(){
 }
 function scheduleGameSave(){
   clearTimeout(saveTimer);
+  if(resumeChoicePending)return;
   saveTimer=setTimeout(saveGameProgress,80);
 }
 function readGameSave(){
@@ -4383,22 +4403,39 @@ function closeResumeGameModal(){
   if(modal)modal.classList.remove("show");
 }
 function continueSavedGame(){
-  const data=readGameSave();
+  const data=pendingResumeData || readGameSave();
   closeResumeGameModal();
   if(data && restoreGameSave(data)){
-    if(mobileAppMedia.matches){setTimeout(()=>{syncMobileAppMode();switchMobileAppTab(data.finished?"report":"game");},0);}
-    scheduleGameSave();
+    resumeChoicePending=false;
+    pendingResumeData=null;
+    // 未完成遊戲續玩時直接回到遊戲分頁；完成局則到成績分頁。
+    if(mobileAppMedia.matches){
+      setTimeout(()=>{
+        syncMobileAppMode();
+        switchMobileAppTab(data.finished?"report":"game");
+        // 分頁與 DOM 都到位後再重畫一次，確保手機 KPI／走勢顯示的是恢復後狀態。
+        try{updateUI(true);}catch(e){}
+        try{updateAllocationUI();}catch(e){}
+        try{if(typeof drawChart==="function")drawChart();}catch(e){}
+      },0);
+    }
+    saveGameProgress();
   }else{
+    resumeChoicePending=false;
+    pendingResumeData=null;
     resetGame(false);
   }
 }
 function startNewGameFromSave(){
   closeResumeGameModal();
+  resumeChoicePending=false;
+  pendingResumeData=null;
+  clearTimeout(saveTimer);
   clearGameSave();
   resetGame(false);
   mobileCurrentTab="settings";
   if(mobileAppMedia.matches)setTimeout(()=>switchMobileAppTab("settings"),0);
-  scheduleGameSave();
+  saveGameProgress();
 }
 function initializeGameSave(){
   const data=readGameSave();
@@ -4409,11 +4446,15 @@ function initializeGameSave(){
     return;
   }
   if(data?.gameHasStarted){
-    // 只建立乾淨畫面供背景顯示；玩家選擇前絕不能覆蓋舊存檔。
+    // 保存「真正的舊存檔」於記憶體中，並鎖住寫入。
+    // 手機版掛載五分頁時會自動切分頁；若沒有這個鎖，切分頁會把初始狀態覆蓋舊存檔。
+    pendingResumeData=data;
+    resumeChoicePending=true;
+    clearTimeout(saveTimer);
     restoringSavedGame=true;
     resetGame(false);
     restoringSavedGame=false;
-    setTimeout(()=>showResumeGameModal(data),0);
+    setTimeout(()=>showResumeGameModal(pendingResumeData),0);
     return;
   }
   resetGame(false);
